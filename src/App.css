@@ -3,7 +3,7 @@
 }
 .layout__navBar {
   width: 25%;
-  background-color: brown;
+  padding: 30px;
 }
 .layout__navBar nav {
   display: flex;
@@ -12,7 +12,19 @@
 .layout__container {
   flex: auto;
 }
-.layout__container--form {
-  color: rgb(61, 236, 2);
-  background-color: rgb(80, 223, 255);
+.layout__container--form .formik {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 50px;
+}
+.layout__container--form .formik--label {
+  margin-bottom: 5px;
+}
+.layout__container--form .formik--field {
+  margin-bottom: 24px;
+  padding: 10px;
+}
+.layout__container--form .formik--button {
+  padding: 9px 33px;
+  margin: 0 auto;
 }/*# sourceMappingURL=App.css.map */
