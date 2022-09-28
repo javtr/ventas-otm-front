@@ -1,0 +1,18 @@
+.layout {
+  display: flex;
+}
+.layout__navBar {
+  width: 25%;
+  background-color: brown;
+}
+.layout__navBar nav {
+  display: flex;
+  flex-direction: column;
+}
+.layout__container {
+  flex: auto;
+}
+.layout__container--form {
+  color: rgb(61, 236, 2);
+  background-color: rgb(80, 223, 255);
+}/*# sourceMappingURL=App.css.map */

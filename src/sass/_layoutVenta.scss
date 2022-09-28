@@ -1,0 +1,24 @@
+@import "./variables.sass";
+
+.layout {
+  display: flex;
+
+  &__navBar {
+    width: 25%;
+    background-color: brown;
+
+    nav {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__container {
+    flex: auto;
+
+    &--form {
+      color: rgb(61, 236, 2);
+      background-color: rgb(80, 223, 255);
+    }
+  }
+}
