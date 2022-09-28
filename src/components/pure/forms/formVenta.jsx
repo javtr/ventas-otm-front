@@ -2,6 +2,33 @@ import React from "react";
 import { Form, Formik, Field } from "formik";
 
 export default function FormVenta() {
+
+
+  function submitHandle(values) {
+    
+
+    const valuesSend={
+      "nombre": values.firstName + " " +values.lastName,
+      "correo": values.email
+    }
+
+    console.log(valuesSend);
+
+
+    fetch("http://localhost:8080/cliente/save",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(valuesSend)
+
+  }).then(()=>{
+    console.log("New Student added")
+  })
+
+
+
+
+  }
+
   return (
     <div className="layout__container--form">
       <Formik 
@@ -11,6 +38,9 @@ export default function FormVenta() {
           email: "",
         }}
         onSubmit={async (values) => {
+          submitHandle(values);
+
+
           await new Promise((r) => setTimeout(r, 500));
           alert(JSON.stringify(values, null, 2));
         }}
