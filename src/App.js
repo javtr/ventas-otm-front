@@ -5,12 +5,18 @@ import { Route,Routes } from 'react-router-dom';
 import LayoutVenta from './pages/layoutVenta';
 import FormComp from './components/containers/formComp';
 import Home from './components/containers/home';
+import FormTest from './components/pure/forms/formTest';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Routes>
+
+        {/* <Route path='/' element={<FormTest></FormTest>}> </Route> */}
+
+        
+
           <Route path='/' element={<LayoutVenta></LayoutVenta>}>
             <Route index element={<Home></Home>}></Route>
             <Route path='sale' element={<FormComp></FormComp>}></Route>

@@ -1,22 +1,26 @@
-import React,{useState} from 'react';
-import { Form, Formik, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React, { useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 
 export default function FormVenta() {
-
-  const [filas, setFilas] = useState(1);
-
-
-//platilla de errores
-  const loginSchema = Yup.object().shape({
-    firstName: Yup.string().required("nombre requerido"),
-    lastName: Yup.string().required("nombre requerido"),
-    email: Yup.string()
-      .email("formato de correo invalido")
-      .required("correo requerido"),
+  //declaraciones
+  const { register, control, handleSubmit } = useForm();
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: "students",
   });
 
-  //manejo de envio de formulario
+  const subs = [
+    { name: "Math", price: 20 },
+    { name: "English", price: 70 },
+  ];
+
+  const registerSubmit = (data) => {
+    console.log(data);
+  };
+
+  const Productos = ["seleccionar...", "otm", "logic"];
+
+  //manejo de envio con fetch
   function submitHandle(values) {
     const valuesSend = {
       nombre: values.firstName,
@@ -35,113 +39,82 @@ export default function FormVenta() {
     });
   }
 
-  //crear campos con boton
-  function crearFields() {
-    let fieldsCont = [];
-
-    for (let i = 1; i <= filas; i++) {
-
-      const idIt1 = `firstName${i}`;
-
-      fieldsCont.push(
-        <div key={i}>
-          <label className="formik--label" htmlFor={idIt1}>
-            First Name2
-          </label>
-          <Field
-            className="formik--field"
-            id= {idIt1}
-            name={idIt1}
-            placeholder="Jane2"
-          />
-        </div>
-      );
-    }
-
-    return fieldsCont;
-  }
-
-  function aumentaFilas() {
-    setFilas(filas+1)
-}
-
-
+  useEffect(() => {
+    console.log("al iniciar");
+    append({});
+  }, []);
 
   return (
     <div className="layout__container--form">
-      <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-        }}
-        validationSchema={loginSchema}
-        onSubmit={async (values) => {
-          submitHandle(values);
-        }}
-      >
-        {({
-          values,
-          touched,
-          errors,
-          isSubmitting,
-          handleChange,
-          handleBlur,
-        }) => (
-          <Form className="formik">
-            <label className="formik--label" htmlFor="firstName">
-              First Name
-            </label>
-            <Field
-              className="formik--field"
-              id="firstName"
-              name="firstName"
-              placeholder="Jane"
-            />
+      <form onSubmit={handleSubmit(registerSubmit)}>
+        <div className="layout__container--form-nombre">
+          <input
+            {...register("nombre_cliente")}
+            placeholder="nombre cliente"
+            type="text"
+          />
 
-            {errors.firstName && touched.firstName && (
-              <ErrorMessage name="firstName" component="div"></ErrorMessage>
-            )}
+          <input
+            {...register("apellido_cliente")}
+            placeholder="apellido cliente"
+            type="text"
+          />
 
-            <label className="formik--label" htmlFor="lastName">
-              Last Name
-            </label>
-            <Field
-              className="formik--field"
-              id="lastName"
-              name="lastName"
-              placeholder="Doe"
-            />
+          <input
+            {...register("correo_cliente")}
+            placeholder="correo cliente"
+            type="text"
+          />
+        </div>
 
-            {errors.lastName && touched.lastName && (
-              <ErrorMessage name="lastName" component="div"></ErrorMessage>
-            )}
+        <div className="layout__container--form-producto">
+          {fields.map(({ id, producto, precio }, index) => (
+            <div key={id}>
+              <input
+                {...register(`students[${index}].producto`)}
+                placeholder="name"
+                defaultValue={producto}
+                type="text"
+              />
+              <br />
+              <input
+                {...register(`students[${index}].precio`, {
+                  pattern: {
+                    value: /^[0-9]+([.])?([0-9]+)?$/,
+                    message: "Please enter a number",
+                  },
+                })}
+                placeholder="precio"
+                defaultValue={precio}
+                type="text"
+              />
+              <br />
 
-            <label className="formik--label" htmlFor="email">
-              Email
-            </label>
-            <Field
-              className="formik--field"
-              id="email"
-              name="email"
-              placeholder="jane@acme.com"
-              type="email"
-            />
+              <select {...register("Producto")}>
+                {Productos.map((producto, i) => {
+                  return (
+                    <option key={i} value={producto}>
+                      {producto}
+                    </option>
+                  );
+                })}
+              </select>
 
-            {errors.email && touched.email && (
-              <ErrorMessage name="email" component="div"></ErrorMessage>
-            )}
+              <button type="button" onClick={() => remove(index)}>
+                Remove
+              </button>
+            </div>
+          ))}
 
-            {crearFields()}
-            <button type='button' onClick={aumentaFilas}>aumentar</button>
+          <button type="button" onClick={() => append({})}>
+            Add Student
+          </button>
+        </div>
 
-
-            <button className="formik--button" type="submit">
-              Submit
-            </button>
-          </Form>
-        )}
-      </Formik>
+        <div className="layout__container--form-pago">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </div>
   );
 }
