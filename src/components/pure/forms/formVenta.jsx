@@ -1,113 +1,112 @@
-import React, { useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function FormVenta() {
   //declaraciones
-  const { register, control, handleSubmit } = useForm();
+
+  const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
     control,
-    name: "students",
+    name: "productos",
   });
 
-  const subs = [
-    { name: "Math", price: 20 },
-    { name: "English", price: 70 },
-  ];
-
   const registerSubmit = (data) => {
-    console.log(data);
+    // fields.map((field,index)=>{
+    //   console.log(watch(`pr${index}`));
+    //   console.log(index);
+    // })
+
+    // test();
+    // console.log(data.productos.length);
+    console.log(Object.values(data));
+    
   };
 
-  const Productos = ["seleccionar...", "otm", "logic"];
+  const ProductosObj = [
+    {
+      nombre: "Otm",
+      precio: 100,
+    },
+    {
+      nombre: "logic",
+      precio: 30,
+    },
+  ];
 
-  //manejo de envio con fetch
-  function submitHandle(values) {
-    const valuesSend = {
-      nombre: values.firstName,
-      apellido: values.lastName,
-      correo: values.email,
-    };
+  //  ----------------------------
 
-    console.log(valuesSend);
+  const arrCampos = [0];
 
-    fetch("http://localhost:8080/cliente/save", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(valuesSend),
-    }).then(() => {
-      console.log("cliente agregado");
+  function modificar(index) {
+    console.log("--- editar ---");
+    arrCampos[index] = 5;
+    console.log(arrCampos);
+  }
+
+  function agregar() {
+    console.log("--- agregar ---");
+    arrCampos.push(1);
+    console.log(arrCampos);
+  }
+
+  const watchFieldArray = watch("nombreProducto");
+
+  function test() {
+    fields.map((field, index) => {
+      console.log(index);
     });
   }
 
-  useEffect(() => {
-    console.log("al iniciar");
-    append({});
-  }, []);
+  //  ----------------------------
+
+  useEffect(() => {}, []);
 
   return (
     <div className="layout__container--form">
+      <p>algo: {watch("nombreProducto")}</p>
       <form onSubmit={handleSubmit(registerSubmit)}>
-        <div className="layout__container--form-nombre">
-          <input
-            {...register("nombre_cliente")}
-            placeholder="nombre cliente"
-            type="text"
-          />
-
-          <input
-            {...register("apellido_cliente")}
-            placeholder="apellido cliente"
-            type="text"
-          />
-
-          <input
-            {...register("correo_cliente")}
-            placeholder="correo cliente"
-            type="text"
-          />
-        </div>
-
+        {/* seccion producto */}
         <div className="layout__container--form-producto">
-          {fields.map(({ id, producto, precio }, index) => (
-            <div key={id}>
-              <input
-                {...register(`students[${index}].producto`)}
-                placeholder="name"
-                defaultValue={producto}
-                type="text"
-              />
-              <br />
-              <input
-                {...register(`students[${index}].precio`, {
-                  pattern: {
-                    value: /^[0-9]+([.])?([0-9]+)?$/,
-                    message: "Please enter a number",
-                  },
-                })}
-                placeholder="precio"
-                defaultValue={precio}
-                type="text"
-              />
-              <br />
-
-              <select {...register("Producto")}>
-                {Productos.map((producto, i) => {
+          {fields.map(({ id, produc, price }, index) => (
+            <div className="productoIt" key={id}>
+              <select {...register(`pr: ${index}`)} onChange={(e) => {}}>
+                {ProductosObj.map((producto, i) => {
                   return (
-                    <option key={i} value={producto}>
-                      {producto}
+                    <option key={i} value={producto.nombre}>
+                      {producto.nombre}
                     </option>
                   );
                 })}
               </select>
 
-              <button type="button" onClick={() => remove(index)}>
-                Remove
+              <input
+                {...register(`np: ${index}`)}
+                placeholder="cantidad"
+                type="number"
+              />
+
+              <button
+                type="button"
+                onClick={() => {
+                  remove(index);
+                }}
+              >
+                Remover
               </button>
             </div>
           ))}
 
-          <button type="button" onClick={() => append({})}>
-            Add Student
+          <button
+            className="addButton"
+            type="button"
+            onClick={() => {
+              // agregar();
+              append({});
+            }}
+          >
+            Agregar Producto
           </button>
         </div>
 

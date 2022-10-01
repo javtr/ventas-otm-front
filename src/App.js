@@ -1,27 +1,30 @@
-import React, { Component } from 'react';
-import './App.css';
-import './App.scss';
-import { Route,Routes } from 'react-router-dom';
-import LayoutVenta from './pages/layoutVenta';
-import FormComp from './components/containers/formComp';
-import Home from './components/containers/home';
-import FormTest from './components/pure/forms/formTest';
+import React, { Component } from "react";
+import "./App.css";
+import "./App.scss";
+import { Route, Routes } from "react-router-dom";
+import LayoutVenta from "./pages/layoutVenta";
+import FormComp from "./components/containers/formComp";
+import Home from "./components/containers/home";
+import FormTest from "./components/pure/forms/formTest";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        {/* <Routes>
+          <Route path="/" element={<FormTest></FormTest>}>
+            {" "}
+          </Route>
+        </Routes> */}
+
         <Routes>
-
-        {/* <Route path='/' element={<FormTest></FormTest>}> </Route> */}
-
-        
-
-          <Route path='/' element={<LayoutVenta></LayoutVenta>}>
+          <Route path="/" element={<LayoutVenta></LayoutVenta>}>
             <Route index element={<Home></Home>}></Route>
-            <Route path='sale' element={<FormComp></FormComp>}></Route>
+            <Route path="sale" element={<FormComp></FormComp>}></Route>
           </Route>
         </Routes>
+
+
       </div>
     );
   }
