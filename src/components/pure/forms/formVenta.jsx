@@ -6,6 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function FormVenta() {
   //declaraciones
 
+  const [update, setUpdate] = useState(false);
+  const [value, setValue] = useState(0);
+  const [arr, setArr] = useState([]);
+
+
   const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
     control,
@@ -13,18 +18,14 @@ export default function FormVenta() {
   });
 
   const registerSubmit = (data) => {
-    // fields.map((field,index)=>{
-    //   console.log(watch(`pr${index}`));
-    //   console.log(index);
-    // })
-
-    // test();
-    // console.log(data.productos.length);
-    console.log(Object.values(data));
-    
+    console.log(data);
   };
 
   const ProductosObj = [
+    {
+      nombre: "select..",
+      precio: 0,
+    },
     {
       nombre: "Otm",
       precio: 100,
@@ -36,28 +37,17 @@ export default function FormVenta() {
   ];
 
   //  ----------------------------
+    function editArray(value,index) {
 
-  const arrCampos = [0];
+      const numbersCopy = [...arr];
 
-  function modificar(index) {
-    console.log("--- editar ---");
-    arrCampos[index] = 5;
-    console.log(arrCampos);
-  }
+      numbersCopy[index]=parseInt(value);
 
-  function agregar() {
-    console.log("--- agregar ---");
-    arrCampos.push(1);
-    console.log(arrCampos);
-  }
+      setArr(numbersCopy);
 
-  const watchFieldArray = watch("nombreProducto");
+      console.log(arr);
+    }
 
-  function test() {
-    fields.map((field, index) => {
-      console.log(index);
-    });
-  }
 
   //  ----------------------------
 
@@ -65,16 +55,41 @@ export default function FormVenta() {
 
   return (
     <div className="layout__container--form">
-      <p>algo: {watch("nombreProducto")}</p>
+      <p>algo: {watch("apellido_cliente")}</p>
+
+
+
       <form onSubmit={handleSubmit(registerSubmit)}>
+
+
+      <input
+            {...register("apellido_cliente")}
+            placeholder="apellido cliente"
+            type="text"
+          />
+
         {/* seccion producto */}
         <div className="layout__container--form-producto">
           {fields.map(({ id, produc, price }, index) => (
-            <div className="productoIt" key={id}>
-              <select {...register(`pr: ${index}`)} onChange={(e) => {}}>
+            <div className="productoIt" key={index}>
+              <select
+                {...register(`pr: ${index}`)}
+
+                onChange={(e) => {
+
+                  editArray(e.target.value,index);
+
+
+                }}
+
+
+              >
                 {ProductosObj.map((producto, i) => {
                   return (
-                    <option key={i} value={producto.nombre}>
+                    <option
+                      key={i}
+                      value={i}
+                    >
                       {producto.nombre}
                     </option>
                   );
@@ -86,6 +101,20 @@ export default function FormVenta() {
                 placeholder="cantidad"
                 type="number"
               />
+
+              {/* {value!=null && watch(`pr: ${index}`) ? (
+                <div>
+                <p>valor:{value}</p>
+                <p>{ProductosObj[watch(`pr: ${index}`)].precio}</p>
+                </div>
+              ) : (
+                ""
+              )} */}
+
+              <p>valor:{ProductosObj[arr[index]].precio}</p>
+              {/* <p>valor:{`pr: ${index}`}</p>
+              <p>algo: {watch("apellido_cliente")}</p> */}
+              
 
               <button
                 type="button"
@@ -102,8 +131,9 @@ export default function FormVenta() {
             className="addButton"
             type="button"
             onClick={() => {
-              // agregar();
+              setArr(arr => [...arr, 0])
               append({});
+              console.log(arr);
             }}
           >
             Agregar Producto
