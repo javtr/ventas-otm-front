@@ -10,7 +10,6 @@ export default function FormVenta() {
   const [value, setValue] = useState(0);
   const [arr, setArr] = useState([]);
 
-
   const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
     control,
@@ -37,17 +36,64 @@ export default function FormVenta() {
   ];
 
   //  ----------------------------
-    function editArray(value,index) {
+  function addArray() {
+    const ObjTemp = {
+      producto: 0,
+      precio: 0,
+      cantidad: 1,
+      descuento: false,
+      porcentaje: 0,
+      precioFinal: 0,
+    };
 
-      const numbersCopy = [...arr];
+    setArr((arr) => [...arr, ObjTemp]);
+    console.log(arr);
+  }
 
-      numbersCopy[index]=parseInt(value);
+  function editArray(value, index, element) {
+    const ObjTemp = arr[index];
 
-      setArr(numbersCopy);
+    if (element == "producto") {
+      ObjTemp.producto = parseInt(value);
+      ObjTemp.precio = ProductosObj[value].precio * ObjTemp.cantidad;
+    } else if (element == "cantidad") {
+      ObjTemp.cantidad = parseInt(value);
+      ObjTemp.precio = ProductosObj[ObjTemp.producto].precio * parseInt(value);
+      if (ObjTemp.descuento) {
+        ObjTemp.precioFinal =
+          ObjTemp.precio - ObjTemp.precio * (parseInt(value) * 0.01);
+      }
 
-      console.log(arr);
+      //si el descuento es falso, cuando se hace fetch se envia el precio, no el precio final
+    } else if (element == "descuento") {
+      ObjTemp.descuento = !ObjTemp.descuento;
+
+      if (ObjTemp.descuento) {
+        ObjTemp.precioFinal =
+          ObjTemp.precio - ObjTemp.precio * (ObjTemp.porcentaje * 0.01);
+      }
+
+
+    } else if (element == "porcentaje") {
+      ObjTemp.porcentaje = parseInt(value);
+      ObjTemp.precioFinal =
+        ObjTemp.precio - ObjTemp.precio * (parseInt(value) * 0.01);
     }
 
+    const numbersCopy = [...arr];
+    numbersCopy[index] = ObjTemp;
+    setArr(numbersCopy);
+
+    console.log(arr);
+  }
+
+  function deleteArray(index) {
+    const numbersCopy = [...arr];
+    numbersCopy.splice(index, 1);
+    setArr(numbersCopy);
+
+    console.log(arr);
+  }
 
   //  ----------------------------
 
@@ -55,18 +101,41 @@ export default function FormVenta() {
 
   return (
     <div className="layout__container--form">
-      <p>algo: {watch("apellido_cliente")}</p>
-
-
-
       <form onSubmit={handleSubmit(registerSubmit)}>
+        {/* seccion nombre */}
 
+        <div className="layout__container--form-nombre">
+          <input
+            {...register("nombre_cliente")}
+            placeholder="nombre cliente"
+            type="text"
+          />
 
-      <input
+          <input
             {...register("apellido_cliente")}
             placeholder="apellido cliente"
             type="text"
           />
+
+          <input
+            {...register("correo_cliente")}
+            placeholder="correo cliente"
+            type="datetime"
+          />
+
+          <Controller
+            control={control}
+            name="fecha"
+            render={({ field }) => (
+              <DatePicker
+                className="input"
+                placeholderText="Fecha"
+                onChange={(e) => field.onChange(e)}
+                selected={field.value}
+              />
+            )}
+          />
+        </div>
 
         {/* seccion producto */}
         <div className="layout__container--form-producto">
@@ -74,22 +143,13 @@ export default function FormVenta() {
             <div className="productoIt" key={index}>
               <select
                 {...register(`pr: ${index}`)}
-
                 onChange={(e) => {
-
-                  editArray(e.target.value,index);
-
-
+                  editArray(e.target.value, index, "producto");
                 }}
-
-
               >
                 {ProductosObj.map((producto, i) => {
                   return (
-                    <option
-                      key={i}
-                      value={i}
-                    >
+                    <option key={i} value={i}>
                       {producto.nombre}
                     </option>
                   );
@@ -100,26 +160,47 @@ export default function FormVenta() {
                 {...register(`np: ${index}`)}
                 placeholder="cantidad"
                 type="number"
+                defaultValue={1}
+                onChange={(e) => {
+                  editArray(e.target.value, index, "cantidad");
+                }}
               />
 
-              {/* {value!=null && watch(`pr: ${index}`) ? (
+              <p>valor:{arr[index].precio}</p>
+
+              <div>
+                <input
+                  type="checkbox"
+                  {...register("`chd: ${index}`")}
+                  onChange={(e) => {
+                    editArray(e.target.value, index, "descuento");
+                  }}
+                />
+              </div>
+
+              {arr[index].descuento ? (
                 <div>
-                <p>valor:{value}</p>
-                <p>{ProductosObj[watch(`pr: ${index}`)].precio}</p>
+                  <input
+                    {...register(`pd: ${index}`)}
+                    placeholder="porcentaje"
+                    type="number"
+                    defaultValue={0}
+                    onChange={(e) => {
+                      editArray(e.target.value, index, "porcentaje");
+                    }}
+                  />
+
+                  <p>desc:{arr[index].precioFinal}</p>
                 </div>
               ) : (
                 ""
-              )} */}
-
-              <p>valor:{ProductosObj[arr[index]].precio}</p>
-              {/* <p>valor:{`pr: ${index}`}</p>
-              <p>algo: {watch("apellido_cliente")}</p> */}
-              
+              )}
 
               <button
                 type="button"
                 onClick={() => {
                   remove(index);
+                  deleteArray(index);
                 }}
               >
                 Remover
@@ -131,9 +212,8 @@ export default function FormVenta() {
             className="addButton"
             type="button"
             onClick={() => {
-              setArr(arr => [...arr, 0])
               append({});
-              console.log(arr);
+              addArray();
             }}
           >
             Agregar Producto
