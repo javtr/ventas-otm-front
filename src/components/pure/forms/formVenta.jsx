@@ -9,6 +9,7 @@ export default function FormVenta() {
   const [update, setUpdate] = useState(false);
   const [value, setValue] = useState(0);
   const [arr, setArr] = useState([]);
+  const [tipoPago, setTipoPago] = useState(0);
 
   const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
@@ -35,6 +36,33 @@ export default function FormVenta() {
     },
   ];
 
+  const MedioPagoObj = [
+    {
+      medio: "select..",
+    },
+    {
+      medio: "paypal",
+    },
+    {
+      medio: "teachable",
+    },
+    {
+      medio: "nequi",
+    },
+  ];
+
+  const TipoPagoObj = [
+    {
+      tipo: "select..",
+    },
+    {
+      tipo: "unico",
+    },
+    {
+      tipo: "cuotas",
+    },
+  ];
+
   //  ----------------------------
   function addArray() {
     const ObjTemp = {
@@ -53,17 +81,27 @@ export default function FormVenta() {
   function editArray(value, index, element) {
     const ObjTemp = arr[index];
 
+    //cambio producto
     if (element == "producto") {
       ObjTemp.producto = parseInt(value);
       ObjTemp.precio = ProductosObj[value].precio * ObjTemp.cantidad;
+
+      if (ObjTemp.descuento) {
+        ObjTemp.precioFinal =
+          ObjTemp.precio - ObjTemp.precio * (ObjTemp.porcentaje * 0.01);
+      }
+
+      //cambio cantidad
     } else if (element == "cantidad") {
       ObjTemp.cantidad = parseInt(value);
       ObjTemp.precio = ProductosObj[ObjTemp.producto].precio * parseInt(value);
+
       if (ObjTemp.descuento) {
         ObjTemp.precioFinal =
-          ObjTemp.precio - ObjTemp.precio * (parseInt(value) * 0.01);
+          ObjTemp.precio - ObjTemp.precio * (ObjTemp.porcentaje * 0.01);
       }
 
+      //cambio descuento
       //si el descuento es falso, cuando se hace fetch se envia el precio, no el precio final
     } else if (element == "descuento") {
       ObjTemp.descuento = !ObjTemp.descuento;
@@ -73,9 +111,10 @@ export default function FormVenta() {
           ObjTemp.precio - ObjTemp.precio * (ObjTemp.porcentaje * 0.01);
       }
 
-
+      //cambio porcentaje
     } else if (element == "porcentaje") {
       ObjTemp.porcentaje = parseInt(value);
+
       ObjTemp.precioFinal =
         ObjTemp.precio - ObjTemp.precio * (parseInt(value) * 0.01);
     }
@@ -220,7 +259,55 @@ export default function FormVenta() {
           </button>
         </div>
 
+        {/* seccion pago */}
         <div className="layout__container--form-pago">
+
+          <select
+            {...register("medio_pago")}
+            onChange={(e) => {
+            }}
+          >
+            {MedioPagoObj.map((medio, i) => {
+              return (
+                <option key={i} value={i}>
+                  {medio.medio}
+                </option>
+              );
+            })}
+          </select>
+
+
+
+          <select
+            {...register("tipo_pago")}
+            onChange={(e) => {
+              setTipoPago(e.target.value)
+
+            }}
+          >
+            {TipoPagoObj.map((tipo, i) => {
+              return (
+                <option key={i} value={i}>
+                  {tipo.tipo}
+                </option>
+              );
+            })}
+          </select>
+
+          {tipoPago==2?
+          
+          <input
+            {...register("numero_cuotas")}
+            placeholder="numero de cuotas"
+            type="number"
+            defaultValue={1}
+
+          />          
+          :
+          ""
+          }
+
+
           <button type="submit">Submit</button>
         </div>
       </form>
