@@ -2,39 +2,84 @@ import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { GetAllProducts } from "../../../Services/axiosService";
 
 export default function FormVenta() {
-  //declaraciones
-
-  const [update, setUpdate] = useState(false);
-  const [value, setValue] = useState(0);
   const [arr, setArr] = useState([]);
   const [tipoPago, setTipoPago] = useState(0);
-
   const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
     control,
     name: "productos",
   });
 
+  const [products, setProducts] = useState(null);
+  const ProductosObj = [];
+
+
+  useEffect(() => {
+    obtainUser();
+  }, []);
+
   const registerSubmit = (data) => {
     console.log(data);
   };
 
-  const ProductosObj = [
-    {
-      nombre: "select..",
-      precio: 0,
-    },
-    {
-      nombre: "Otm",
-      precio: 100,
-    },
-    {
-      nombre: "logic",
-      precio: 30,
-    },
-  ];
+  //services
+
+  const obtainUser = () => {
+
+    console.log("llega a obtainUser");
+
+    GetAllProducts()
+      .then((response) => {
+        // if (response.status === 200) {
+          // setProducts(response.data);
+          setProductsObj(response.data);
+        // } else {
+        //   alert("them whit other status");
+        // }
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      });
+
+    };
+
+
+   function setProductsObj(data) {
+    if (data) {
+
+      console.log("entro");
+
+      data.map((product, index) => {
+        ProductosObj[index] = {
+          nombre: product.nombre,
+          precio: product.precio,
+        };
+      });
+
+      console.log(ProductosObj);
+    }
+    else{
+      console.log("no hay productos");
+    }
+  }
+
+  // const ProductosObj = [
+  //   {
+  //     nombre: "select..",
+  //     precio: 0,
+  //   },
+  //   {
+  //     nombre: "Otm",
+  //     precio: 100,
+  //   },
+  //   {
+  //     nombre: "logic",
+  //     precio: 30,
+  //   },
+  // ];
 
   const MedioPagoObj = [
     {
@@ -75,7 +120,6 @@ export default function FormVenta() {
     };
 
     setArr((arr) => [...arr, ObjTemp]);
-    console.log(arr);
   }
 
   function editArray(value, index, element) {
@@ -122,21 +166,15 @@ export default function FormVenta() {
     const numbersCopy = [...arr];
     numbersCopy[index] = ObjTemp;
     setArr(numbersCopy);
-
-    console.log(arr);
   }
 
   function deleteArray(index) {
     const numbersCopy = [...arr];
     numbersCopy.splice(index, 1);
     setArr(numbersCopy);
-
-    console.log(arr);
   }
 
   //  ----------------------------
-
-  useEffect(() => {}, []);
 
   return (
     <div className="layout__container--form">
@@ -261,12 +299,7 @@ export default function FormVenta() {
 
         {/* seccion pago */}
         <div className="layout__container--form-pago">
-
-          <select
-            {...register("medio_pago")}
-            onChange={(e) => {
-            }}
-          >
+          <select {...register("medio_pago")} onChange={(e) => {}}>
             {MedioPagoObj.map((medio, i) => {
               return (
                 <option key={i} value={i}>
@@ -276,13 +309,10 @@ export default function FormVenta() {
             })}
           </select>
 
-
-
           <select
             {...register("tipo_pago")}
             onChange={(e) => {
-              setTipoPago(e.target.value)
-
+              setTipoPago(e.target.value);
             }}
           >
             {TipoPagoObj.map((tipo, i) => {
@@ -294,19 +324,16 @@ export default function FormVenta() {
             })}
           </select>
 
-          {tipoPago==2?
-          
-          <input
-            {...register("numero_cuotas")}
-            placeholder="numero de cuotas"
-            type="number"
-            defaultValue={1}
-
-          />          
-          :
-          ""
-          }
-
+          {tipoPago == 2 ? (
+            <input
+              {...register("numero_cuotas")}
+              placeholder="numero de cuotas"
+              type="number"
+              defaultValue={1}
+            />
+          ) : (
+            ""
+          )}
 
           <button type="submit">Submit</button>
         </div>
