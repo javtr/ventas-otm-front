@@ -2,111 +2,112 @@ import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { GetAllProducts } from "../../../Services/axiosService";
+import {
+  GetAllProducts,
+  GetAllTipos,
+  GetAllMedios,
+} from "../../../Services/axiosService";
 
 export default function FormVenta() {
-  const [arr, setArr] = useState([]);
-  const [tipoPago, setTipoPago] = useState(0);
   const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
     control,
     name: "productos",
   });
 
-  const [products, setProducts] = useState(null);
-  const ProductosObj = [];
-
+  const [arr, setArr] = useState([]);
+  const [tipoPago, setTipoPago] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [tipoPagos, setTipoPagos] = useState([]);
+  const [medioPagos, setMedioPagos] = useState([]);
 
   useEffect(() => {
     obtainUser();
+    obtainTipoPago();
+    obtainMedioPago();
   }, []);
 
-  const registerSubmit = (data) => {
-    console.log(data);
-  };
+  useEffect(() => {}, [products]);
 
-  //services
+  function registerSubmit(data) {
+    // console.log(data);
+    // console.log(arr);
 
+    const dataForm = {
+      nombre: data.nombre_cliente,
+      apellido: data.apellido_cliente,
+      correo: data.correo_cliente,
+      fecha: formatDate(data.fecha),
+      medioPago: medioPagos[data.medio_pago].medioPago,
+      tipoPago: tipoPagos[data.tipo_pago].tipoPago,
+      cuotas: data.numero_cuotas,
+      compra: arr,
+    };
+
+    console.log(dataForm);
+    
+  }
+
+  //services --------------------------------
   const obtainUser = () => {
-
-    console.log("llega a obtainUser");
-
     GetAllProducts()
       .then((response) => {
-        // if (response.status === 200) {
-          // setProducts(response.data);
-          setProductsObj(response.data);
-        // } else {
-        //   alert("them whit other status");
-        // }
+        setProducts(response.data);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {
+        setProducts((products) => [
+          { nombre: "select...", precio: 0 },
+          ...products,
+        ]);
       });
+  };
 
-    };
-
-
-   function setProductsObj(data) {
-    if (data) {
-
-      console.log("entro");
-
-      data.map((product, index) => {
-        ProductosObj[index] = {
-          nombre: product.nombre,
-          precio: product.precio,
-        };
+  const obtainTipoPago = () => {
+    GetAllTipos()
+      .then((response) => {
+        setTipoPagos(response.data);
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {
+        setTipoPagos((tipoPagos) => [
+          { tipoPago: "select...", cuotas: 0 },
+          ...tipoPagos,
+        ]);
       });
+  };
 
-      console.log(ProductosObj);
-    }
-    else{
-      console.log("no hay productos");
-    }
+  const obtainMedioPago = () => {
+    GetAllMedios()
+      .then((response) => {
+        setMedioPagos(response.data);
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {
+        setMedioPagos((medioPagos) => [
+          { medioPago: "select..." },
+          ...medioPagos,
+        ]);
+      });
+  };
+
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
   }
-
-  // const ProductosObj = [
-  //   {
-  //     nombre: "select..",
-  //     precio: 0,
-  //   },
-  //   {
-  //     nombre: "Otm",
-  //     precio: 100,
-  //   },
-  //   {
-  //     nombre: "logic",
-  //     precio: 30,
-  //   },
-  // ];
-
-  const MedioPagoObj = [
-    {
-      medio: "select..",
-    },
-    {
-      medio: "paypal",
-    },
-    {
-      medio: "teachable",
-    },
-    {
-      medio: "nequi",
-    },
-  ];
-
-  const TipoPagoObj = [
-    {
-      tipo: "select..",
-    },
-    {
-      tipo: "unico",
-    },
-    {
-      tipo: "cuotas",
-    },
-  ];
 
   //  ----------------------------
   function addArray() {
@@ -128,7 +129,7 @@ export default function FormVenta() {
     //cambio producto
     if (element == "producto") {
       ObjTemp.producto = parseInt(value);
-      ObjTemp.precio = ProductosObj[value].precio * ObjTemp.cantidad;
+      ObjTemp.precio = products[value].precio * ObjTemp.cantidad;
 
       if (ObjTemp.descuento) {
         ObjTemp.precioFinal =
@@ -138,7 +139,7 @@ export default function FormVenta() {
       //cambio cantidad
     } else if (element == "cantidad") {
       ObjTemp.cantidad = parseInt(value);
-      ObjTemp.precio = ProductosObj[ObjTemp.producto].precio * parseInt(value);
+      ObjTemp.precio = products[ObjTemp.producto].precio * parseInt(value);
 
       if (ObjTemp.descuento) {
         ObjTemp.precioFinal =
@@ -224,7 +225,7 @@ export default function FormVenta() {
                   editArray(e.target.value, index, "producto");
                 }}
               >
-                {ProductosObj.map((producto, i) => {
+                {products.map((producto, i) => {
                   return (
                     <option key={i} value={i}>
                       {producto.nombre}
@@ -300,10 +301,10 @@ export default function FormVenta() {
         {/* seccion pago */}
         <div className="layout__container--form-pago">
           <select {...register("medio_pago")} onChange={(e) => {}}>
-            {MedioPagoObj.map((medio, i) => {
+            {medioPagos.map((medio, i) => {
               return (
                 <option key={i} value={i}>
-                  {medio.medio}
+                  {medio.medioPago}
                 </option>
               );
             })}
@@ -315,16 +316,16 @@ export default function FormVenta() {
               setTipoPago(e.target.value);
             }}
           >
-            {TipoPagoObj.map((tipo, i) => {
+            {tipoPagos.map((tipo, i) => {
               return (
                 <option key={i} value={i}>
-                  {tipo.tipo}
+                  {tipo.tipoPago}
                 </option>
               );
             })}
           </select>
 
-          {tipoPago == 2 ? (
+          {tipoPago && tipoPagos[tipoPago].tipoPago == "cuotas" ? (
             <input
               {...register("numero_cuotas")}
               placeholder="numero de cuotas"

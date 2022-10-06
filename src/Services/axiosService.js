@@ -1,12 +1,22 @@
 import AxiosRequest from './config/axiosConfig';
 
 
+
 export function GetAllProducts() {
     return AxiosRequest.get('/producto/get-all', {
 
-        // validateStatus: function (status) {
-        //   return status < 500; 
-        // }
+    });
+}
+
+
+export function GetAllTipos() {
+    return AxiosRequest.get('/tipo-pago/get-all', {
+
+    });
+}
+
+export function GetAllMedios() {
+    return AxiosRequest.get('/medio-pago/get-all', {
 
     });
 }

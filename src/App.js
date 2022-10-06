@@ -5,12 +5,20 @@ import { Route, Routes } from "react-router-dom";
 import LayoutVenta from "./pages/layoutVenta";
 import FormComp from "./components/containers/formComp";
 import Home from "./components/containers/home";
+import Pruebas from "./components/pruebas";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
       
+      {/* <Routes>
+          <Route path="/" element={<Pruebas></Pruebas>}>
+          </Route>
+        </Routes> */}
+
+
+
         <Routes>
           <Route path="/" element={<LayoutVenta></LayoutVenta>}>
             <Route index element={<Home></Home>}></Route>
