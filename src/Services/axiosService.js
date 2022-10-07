@@ -20,3 +20,8 @@ export function GetAllMedios() {
 
     });
 }
+
+export function PostRegistro(objeto) {
+    return AxiosRequest.post('/registro/save', objeto);
+}
+

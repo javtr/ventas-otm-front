@@ -6,6 +6,7 @@ import {
   GetAllProducts,
   GetAllTipos,
   GetAllMedios,
+  PostRegistro
 } from "../../../Services/axiosService";
 
 export default function FormVenta() {
@@ -30,8 +31,6 @@ export default function FormVenta() {
   useEffect(() => {}, [products]);
 
   function registerSubmit(data) {
-    // console.log(data);
-    // console.log(arr);
 
     const dataForm = {
       nombre: data.nombre_cliente,
@@ -40,12 +39,16 @@ export default function FormVenta() {
       fecha: formatDate(data.fecha),
       medioPago: medioPagos[data.medio_pago].medioPago,
       tipoPago: tipoPagos[data.tipo_pago].tipoPago,
-      cuotas: data.numero_cuotas,
-      compra: arr,
+      cuotas: data.numero_cuotas? data.numero_cuotas:0,
+      productoComprado: arr,
     };
+
 
     console.log(dataForm);
     
+    saveRegistro(dataForm);
+
+
   }
 
   //services --------------------------------
@@ -97,6 +100,21 @@ export default function FormVenta() {
       });
   };
 
+  const saveRegistro = (objeto) => {
+    PostRegistro(objeto)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {
+      });
+  };
+
+
+
+
   function formatDate(date) {
     var d = new Date(date),
       month = "" + (d.getMonth() + 1),
@@ -110,6 +128,9 @@ export default function FormVenta() {
   }
 
   //  ----------------------------
+
+
+  
   function addArray() {
     const ObjTemp = {
       producto: 0,
