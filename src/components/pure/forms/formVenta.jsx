@@ -6,7 +6,7 @@ import {
   GetAllProducts,
   GetAllTipos,
   GetAllMedios,
-  PostRegistro
+  PostRegistro,
 } from "../../../Services/axiosService";
 
 export default function FormVenta() {
@@ -31,24 +31,23 @@ export default function FormVenta() {
   useEffect(() => {}, [products]);
 
   function registerSubmit(data) {
-
     const dataForm = {
       nombre: data.nombre_cliente,
       apellido: data.apellido_cliente,
       correo: data.correo_cliente,
+      idMachine: data.idMachine_cliente,
+      comentario1: data.text1_cliente,
+      comentario2: data.text2_cliente,
       fecha: formatDate(data.fecha),
       medioPago: medioPagos[data.medio_pago].medioPago,
       tipoPago: tipoPagos[data.tipo_pago].tipoPago,
-      cuotas: data.numero_cuotas? data.numero_cuotas:0,
+      cuotas: data.numero_cuotas ? data.numero_cuotas : 0,
       productoComprado: arr,
     };
 
-
     console.log(dataForm);
-    
+
     saveRegistro(dataForm);
-
-
   }
 
   //services --------------------------------
@@ -108,12 +107,8 @@ export default function FormVenta() {
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
       })
-      .finally(() => {
-      });
+      .finally(() => {});
   };
-
-
-
 
   function formatDate(date) {
     var d = new Date(date),
@@ -129,8 +124,6 @@ export default function FormVenta() {
 
   //  ----------------------------
 
-
-  
   function addArray() {
     const ObjTemp = {
       producto: 0,
@@ -219,7 +212,25 @@ export default function FormVenta() {
           <input
             {...register("correo_cliente")}
             placeholder="correo cliente"
-            type="datetime"
+            type="mail"
+          />
+
+          <input
+            {...register("idMachine_cliente")}
+            placeholder="id machine"
+            type="text"
+          />
+
+          <input
+            {...register("text1_cliente")}
+            placeholder="comentario..."
+            type="text"
+          />
+
+          <input
+            {...register("text2_cliente")}
+            placeholder="comentario..."
+            type="text"
           />
 
           <Controller
