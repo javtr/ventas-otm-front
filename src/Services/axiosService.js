@@ -25,3 +25,10 @@ export function PostRegistro(objeto) {
     return AxiosRequest.post('/registro/save', objeto);
 }
 
+
+export function GetAllClientes() {
+    return AxiosRequest.get('/cliente/get-all', {
+
+    });
+}
+

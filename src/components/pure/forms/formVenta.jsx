@@ -7,6 +7,7 @@ import {
   GetAllTipos,
   GetAllMedios,
   PostRegistro,
+  GetAllClientes,
 } from "../../../Services/axiosService";
 
 export default function FormVenta() {
@@ -21,17 +22,22 @@ export default function FormVenta() {
   const [products, setProducts] = useState([]);
   const [tipoPagos, setTipoPagos] = useState([]);
   const [medioPagos, setMedioPagos] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [clientesEx, setclientesEx] = useState(false);
 
   useEffect(() => {
     obtainUser();
     obtainTipoPago();
     obtainMedioPago();
+    obtainCliente();
   }, []);
 
   useEffect(() => {}, [products]);
 
   function registerSubmit(data) {
     const dataForm = {
+      clienteid: parseInt(data.cliente_id),
+      clienteEx: clientesEx,
       nombre: data.nombre_cliente,
       apellido: data.apellido_cliente,
       correo: data.correo_cliente,
@@ -96,6 +102,22 @@ export default function FormVenta() {
           { medioPago: "select..." },
           ...medioPagos,
         ]);
+      });
+  };
+
+  const obtainCliente = () => {
+    GetAllClientes()
+      .then((response) => {
+        setClientes(response.data);
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {
+        // setMedioPagos((medioPagos) => [
+        //   { medioPago: "select..." },
+        //   ...medioPagos,
+        // ]);
       });
   };
 
@@ -197,29 +219,61 @@ export default function FormVenta() {
         {/* seccion nombre */}
 
         <div className="layout__container--form-nombre">
-          <input
-            {...register("nombre_cliente")}
-            placeholder="nombre cliente"
-            type="text"
-          />
+          <div>
+            <input
+              type="checkbox"
+              {...register("cliente_check")}
+              onChange={(e) => {
+                setclientesEx(!clientesEx);
+              }}
+            />
+          </div>
 
-          <input
-            {...register("apellido_cliente")}
-            placeholder="apellido cliente"
-            type="text"
-          />
+          {clientesEx ? 
+          (
+            <select {...register("cliente_id")} onChange={(e) => {}}>
+              {clientes.map((cliente, i) => {
+                return (
+                  <option key={i} value={cliente.id}>
+                    {cliente.nombre + " " + cliente.apellido}
+                  </option>
+                );
+              })}
+            </select>
+          ) : 
+            ""
+          }
 
-          <input
-            {...register("correo_cliente")}
-            placeholder="correo cliente"
-            type="mail"
-          />
 
-          <input
-            {...register("idMachine_cliente")}
-            placeholder="id machine"
-            type="text"
-          />
+          {!clientesEx ?
+          <div>
+            <input
+              {...register("nombre_cliente")}
+              placeholder="nombre cliente"
+              type="text"
+            />
+
+            <input
+              {...register("apellido_cliente")}
+              placeholder="apellido cliente"
+              type="text"
+            />
+
+            <input
+              {...register("correo_cliente")}
+              placeholder="correo cliente"
+              type="mail"
+            />
+
+            <input
+              {...register("idMachine_cliente")}
+              placeholder="id machine"
+              type="text"
+            />
+          </div>
+
+          :
+          ""}
 
           <input
             {...register("text1_cliente")}
