@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GetQueryClientes } from "../../Services/axiosService";
 import RegCliente from "../pure/regCliente";
+import { useNavigate } from "react-router-dom";
 
 export default function RegClientesCont() {
   const [clientes, setClientes] = useState([]);
@@ -20,6 +21,13 @@ export default function RegClientesCont() {
       .finally(() => {});
   };
 
+  const navigate = useNavigate();
+
+  function reporteUsuario(index) {
+    console.log(index);
+    navigate(`/cliente/${index}`);
+  }
+
   return (
     <div>
       <table>
@@ -33,14 +41,13 @@ export default function RegClientesCont() {
           </tr>
         </thead>
         <tbody>
-
           {clientes.map((cliente, index) => (
-
-            <RegCliente key={index} cliente={cliente}></RegCliente>
-         
+            <RegCliente
+              key={index}
+              cliente={cliente}
+              abrirUsuario={reporteUsuario}
+            ></RegCliente>
           ))}
-
-
         </tbody>
       </table>
     </div>

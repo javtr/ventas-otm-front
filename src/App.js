@@ -6,6 +6,7 @@ import LayoutVenta from "./pages/layoutVenta";
 import FormComp from "./components/containers/formComp";
 import Home from "./components/containers/home";
 import RegClientesCont from "./components/containers/regClientesCont";
+import UserContainer from "./components/containers/userContainer";
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
             <Route index element={<Home></Home>}></Route>
             <Route path="sale" element={<FormComp></FormComp>}></Route>
             <Route path="reg-clientes" element={<RegClientesCont></RegClientesCont>}></Route>
+            <Route path="cliente/:userId" element={<UserContainer></UserContainer>}></Route>
           </Route>
         </Routes>
 
