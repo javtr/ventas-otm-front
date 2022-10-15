@@ -1,34 +1,29 @@
-import AxiosRequest from './config/axiosConfig';
+import AxiosRequest from "./config/axiosConfig";
 
-
+//form --------------------------------------------
 
 export function GetAllProducts() {
-    return AxiosRequest.get('/producto/get-all', {
-
-    });
+  return AxiosRequest.get("/producto/get-all", {});
 }
 
-
 export function GetAllTipos() {
-    return AxiosRequest.get('/tipo-pago/get-all', {
-
-    });
+  return AxiosRequest.get("/tipo-pago/get-all", {});
 }
 
 export function GetAllMedios() {
-    return AxiosRequest.get('/medio-pago/get-all', {
-
-    });
+  return AxiosRequest.get("/medio-pago/get-all", {});
 }
 
 export function PostRegistro(objeto) {
-    return AxiosRequest.post('/registro/save', objeto);
+  return AxiosRequest.post("/registro/save", objeto);
 }
-
 
 export function GetAllClientes() {
-    return AxiosRequest.get('/cliente/get-all', {
-
-    });
+  return AxiosRequest.get("/cliente/get-all", {});
 }
 
+//query --------------------------------------------
+export function GetQueryClientes() {
+    return AxiosRequest.get("/query/clientes", {});
+  }
+  
