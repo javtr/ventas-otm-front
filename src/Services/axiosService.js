@@ -27,14 +27,20 @@ export function GetQueryClientes() {
     return AxiosRequest.get("/query/clientes", {});
   }
   
-
   export function GetQueryFacturas(id) {
     return AxiosRequest.get("/query/factura/"+ id, {});
   }
   
+  export function GetQueryPagosFactura(id) {
+    return AxiosRequest.get("/query/pagos/"+ id, {});
+  }  
+
+  export function GetQueryComprasFactura(id) {
+    return AxiosRequest.get("/query/compras/"+ id, {});
+  } 
 
 
-
+  
 //cliente --------------------------------------------
   
 export function GetCliente(id) {
