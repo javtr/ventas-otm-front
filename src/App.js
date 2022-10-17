@@ -7,6 +7,7 @@ import FormComp from "./components/containers/formComp";
 import Home from "./components/containers/home";
 import RegClientesCont from "./components/containers/regClientesCont";
 import UserContainer from "./components/containers/userContainer";
+import PagoContainer from "./components/containers/pagoContainer";
 
 
 class App extends Component {
@@ -21,6 +22,8 @@ class App extends Component {
             <Route path="sale" element={<FormComp></FormComp>}></Route>
             <Route path="reg-clientes" element={<RegClientesCont></RegClientesCont>}></Route>
             <Route path="cliente/:userId" element={<UserContainer></UserContainer>}></Route>
+            <Route path="pagos" element={<PagoContainer></PagoContainer>}></Route>
+          
           </Route>
         </Routes>
 

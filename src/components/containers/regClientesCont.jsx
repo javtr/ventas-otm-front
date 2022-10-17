@@ -24,7 +24,6 @@ export default function RegClientesCont() {
   const navigate = useNavigate();
 
   function reporteUsuario(index) {
-    console.log(index);
     navigate(`/cliente/${index}`);
   }
 

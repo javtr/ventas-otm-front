@@ -47,3 +47,9 @@ export function GetCliente(id) {
   
   return AxiosRequest.get("/cliente/get/"+ id,{});
 }
+
+//pagos --------------------------------------------
+
+export function GetPagos() {
+  return AxiosRequest.get("/pago/get-all",{});
+}

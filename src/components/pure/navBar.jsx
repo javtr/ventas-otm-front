@@ -8,6 +8,7 @@ export default function NavBarComp() {
         <Link to="/">Home</Link>
         <Link to="sale">Nueva venta</Link>
         <Link to="reg-clientes">Registro clientes</Link>
+        <Link to="pagos">Registro pagos</Link>
       </nav>
     </div>
   );

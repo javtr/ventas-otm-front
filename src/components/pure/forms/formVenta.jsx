@@ -11,6 +11,7 @@ import {
 } from "../../../Services/axiosService";
 
 export default function FormVenta() {
+  
   const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
     control,
