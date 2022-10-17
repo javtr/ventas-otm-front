@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from "react";
 import PagoRow from "../pure/PagoRow";
-import { GetPagos } from "../../Services/axiosService";
+import { GetPagos, GetQueryPagosFecha } from "../../Services/axiosService";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const PagoContainer = () => {
-  const [pagos, setPagos] = useState([]);
   const { register, control, handleSubmit, watch } = useForm();
+  const [pagos, setPagos] = useState([]);
+  const [filtro, setFiltro] = useState("");
+  const [filtroDateIni, setFiltroDateIni] = useState("");
+  const [filtroDateFin, setFiltroDateFin] = useState("");
 
   useEffect(() => {
     obtainPagos();
   }, []);
 
-
   function onSubmitForm(data) {
-
     const dataForm = {
-        fechaInicio : data.fechaInicio,
-        fechaFin : data.fechaFin
+      fechaInicio: formatDate(data.fechaInicio),
+      fechaFin: formatDate(data.fechaFin),
+    };
 
-    }
-    console.log(dataForm);
-
+    obtainPagosFecha(dataForm);
   }
-
 
   function formatDate(date) {
     var d = new Date(date),
@@ -38,7 +37,6 @@ const PagoContainer = () => {
     return [year, month, day].join("-");
   }
 
-
   const obtainPagos = () => {
     GetPagos()
       .then((response) => {
@@ -50,12 +48,74 @@ const PagoContainer = () => {
       .finally(() => {});
   };
 
+  const obtainPagosFecha = (dataForm) => {
+    GetQueryPagosFecha(dataForm)
+      .then((response) => {
+        setPagos(response.data);
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {});
+  };
+
+  //filtrado de datos -------------------------------------------
+  let resultados = pagos;
+
+  //filtrado por fechas
+  if (filtroDateIni) {
+    resultados = resultados.filter(function (pago) {
+      if (pago.fechaPago >= filtroDateIni) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  if (filtroDateFin) {
+    resultados = resultados.filter(function (pago) {
+      if (pago.fechaPago <= filtroDateFin) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  //filtro por nombre
+  if (filtro) {
+    resultados = resultados.filter(function (pago) {
+      if (
+        pago.facturaPago.clienteFactura.nombre
+          .toLowerCase()
+          .includes(filtro.toLocaleLowerCase()) ||
+        pago.facturaPago.clienteFactura.apellido
+          .toLowerCase()
+          .includes(filtro.toLocaleLowerCase())
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+
+  resultados = resultados.sort((p1, p2) =>
+    p1.fechaPago > p2.fechaPago ? 1 : p1.fechaPago < p2.fechaPago ? -1 : 0
+  );
+
+
+
+  
+
+
+
   return (
     <div>
       <div>
         <form onSubmit={handleSubmit(onSubmitForm)}>
-
-
           <div>
             <Controller
               control={control}
@@ -63,14 +123,15 @@ const PagoContainer = () => {
               render={({ field }) => (
                 <DatePicker
                   className="input"
-                  placeholderText="Fecha"
-                  onChange={(e) => field.onChange(e)}
+                  placeholderText={
+                    filtroDateIni ? filtroDateIni : "Fecha Inicio"
+                  }
+                  onChange={(e) => setFiltroDateIni(formatDate(e))}
                   selected={field.value}
                 />
               )}
             />
           </div>
-
 
           <div>
             <Controller
@@ -79,15 +140,22 @@ const PagoContainer = () => {
               render={({ field }) => (
                 <DatePicker
                   className="input"
-                  placeholderText="Fecha"
-                  onChange={(e) => field.onChange(e)}
+                  placeholderText={filtroDateFin ? filtroDateFin : "Fecha Fin"}
+                  onChange={(e) => setFiltroDateFin(formatDate(e))}
                   selected={field.value}
                 />
               )}
             />
           </div>
 
-          <button type="submit">Submit</button>
+          <input
+            {...register("filtro nombre")}
+            placeholder="Nombre"
+            onChange={(e) => setFiltro(e.target.value)}
+            type="text"
+          />
+
+          {/* <button type="submit">Submit</button> */}
         </form>
       </div>
 
@@ -103,7 +171,7 @@ const PagoContainer = () => {
           </tr>
         </thead>
         <tbody>
-          {pagos.map((pago, index) => (
+          {resultados.map((pago, index) => (
             <PagoRow key={index} pago={pago}></PagoRow>
           ))}
         </tbody>

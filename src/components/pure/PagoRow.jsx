@@ -8,7 +8,7 @@ const PagoRow = ({pago}) => {
         <td>{pago.valorPago}</td>
         <td>{pago.valorPagoNeto}</td>
         <td>{pago.facturaPago.medioPagoFactura.medioPago}</td>
-        <td>{pago.facturaPago.clienteFactura.correo}</td>
+        <td>{pago.facturaPago.clienteFactura.nombre + " " + pago.facturaPago.clienteFactura.apellido}</td>
       </tr>
     );
 }

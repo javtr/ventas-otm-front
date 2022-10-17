@@ -39,6 +39,10 @@ export function GetQueryClientes() {
     return AxiosRequest.get("/query/compras/"+ id, {});
   } 
 
+  export function GetQueryPagosFecha(objeto) {
+    return AxiosRequest.post("/query/pagosFecha", objeto);
+  } 
+
 
   
 //cliente --------------------------------------------
