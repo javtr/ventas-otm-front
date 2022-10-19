@@ -9,20 +9,19 @@ import {
 import Cliente from "../pure/cliente";
 import FacturaCliente from "../pure/facturaCliente";
 
-
 const UserContainer = () => {
   const [user, setUser] = useState({});
   const [facturas, setFacturas] = useState([]);
 
   useEffect(() => {
     obtainUser();
-}, []);
+  }, []);
 
-useEffect(() => {
-    if(user.id){
-    obtainFactura();
+  useEffect(() => {
+    if (user.id) {
+      obtainFactura();
     }
-}, [user]);
+  }, [user]);
 
   const obtainUser = () => {
     GetCliente(params.userId)
@@ -32,13 +31,11 @@ useEffect(() => {
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
       })
-      .finally(() => {
-      });
+      .finally(() => {});
   };
 
   const obtainFactura = () => {
     GetQueryFacturas(user.id)
-
       .then((response) => {
         setFacturas(response.data);
       })
@@ -52,9 +49,7 @@ useEffect(() => {
 
   return (
     <div>
-
-      <Cliente usuario= {user}></Cliente>
-
+      <Cliente usuario={user}></Cliente>
 
       <div
         style={{
@@ -62,21 +57,10 @@ useEffect(() => {
           border: "solid 1px black",
         }}
       >
-
-
         {facturas.map((factura, index) => (
-          
           <FacturaCliente key={index} factura={factura}></FacturaCliente>
-
-
-          
         ))}
-
-
       </div>
-
-
-      
     </div>
   );
 };

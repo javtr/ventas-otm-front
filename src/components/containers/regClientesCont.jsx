@@ -37,6 +37,7 @@ export default function RegClientesCont() {
             <th>Correo</th>
             <th>Id machine</th>
             <th>Total</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>

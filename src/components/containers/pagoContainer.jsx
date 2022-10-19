@@ -91,7 +91,7 @@ const PagoContainer = () => {
   //filtrado por fechas
   if (filtroDateIni) {
     resultados = resultados.filter(function (pago) {
-      if (pago.fechaPago >= filtroDateIni) {
+      if (pago.fechaDesembolso >= filtroDateIni) {
         return true;
       } else {
         return false;
@@ -101,7 +101,7 @@ const PagoContainer = () => {
 
   if (filtroDateFin) {
     resultados = resultados.filter(function (pago) {
-      if (pago.fechaPago <= filtroDateFin) {
+      if (pago.fechaDesembolso <= filtroDateFin) {
         return true;
       } else {
         return false;

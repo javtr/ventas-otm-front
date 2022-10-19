@@ -1,11 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const Cliente = ({usuario}) => {
-
-
-    return (
-        <div>
-                  <div
+const Cliente = ({ usuario }) => {
+  return (
+    <div>
+      <div
         style={{
           backgroundColor: "rgb(200,200,200,1)",
           border: "solid 1px black",
@@ -21,8 +19,8 @@ const Cliente = ({usuario}) => {
         <br></br>
         {"apellido:" + usuario}
       </div>
-        </div>
-    );
-}
+    </div>
+  );
+};
 
 export default Cliente;
