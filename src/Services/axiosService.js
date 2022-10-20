@@ -52,6 +52,10 @@ export function GetCliente(id) {
   return AxiosRequest.get("/cliente/get/"+ id,{});
 }
 
+export function PutClienteEdit(objeto) {
+  return AxiosRequest.put("/cliente/edit", objeto);
+}
+
 //pagos --------------------------------------------
 
 export function GetPagos() {

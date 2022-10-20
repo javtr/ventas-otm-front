@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import { IconContext } from "react-icons";
-
 import { GetCliente } from "../../../src/Services/axiosService";
+import { useNavigate } from "react-router-dom";
+
 
 const Cliente = ({ usuario }) => {
   const [clienteEdit, setClienteEdit] = useState(null);
+  const navigate = useNavigate();
+  
 
-  function editarClient(id) {
-    obtenerCliente(id);
+  function editarCliente(id) {
+    // obtenerCliente(id);
+
+    navigate(`/edit-cliente/${id}`);
+
+
   }
 
   const obtenerCliente = (id) => {
@@ -67,7 +74,7 @@ const Cliente = ({ usuario }) => {
         <IconContext.Provider value={{ className: "iconos1" }}>
           <TbEdit
             onClick={() => {
-              editarClient(usuario.id);
+              editarCliente(usuario.id);
             }}
           />
         </IconContext.Provider>

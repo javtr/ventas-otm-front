@@ -52,8 +52,6 @@ export default function FormVenta() {
       productoComprado: arr,
     };
 
-    console.log(dataForm);
-
     saveRegistro(dataForm);
   }
 
@@ -132,6 +130,7 @@ export default function FormVenta() {
       })
       .finally(() => {});
   };
+  
 
   function formatDate(date) {
     var d = new Date(date),
@@ -220,7 +219,9 @@ export default function FormVenta() {
         {/* seccion nombre */}
 
         <div className="layout__container--form-nombre">
+        
           <div>
+
             <input
               type="checkbox"
               {...register("cliente_check")}
@@ -228,6 +229,7 @@ export default function FormVenta() {
                 setclientesEx(!clientesEx);
               }}
             />
+
           </div>
 
           {clientesEx ? 
