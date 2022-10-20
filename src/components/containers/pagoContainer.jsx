@@ -88,9 +88,25 @@ const PagoContainer = () => {
   //filtrado de datos -------------------------------------------
   let resultados = pagos;
 
+
+  //filtrado por estado
+  if (true) {
+    resultados = resultados.filter(function (pago) {
+      const estadoPago = pago.facturaPago.clienteFactura.estado;
+      const estadoFactura = pago.facturaPago.compraActiva;
+
+      if (estadoPago==1 && estadoFactura) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
   //filtrado por fechas
   if (filtroDateIni) {
     resultados = resultados.filter(function (pago) {
+
+
       if (pago.fechaDesembolso >= filtroDateIni) {
         return true;
       } else {
