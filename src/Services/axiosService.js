@@ -46,9 +46,7 @@ export function GetQueryClientes() {
 
   
 //cliente --------------------------------------------
-  
 export function GetCliente(id) {
-  
   return AxiosRequest.get("/cliente/get/"+ id,{});
 }
 
@@ -56,8 +54,46 @@ export function PutClienteEdit(objeto) {
   return AxiosRequest.put("/cliente/edit", objeto);
 }
 
+
+//factura --------------------------------------------
+export function GetFactura(id) {
+  return AxiosRequest.get("/factura/get/"+ id,{});
+}
+
+export function PutFacturaEdit(objeto) {
+  return AxiosRequest.put("/factura/edit", objeto);
+}
+
+//medio pago --------------------------------------------
+export function GetMedioPago(id) {
+  return AxiosRequest.get("/medio-pago/get/"+ id,{});
+}
+
+
+
 //pagos --------------------------------------------
 
 export function GetPagos() {
   return AxiosRequest.get("/pago/get-all",{});
 }
+
+export function GetPago(id) {
+  return AxiosRequest.get("/pago/get/"+ id,{});
+}
+
+export function PutPagosEdit(objeto) {
+  return AxiosRequest.put("/pago/edit", objeto);
+}
+
+//compras ---------------------------------------------
+
+export function GetCompra(id) {
+  return AxiosRequest.get("/compra/get/"+ id,{});
+}
+
+export function PutCompraEdit(objeto) {
+  return AxiosRequest.put("/compra/edit", objeto);
+}
+
+
+

@@ -94,8 +94,6 @@ export default function FormEditCliente() {
 
         <br></br>
         <button type="submit">Modificar</button>
-
-
       </form>
     </div>
   );
