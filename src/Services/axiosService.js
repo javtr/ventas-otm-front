@@ -85,6 +85,14 @@ export function PutPagosEdit(objeto) {
   return AxiosRequest.put("/pago/edit", objeto);
 }
 
+export function DeletePago(id) {
+  return AxiosRequest.delete("/pago/delete/"+ id,{});
+}
+
+export function PostPago(objeto) {
+  return AxiosRequest.post("/pago/save", objeto);
+}
+
 //compras ---------------------------------------------
 
 export function GetCompra(id) {

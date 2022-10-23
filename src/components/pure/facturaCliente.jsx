@@ -6,17 +6,15 @@ import {
 import Compras from "./compras";
 import Pago from "./pago";
 import { TbEdit } from "react-icons/tb";
+import { MdAddBox } from "react-icons/md";
+
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
-
-
-
 
 const FacturaCliente = ({ factura }) => {
   const [pagos, setPagos] = useState([]);
   const [compras, setCompras] = useState([]);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     obtainPagos();
@@ -49,7 +47,9 @@ const FacturaCliente = ({ factura }) => {
     navigate(`/edit-factura/${id}`);
   }
 
-
+  function update() {
+    obtainPagos();
+  }
 
   return (
     <div>
@@ -75,11 +75,21 @@ const FacturaCliente = ({ factura }) => {
               editarFactura(factura.id);
             }}
           />
-        </IconContext.Provider>  
-              
+        </IconContext.Provider>
       </div>
 
       <h2>Pagos</h2>
+
+      <br></br>
+
+      <IconContext.Provider value={{ className: "iconos1" }}>
+        <MdAddBox
+          onClick={() => {
+            navigate(`/add-pago/${factura.id}`);
+          }}
+        />
+      </IconContext.Provider>
+
       <br></br>
 
       <div
@@ -89,7 +99,7 @@ const FacturaCliente = ({ factura }) => {
         }}
       >
         {pagos.map((pago, index) => (
-          <Pago key={index} pago={pago}></Pago>
+          <Pago key={index} pago={pago} update={update}></Pago>
         ))}
       </div>
 

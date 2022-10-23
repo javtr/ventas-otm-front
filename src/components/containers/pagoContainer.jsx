@@ -20,8 +20,8 @@ const PagoContainer = () => {
   const pagoSecciones = [];
   const TotalSecciones = [];
   const GranTotal = {
-    bruto:0,
-    neto:0
+    bruto: 0,
+    neto: 0,
   };
 
   //llamados ------------------------------------------------
@@ -88,14 +88,13 @@ const PagoContainer = () => {
   //filtrado de datos -------------------------------------------
   let resultados = pagos;
 
-
   //filtrado por estado
   if (true) {
     resultados = resultados.filter(function (pago) {
       const estadoPago = pago.facturaPago.clienteFactura.estado;
       const estadoFactura = pago.facturaPago.compraActiva;
 
-      if (estadoPago==1 && estadoFactura) {
+      if (estadoPago == 1 && estadoFactura) {
         return true;
       } else {
         return false;
@@ -105,8 +104,6 @@ const PagoContainer = () => {
   //filtrado por fechas
   if (filtroDateIni) {
     resultados = resultados.filter(function (pago) {
-
-
       if (pago.fechaDesembolso >= filtroDateIni) {
         return true;
       } else {
@@ -157,7 +154,7 @@ const PagoContainer = () => {
       if (resultados.length > 0) {
         pagoSecciones.push(
           resultados.filter(function (pago) {
-            if (pago.facturaPago.medioPagoFactura.medioPago === medio) {
+            if (pago.facturaPago.medioPagoFactura.medioPago === medio && pago.estado==1) {
               return true;
             } else {
               return false;
@@ -176,26 +173,26 @@ const PagoContainer = () => {
 
       TotalSecciones.push({
         valorBruto: seccion.reduce(function (acc, obj) {
-          return Math.round(acc + obj.valorPago);
+          // if (obj.estado == 1) {
+            return Math.round(acc + obj.valorPago);
+          // }
         }, 0),
 
         valorNeto: seccion.reduce(function (acc, obj) {
-          return Math.round(acc + obj.valorPagoNeto);
+          // if (obj.estado == 1) {
+            return Math.round(acc + obj.valorPagoNeto);
+          // }
         }, 0),
-
       });
     }
-
   }
 
-
-  if (TotalSecciones.length>0) {
-  TotalSecciones.map((seccion)=>{
-    GranTotal.bruto = GranTotal.bruto + seccion.valorBruto;
-    GranTotal.neto = GranTotal.neto + seccion.valorNeto;
-  })
-}
-
+  if (TotalSecciones.length > 0) {
+    TotalSecciones.map((seccion) => {
+      GranTotal.bruto = GranTotal.bruto + seccion.valorBruto;
+      GranTotal.neto = GranTotal.neto + seccion.valorNeto;
+    });
+  }
 
   return (
     <div>
@@ -266,9 +263,13 @@ const PagoContainer = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {seccion.map((pago, index2) => (
-                        <PagoRow key={index2} pago={pago}></PagoRow>
-                      ))}
+                      {seccion.map((pago, index2) =>
+                        pago.estado == 1 ? (
+                          <PagoRow key={index2} pago={pago}></PagoRow>
+                        ) : (
+                          ""
+                        )
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -281,9 +282,9 @@ const PagoContainer = () => {
             <PagoRow key={index} pago={pago}></PagoRow>
           ))}
 
-    <h2>Totales</h2>    
-    <h4>Bruto: {GranTotal.bruto}</h4>
-    <h4>Neto: {GranTotal.neto}</h4>
+      <h2>Totales</h2>
+      <h4>Bruto: {GranTotal.bruto}</h4>
+      <h4>Neto: {GranTotal.neto}</h4>
     </div>
   );
 };

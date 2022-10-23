@@ -32,6 +32,7 @@ export default function FormEditPago() {
     setValue("desembolso", pago.fechaDesembolso);
     setValue("bruto", pago.valorPago);
     setValue("neto", pago.valorPagoNeto);
+    setValue("estado", pago.estado);
   }
 
   //envio formulario
@@ -42,6 +43,7 @@ export default function FormEditPago() {
       fechaDesembolso: data.desembolso,
       valorPago: data.bruto,
       valorPagoNeto:data.neto,
+      estado:data.estado,
       facturaPago: pago.facturaPago,
     };
 
@@ -75,6 +77,9 @@ export default function FormEditPago() {
 
         <div>Neto:</div>
         <input {...register("neto")} type="text" />
+
+        <div>Estado:</div>
+        <input {...register("estado")} type="number" />
 
         <br></br>
         <button type="submit">Modificar</button>
