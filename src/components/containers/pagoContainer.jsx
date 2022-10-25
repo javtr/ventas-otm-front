@@ -278,9 +278,11 @@ const PagoContainer = () => {
               )}
             </div>
           ))
-        : resultados.map((pago, index) => (
-            <PagoRow key={index} pago={pago}></PagoRow>
-          ))}
+        : resultados.map((pago, index) => {
+            
+            {/* <PagoRow key={index} pago={pago}></PagoRow> */}
+
+      })}
 
       <h2>Totales</h2>
       <h4>Bruto: {GranTotal.bruto}</h4>

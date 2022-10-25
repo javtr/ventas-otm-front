@@ -3,7 +3,7 @@ import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
-import { DeletePago } from "../../Services/axiosService";
+import { DeletePago,PutPagosEditState } from "../../Services/axiosService";
 
 const Pago = ({ pago, actComponente, update }) => {
   const [, updateState] = React.useState();
@@ -16,8 +16,14 @@ const Pago = ({ pago, actComponente, update }) => {
   }
 
   const deletePago = (id) => {
+
+    const pagoTemp={
+      id:id,
+      estado:3
+    }
+
     if (confirm("Eliminar pago?")) {
-      DeletePago(id)
+      PutPagosEditState(pagoTemp)
         .then((response) => {
           console.log(response);
         })

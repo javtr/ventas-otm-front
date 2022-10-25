@@ -99,7 +99,11 @@ const FacturaCliente = ({ factura }) => {
         }}
       >
         {pagos.map((pago, index) => (
+          
+          pago.estado !=3?
           <Pago key={index} pago={pago} update={update}></Pago>
+          :
+          ""
         ))}
       </div>
 
