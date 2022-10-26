@@ -13,6 +13,8 @@ import FormEditFactura from "./components/pure/forms/formEditFactura";
 import FormEditPago from "./components/pure/forms/formEditPago";
 import FormEditCompra from "./components/pure/forms/formEditCompra";
 import FormAddPago from "./components/pure/forms/formAddPago";
+import FormRegister from "./components/pure/forms/formRegister";
+import FormLogin from "./components/pure/forms/formLogin";
 
 
 class App extends Component {
@@ -34,6 +36,9 @@ class App extends Component {
             <Route path="edit-compra/:compraId" element={<FormEditCompra></FormEditCompra>}></Route>
             <Route path="add-pago/:pagoId" element={<FormAddPago></FormAddPago>}></Route>
           </Route>
+          <Route path="/registro" element={<FormRegister></FormRegister>}></Route>
+          <Route path="/login" element={<FormLogin></FormLogin>}></Route>
+          
         </Routes>
 
 
