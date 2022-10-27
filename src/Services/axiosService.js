@@ -43,8 +43,6 @@ export function GetQueryClientes() {
     return AxiosRequest.post("/query/pagosFecha", objeto);
   } 
 
-
-  
 //cliente --------------------------------------------
 export function GetCliente(id) {
   return AxiosRequest.get("/cliente/get/"+ id,{});
@@ -106,6 +104,19 @@ export function GetCompra(id) {
 export function PutCompraEdit(objeto) {
   return AxiosRequest.put("/compra/edit", objeto);
 }
+
+//usuario del sistema 
+export function PostUsuario(objeto) {
+  return AxiosRequest.post("/usuario/save", objeto);
+}
+
+
+export function PutVerificarUsuario(objeto) {
+  return AxiosRequest.put("/usuario/verificar", objeto);
+}
+
+
+
 
 
 
