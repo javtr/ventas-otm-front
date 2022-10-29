@@ -36,7 +36,7 @@ class App extends Component {
             <Route path="edit-compra/:compraId" element={<FormEditCompra></FormEditCompra>}></Route>
             <Route path="add-pago/:pagoId" element={<FormAddPago></FormAddPago>}></Route>
           </Route>
-          <Route path="/registro" element={<FormRegister></FormRegister>}></Route>
+          <Route path="/register" element={<FormRegister></FormRegister>}></Route>
           <Route path="/login" element={<FormLogin></FormLogin>}></Route>
           
         </Routes>

@@ -18,6 +18,7 @@ export default function FormRegister() {
   const enviarUsuario = (user) => {
     PostUsuario(user)
       .then((response) => {
+        console.log(response.data);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);

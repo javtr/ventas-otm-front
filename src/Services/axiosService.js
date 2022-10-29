@@ -111,12 +111,11 @@ export function PostUsuario(objeto) {
 }
 
 
-export function PutVerificarUsuario(objeto) {
-  return AxiosRequest.put("/usuario/verificar", objeto);
+
+//Auth ---------------------------------------------
+
+export function PostLogin(objeto) {
+  return AxiosRequest.post("/usuario/login", objeto);
 }
-
-
-
-
 
 

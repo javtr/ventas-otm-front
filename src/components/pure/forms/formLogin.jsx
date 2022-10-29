@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { PutVerificarUsuario } from "../../../Services/axiosService";
+import { PostLogin } from "../../../Services/axiosService";
 import { useNavigate } from "react-router-dom";
 
 export default function FormLogin() {
@@ -21,23 +21,25 @@ export default function FormLogin() {
 
 
   const enviarUsuario = (user) => {
-    PutVerificarUsuario(user)
+    PostLogin(user)
       .then((response) => {
 
-        if(response.data==="ok"){
-          navigate("/");
 
+        if(response.data==="auth fail"){
+         console.log("password fail");
         }else{
-          alert("datos incorrectos");
+          alert("login correcto");
+          localStorage.token = response.data;
+          localStorage.email = user.user;
         }
 
       })
       .catch((error) => {
+        console.log("user fail");
         alert(`Somethin went wrong: ${error}`);
       })
       .finally(() => {});
   };
-
 
 
   return (
