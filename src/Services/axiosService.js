@@ -107,7 +107,7 @@ export function PutCompraEdit(objeto) {
 
 //usuario del sistema 
 export function PostUsuario(objeto) {
-  return AxiosRequest.post("/usuario/save", objeto);
+  return AxiosRequest.post("/user/save", objeto);
 }
 
 
@@ -115,7 +115,16 @@ export function PostUsuario(objeto) {
 //Auth ---------------------------------------------
 
 export function PostLogin(objeto) {
-  return AxiosRequest.post("/usuario/login", objeto);
+  return AxiosRequest.post("/user/login", objeto);
 }
+
+export function GetRol() {
+  return AxiosRequest.get("/user/get-rol", {});
+}
+
+export function GetUserByToken() {
+  return AxiosRequest.get("/user/getUserByToken/",{});
+}
+
 
 
