@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { PostPago } from "../../../Services/axiosService";
+import UserContext from "../../../context/context";
+
 
 export default function FormAddPago() {
   //declaraciones
   const params = useParams();
   const { register, control, handleSubmit, watch, setValue } = useForm();
+
+  const { userDataContext, setUserDataContext } = useContext(UserContext);
 
 
   //obtener cliente
@@ -50,6 +54,8 @@ export default function FormAddPago() {
 
   return (
     <div>
+
+      <div>{userDataContext.rol}</div>
       <form onSubmit={handleSubmit(pagoSubmit)}>
         <div>Fecha pago:</div>
         <input {...register("fecha")} type="text" />

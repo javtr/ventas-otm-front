@@ -4,7 +4,8 @@ import {createContext} from 'react';
     userDataContext: {
       id:0,
       user:"",
-      rol:""
+      rol:"",
+      token:""
     },
     setUserDataContext: () => {},
   });

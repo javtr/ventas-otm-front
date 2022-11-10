@@ -123,8 +123,9 @@ export function GetRol() {
 }
 
 export function GetUserByToken() {
-  return AxiosRequest.get("/user/getUserByToken/",{});
+  return AxiosRequest.get("/user/getUserByToken",{});
 }
 
-
-
+export function GetAppUsers() {
+  return AxiosRequest.get("/user/get-all", {});
+}

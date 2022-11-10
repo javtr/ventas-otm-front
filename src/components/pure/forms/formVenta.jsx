@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,9 +9,11 @@ import {
   PostRegistro,
   GetAllClientes,
 } from "../../../Services/axiosService";
+import UserContext from "../../../context/context";
 
 export default function FormVenta() {
-  
+  const { userDataContext, setUserDataContext } = useContext(UserContext);
+
   const { register, control, handleSubmit, watch } = useForm();
   const { fields, remove, append } = useFieldArray({
     control,
@@ -130,7 +132,6 @@ export default function FormVenta() {
       })
       .finally(() => {});
   };
-  
 
   function formatDate(date) {
     var d = new Date(date),
@@ -211,17 +212,15 @@ export default function FormVenta() {
     setArr(numbersCopy);
   }
 
-  //  ----------------------------
-
   return (
-    <div className="layout__container--form">
-      <form onSubmit={handleSubmit(registerSubmit)}>
-        {/* seccion nombre */}
-
-        <div className="layout__container--form-nombre">
+    <div className="formVenta">
+      <form className="formVenta__form" onSubmit={handleSubmit(registerSubmit)}>
+        <div className="formVenta__form--title"></div>
         
-          <div>
-
+        {/* seccion nombre */}
+        <div className="formVenta__form--nombre">
+          <div className="formVenta__form--nombre--clienteCheck">
+            <h4>Usuario Existente</h4>
             <input
               type="checkbox"
               {...register("cliente_check")}
@@ -230,11 +229,18 @@ export default function FormVenta() {
               }}
             />
 
+            <div className="check">
+              <div className="check--back"></div>
+              <div className="check--front checkFront"></div>
+            </div>
           </div>
 
-          {clientesEx ? 
-          (
-            <select {...register("cliente_id")} onChange={(e) => {}}>
+          {clientesEx ? (
+            <select
+              className="formVenta__form--nombre--clienteSelect"
+              {...register("cliente_id")}
+              onChange={(e) => {}}
+            >
               {clientes.map((cliente, i) => {
                 return (
                   <option key={i} value={cliente.id}>
@@ -243,71 +249,63 @@ export default function FormVenta() {
                 );
               })}
             </select>
-          ) : 
+          ) : (
             ""
-          }
+          )}
 
+          {!clientesEx ? (
+            <div className="formVenta__form--nombre--cliente">
+              <input
+                {...register("nombre_cliente")}
+                placeholder="nombre cliente"
+                type="text"
+              />
 
-          {!clientesEx ?
-          <div>
-            <input
-              {...register("nombre_cliente")}
-              placeholder="nombre cliente"
-              type="text"
-            />
+              <input
+                {...register("apellido_cliente")}
+                placeholder="apellido cliente"
+                type="text"
+              />
 
-            <input
-              {...register("apellido_cliente")}
-              placeholder="apellido cliente"
-              type="text"
-            />
+              <input
+                {...register("correo_cliente")}
+                placeholder="correo cliente"
+                type="mail"
+              />
 
-            <input
-              {...register("correo_cliente")}
-              placeholder="correo cliente"
-              type="mail"
-            />
-
-            <input
-              {...register("idMachine_cliente")}
-              placeholder="id machine"
-              type="text"
-            />
-          </div>
-
-          :
-          ""}
+              <input
+                {...register("idMachine_cliente")}
+                placeholder="id machine"
+                type="text"
+              />
+            </div>
+          ) : (
+            ""
+          )}
 
           <input
+            className="formVenta__form--nombre--comentario1"
             {...register("text1_cliente")}
             placeholder="comentario..."
             type="text"
           />
 
           <input
+            className="formVenta__form--nombre--comentario2"
             {...register("text2_cliente")}
             placeholder="comentario..."
             type="text"
           />
 
-          <Controller
-            control={control}
-            name="fecha"
-            render={({ field }) => (
-              <DatePicker
-                className="input"
-                placeholderText="Fecha"
-                onChange={(e) => field.onChange(e)}
-                selected={field.value}
-              />
-            )}
-          />
+
+
+
         </div>
 
         {/* seccion producto */}
-        <div className="layout__container--form-producto">
+        <div className="formVenta__form--producto">
           {fields.map(({ id, produc, price }, index) => (
-            <div className="productoIt" key={index}>
+            <div className="formVenta__form--producto--item" key={index}>
               <select
                 {...register(`pr: ${index}`)}
                 onChange={(e) => {
@@ -376,7 +374,7 @@ export default function FormVenta() {
           ))}
 
           <button
-            className="addButton"
+            className="formVenta__form--producto--add"
             type="button"
             onClick={() => {
               append({});
@@ -388,8 +386,28 @@ export default function FormVenta() {
         </div>
 
         {/* seccion pago */}
-        <div className="layout__container--form-pago">
-          <select {...register("medio_pago")} onChange={(e) => {}}>
+        <div className="formVenta__form--pago">
+
+        <Controller
+            className="formVenta__form--pago--fecha"
+            control={control}
+            name="fecha"
+            render={({ field }) => (
+              <DatePicker
+                className="input"
+                placeholderText="Fecha"
+                onChange={(e) => field.onChange(e)}
+                selected={field.value}
+              />
+            )}
+          />
+
+
+          <select
+            className="formVenta__form--pago--medio"
+            {...register("medio_pago")}
+            onChange={(e) => {}}
+          >
             {medioPagos.map((medio, i) => {
               return (
                 <option key={i} value={i}>
@@ -400,6 +418,7 @@ export default function FormVenta() {
           </select>
 
           <select
+            className="formVenta__form--pago--tipo"
             {...register("tipo_pago")}
             onChange={(e) => {
               setTipoPago(e.target.value);
@@ -416,6 +435,7 @@ export default function FormVenta() {
 
           {tipoPago && tipoPagos[tipoPago].tipoPago == "cuotas" ? (
             <input
+              className="formVenta__form--pago--tipo--cuotas"
               {...register("numero_cuotas")}
               placeholder="numero de cuotas"
               type="number"
@@ -425,7 +445,9 @@ export default function FormVenta() {
             ""
           )}
 
-          <button type="submit">Submit</button>
+          <button className="formVenta__form--submit" type="submit">
+            Submit
+          </button>
         </div>
       </form>
     </div>

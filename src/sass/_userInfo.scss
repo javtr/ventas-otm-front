@@ -1,0 +1,34 @@
+.userInfo{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    margin-bottom: 25px;
+    margin-top: 20px;
+    position: relative;
+
+    &__imgClose{
+        width: 30px;
+        position: absolute;
+        right: 4px;
+        top: -14px;
+    }
+
+    &__img{
+        margin: 0 auto;
+        margin-bottom:15px;
+
+        img{
+            width: 80px;
+
+        }
+    }
+
+    &__name{
+        text-align: center;
+
+    }
+
+
+
+}

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PostLogin, GetUserByToken } from "../../../Services/axiosService";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,8 @@ export default function FormLogin() {
   const { register, control, handleSubmit, watch } = useForm();
   const navigate = useNavigate();
   const { userDataContext, setUserDataContext } = useContext(UserContext);
+
+  console.log("llega login");
 
   function submit(data) {
     const usuarionTemp = {
@@ -21,11 +23,23 @@ export default function FormLogin() {
   const enviarUsuario = (user) => {
     PostLogin(user)
       .then((response) => {
-        if (response.data === "auth fail") {
+        if (response.data === null) {
           console.log("password fail");
         } else {
           localStorage.token = response.data;
-          pedirUsuario();
+
+          const userTemp = {
+            id: response.data.id,
+            user: response.data.user,
+            rol: response.data.rol,
+            token: response.data.token,
+          };
+
+          setUserDataContext(userTemp);
+          console.log("user login");
+          console.log(response);
+          navigate("/");
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -35,30 +49,8 @@ export default function FormLogin() {
       .finally(() => {});
   };
 
-  const pedirUsuario = () => {
-    GetUserByToken()
-      .then((response) => {
-        if (response.data === "") {
-          console.log("usuario no existe");
-        } else {
-          const userDataTemp = {
-            id: response.data.id,
-            user: response.data.user,
-            rol: response.data.rol,
-          };
-
-          setUserDataContext(userDataTemp);
-        }
-      })
-      .catch((error) => {
-        console.log("peticion fail");
-        console.log(`Somethin went wrong: ${error}`);
-      })
-      .finally(() => {});
-  };
-
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div style={{ width:"300px",margin:"0 auto"}}>
       <form onSubmit={handleSubmit(submit)}>
         <input {...register("email")} placeholder="Email" type="text" />
 
@@ -66,6 +58,11 @@ export default function FormLogin() {
 
         <button type="submit">Ingresar</button>
       </form>
+      <button
+        onClick={() => {
+          navigate("/register");
+        }}
+      >Register</button>
     </div>
   );
 }
