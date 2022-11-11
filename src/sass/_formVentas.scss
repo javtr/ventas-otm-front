@@ -46,9 +46,9 @@
           font-size: $txt-sm;
         }
 
-        input {
+        &--check{
           position: absolute;
-          opacity: 0;
+          // opacity: 0;
           top: $ch-tp;
           left: $ch-lf;
           width: $ch-w;
@@ -79,32 +79,38 @@
           background-color: $gray;
           width: $ch-h-dot;
           height: $ch-h-dot;
-          border-radius: $ch-h-dot/2;
+          border-radius: calc($ch-h-dot/2);
           top: -2px;
           left: -1px;
         }
 
-        input:checked ~ .check::after {
+        &--check:checked ~ .check::after {
           background-color: $primary;
           left: 18px;
         }
 
-        input:checked ~ .check::before {
+        &--check:checked ~ .check::before {
           background-color: $gray;
         }
       }
 
       &--clienteSelect {
+        margin: 5px;
+        border-radius: $br-sm;
+        padding: 7px 10px;
+        width: 96%;
+        height: 40px;
+        border: 1px solid $gray;
+
+
       }
 
       &--cliente {
         margin-top: 15px;
 
-
-
       }
 
-      input {
+      &--input{
         margin: 5px;
         border-radius: $br-sm;
         padding: 7px 10px;
@@ -123,6 +129,12 @@
       &--fecha {
       }
     }
+
+
+    // producto ----------------------
+
+
+
 
     &--producto {
       &--item {

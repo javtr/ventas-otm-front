@@ -221,7 +221,10 @@ export default function FormVenta() {
         <div className="formVenta__form--nombre">
           <div className="formVenta__form--nombre--clienteCheck">
             <h4>Usuario Existente</h4>
+
+
             <input
+              className="formVenta__form--nombre--clienteCheck--check"
               type="checkbox"
               {...register("cliente_check")}
               onChange={(e) => {
@@ -256,24 +259,28 @@ export default function FormVenta() {
           {!clientesEx ? (
             <div className="formVenta__form--nombre--cliente">
               <input
+            className="formVenta__form--nombre--input"
                 {...register("nombre_cliente")}
                 placeholder="nombre cliente"
                 type="text"
               />
 
               <input
+            className="formVenta__form--nombre--input"
                 {...register("apellido_cliente")}
                 placeholder="apellido cliente"
                 type="text"
               />
 
               <input
+            className="formVenta__form--nombre--input"
                 {...register("correo_cliente")}
                 placeholder="correo cliente"
                 type="mail"
               />
 
               <input
+            className="formVenta__form--nombre--input"
                 {...register("idMachine_cliente")}
                 placeholder="id machine"
                 type="text"
@@ -284,14 +291,14 @@ export default function FormVenta() {
           )}
 
           <input
-            className="formVenta__form--nombre--comentario1"
+            className="formVenta__form--nombre--input"
             {...register("text1_cliente")}
             placeholder="comentario..."
             type="text"
           />
 
           <input
-            className="formVenta__form--nombre--comentario2"
+            className="formVenta__form--nombre--input"
             {...register("text2_cliente")}
             placeholder="comentario..."
             type="text"
