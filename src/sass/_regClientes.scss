@@ -1,0 +1,46 @@
+.regClientes {
+  width: 100%;
+  padding: 0 5%;
+
+  &__input {
+    border: 1px solid black;
+    width: 20%;
+    margin: 50px 0;
+    height: 30px;
+  }
+
+  &__table {
+    width: 100px;
+
+    &--head {
+        display: block;
+      width: 100px;
+      
+
+      &--row {
+        width: 100px;
+      }
+
+      &--row1 {
+        width: 20%;
+      }
+
+      &--row2 {
+        width: 40%;
+      }
+
+      &--row3 {
+        width: 40%;
+      }      
+
+    }
+  }
+
+  &__body {
+    &--line {
+    }
+
+    &--row {
+    }
+  }
+}

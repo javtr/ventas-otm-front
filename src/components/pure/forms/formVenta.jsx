@@ -68,14 +68,11 @@ export default function FormVenta() {
           precioFinal = precioFinal + dataForm.productoComprado[key].precio;
         }
 
-        if (precioFinal>0) {
-          alert("Registro de venta enviado")
-          // saveRegistro(dataForm);
-
-        }else{
+        if (precioFinal > 0) {
+          saveRegistro(dataForm);
+        } else {
           console.log("error valor final");
         }
-
       } else {
         console.log(respValitator);
       }
@@ -152,6 +149,7 @@ export default function FormVenta() {
     PostRegistro(objeto)
       .then((response) => {
         console.log(response);
+        alert("Registro de venta enviado");
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -475,7 +473,7 @@ export default function FormVenta() {
               className="formVenta__form--pago--tipo"
               {...register("tipo_pago")}
               onChange={(e) => {
-                tipoPago ? setTipoPago(e.target.value) : "";
+                setTipoPago(e.target.value);
               }}
             >
               {tipoPagos.map((tipo, i) => {

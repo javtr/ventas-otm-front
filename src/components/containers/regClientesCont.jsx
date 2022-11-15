@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { GetQueryClientes } from "../../Services/axiosService";
 import RegCliente from "../pure/regCliente";
 import { useNavigate } from "react-router-dom";
@@ -28,25 +28,33 @@ export default function RegClientesCont() {
   }
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Correo</th>
-            <th>Id machine</th>
-            <th>Total</th>
-            {/* <th>Delete</th> */}
+    <div className="regClientes">
+      <input className="regClientes__input" type="text"></input>
+
+      <table className="regClientes__table" >
+
+        <thead className="regClientes__table--head" >
+          <tr className="regClientes__table--head--row" >
+            <th className="regClientes__table--head--row1" ></th>
+            <th className="regClientes__table--head--row2">Nombre</th>
+            <th className="regClientes__table--head--row3">Id machine</th>
           </tr>
         </thead>
-        <tbody>
+
+        <tbody className="regClientes__body">
           {clientes.map((cliente, index) => (
-            <RegCliente
-              key={index}
-              cliente={cliente}
-              abrirUsuario={reporteUsuario}
-            ></RegCliente>
+
+            <Fragment>
+              <tr className="regClientes__body--line">________</tr>
+              <tr className="regClientes__body--row">
+                <RegCliente
+                  key={index}
+                  cliente={cliente}
+                  abrirUsuario={reporteUsuario}
+                ></RegCliente>
+              </tr>
+            </Fragment>
+
           ))}
         </tbody>
       </table>
