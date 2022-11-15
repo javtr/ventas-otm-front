@@ -33,6 +33,12 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    if (!localStorage.conection) {
+      localStorage.conection = 0; 
+    }
+
+    
     if (localStorage.token == "") {
       console.log("app.js-No hay usuario");
       navigate("/login");

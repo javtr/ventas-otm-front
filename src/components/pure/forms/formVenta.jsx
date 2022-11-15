@@ -10,7 +10,9 @@ import {
   GetAllClientes,
 } from "../../../Services/axiosService";
 import UserContext from "../../../context/context";
-
+import minus from "../../../../src/images/minus.svg";
+import plus from "../../../../src/images/plus.svg";
+import { validatorForm } from "../../../helpers/validatorFormVenta";
 export default function FormVenta() {
   const { userDataContext, setUserDataContext } = useContext(UserContext);
 
@@ -27,6 +29,7 @@ export default function FormVenta() {
   const [medioPagos, setMedioPagos] = useState([]);
   const [clientes, setClientes] = useState([]);
   const [clientesEx, setclientesEx] = useState(false);
+  const [isloading, setIsloading] = useState(true);
 
   useEffect(() => {
     obtainUser();
@@ -38,23 +41,45 @@ export default function FormVenta() {
   useEffect(() => {}, [products]);
 
   function registerSubmit(data) {
-    const dataForm = {
-      clienteid: parseInt(data.cliente_id),
-      clienteEx: clientesEx,
-      nombre: data.nombre_cliente,
-      apellido: data.apellido_cliente,
-      correo: data.correo_cliente,
-      idMachine: data.idMachine_cliente,
-      comentario1: data.text1_cliente,
-      comentario2: data.text2_cliente,
-      fecha: formatDate(data.fecha),
-      medioPago: medioPagos[data.medio_pago].medioPago,
-      tipoPago: tipoPagos[data.tipo_pago].tipoPago,
-      cuotas: data.numero_cuotas ? data.numero_cuotas : 0,
-      productoComprado: arr,
-    };
+    if (!isloading) {
+      const respValitator = validatorForm(data);
 
-    saveRegistro(dataForm);
+      if (respValitator == "ok") {
+        const dataForm = {
+          clienteid: parseInt(data.cliente_id),
+          clienteEx: clientesEx,
+          nombre: data.nombre_cliente,
+          apellido: data.apellido_cliente,
+          correo: data.correo_cliente,
+          idMachine: data.idMachine_cliente,
+          comentario1: data.text1_cliente,
+          comentario2: data.text2_cliente,
+          fecha: formatDate(data.fecha),
+
+          medioPago: medioPagos[data.medio_pago].medioPago,
+
+          tipoPago: tipoPagos[data.tipo_pago].tipoPago,
+          cuotas: data.numero_cuotas ? data.numero_cuotas : 0,
+          productoComprado: arr,
+        };
+
+        var precioFinal = 0;
+        for (var key in dataForm.productoComprado) {
+          precioFinal = precioFinal + dataForm.productoComprado[key].precio;
+        }
+
+        if (precioFinal>0) {
+          alert("Registro de venta enviado")
+          // saveRegistro(dataForm);
+
+        }else{
+          console.log("error valor final");
+        }
+
+      } else {
+        console.log(respValitator);
+      }
+    }
   }
 
   //services --------------------------------
@@ -110,6 +135,7 @@ export default function FormVenta() {
     GetAllClientes()
       .then((response) => {
         setClientes(response.data);
+        setIsloading(false);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -153,7 +179,7 @@ export default function FormVenta() {
       precio: 0,
       cantidad: 1,
       descuento: false,
-      porcentaje: 0,
+      porcentaje: 0.0,
       precioFinal: 0,
     };
 
@@ -195,10 +221,9 @@ export default function FormVenta() {
 
       //cambio porcentaje
     } else if (element == "porcentaje") {
-      ObjTemp.porcentaje = parseInt(value);
-
+      ObjTemp.porcentaje = parseFloat(value);
       ObjTemp.precioFinal =
-        ObjTemp.precio - ObjTemp.precio * (parseInt(value) * 0.01);
+        ObjTemp.precio - ObjTemp.precio * (parseFloat(value) * 0.01);
     }
 
     const numbersCopy = [...arr];
@@ -215,16 +240,15 @@ export default function FormVenta() {
   return (
     <div className="formVenta">
       <form className="formVenta__form" onSubmit={handleSubmit(registerSubmit)}>
-        <div className="formVenta__form--title"></div>
-        
+        <div className="formVenta__form--titleCont">
+          <div className="formVenta__form--title"></div>
+        </div>
+
         {/* seccion nombre */}
         <div className="formVenta__form--nombre">
-          <div className="formVenta__form--nombre--clienteCheck">
-            <h4>Usuario Existente</h4>
-
-
+          <div className="checkNuevo">
             <input
-              className="formVenta__form--nombre--clienteCheck--check"
+              className="checkNuevo--input"
               type="checkbox"
               {...register("cliente_check")}
               onChange={(e) => {
@@ -232,10 +256,7 @@ export default function FormVenta() {
               }}
             />
 
-            <div className="check">
-              <div className="check--back"></div>
-              <div className="check--front checkFront"></div>
-            </div>
+            <div className="checkNuevo--shape"></div>
           </div>
 
           {clientesEx ? (
@@ -259,28 +280,28 @@ export default function FormVenta() {
           {!clientesEx ? (
             <div className="formVenta__form--nombre--cliente">
               <input
-            className="formVenta__form--nombre--input"
-                {...register("nombre_cliente")}
+                className="formVenta__form--nombre--input"
+                {...register("nombre_cliente", {})}
                 placeholder="nombre cliente"
                 type="text"
               />
 
               <input
-            className="formVenta__form--nombre--input"
+                className="formVenta__form--nombre--input"
                 {...register("apellido_cliente")}
                 placeholder="apellido cliente"
                 type="text"
               />
 
               <input
-            className="formVenta__form--nombre--input"
+                className="formVenta__form--nombre--input"
                 {...register("correo_cliente")}
                 placeholder="correo cliente"
                 type="mail"
               />
 
               <input
-            className="formVenta__form--nombre--input"
+                className="formVenta__form--nombre--input"
                 {...register("idMachine_cliente")}
                 placeholder="id machine"
                 type="text"
@@ -303,18 +324,18 @@ export default function FormVenta() {
             placeholder="comentario..."
             type="text"
           />
-
-
-
-
         </div>
+
+        <hr className="formVenta__linea"></hr>
 
         {/* seccion producto */}
         <div className="formVenta__form--producto">
           {fields.map(({ id, produc, price }, index) => (
             <div className="formVenta__form--producto--item" key={index}>
               <select
-                {...register(`pr: ${index}`)}
+                {...register(`producto: ${index}`, {
+                  required: true,
+                })}
                 onChange={(e) => {
                   editArray(e.target.value, index, "producto");
                 }}
@@ -329,7 +350,8 @@ export default function FormVenta() {
               </select>
 
               <input
-                {...register(`np: ${index}`)}
+                className="formVenta__form--producto--item--cantidad"
+                {...register(`cantidad: ${index}`)}
                 placeholder="cantidad"
                 type="number"
                 defaultValue={1}
@@ -338,44 +360,67 @@ export default function FormVenta() {
                 }}
               />
 
-              <p>valor:{arr[index].precio}</p>
+              <p className="formVenta__form--producto--item--precio">
+                Precio:{arr[index].precio}
+              </p>
 
-              <div>
+              <hr className="formVenta__form--producto--item--linea"></hr>
+
+              <div className="checkDescuento">
                 <input
+                  className="checkDescuento--input"
                   type="checkbox"
-                  {...register("`chd: ${index}`")}
+                  {...register(`descuento: ${index}`)}
                   onChange={(e) => {
                     editArray(e.target.value, index, "descuento");
                   }}
                 />
+                <div className="checkDescuento--shape"></div>
               </div>
 
               {arr[index].descuento ? (
                 <div>
-                  <input
+                  {/* <input
                     {...register(`pd: ${index}`)}
+                    className="formVenta__form--producto--item--descuento"
                     placeholder="porcentaje"
                     type="number"
                     defaultValue={0}
                     onChange={(e) => {
                       editArray(e.target.value, index, "porcentaje");
                     }}
+                  /> */}
+
+                  <input
+                    {...register(`valDescuento: ${index}`)}
+                    className="formVenta__form--producto--item--descuento"
+                    placeholder="porcentaje"
+                    type="text"
+                    defaultValue={0}
+                    onChange={(e) => {
+                      editArray(e.target.value, index, "porcentaje");
+                    }}
                   />
 
-                  <p>desc:{arr[index].precioFinal}</p>
+                  <p className="formVenta__form--producto--item--precio">
+                    Final:{arr[index].precioFinal}
+                  </p>
+
+                  <hr className="formVenta__form--producto--item--linea"></hr>
                 </div>
               ) : (
                 ""
               )}
 
               <button
+                className="formVenta__form--producto--item--remove"
                 type="button"
                 onClick={() => {
                   remove(index);
                   deleteArray(index);
                 }}
               >
-                Remover
+                <img src={minus}></img>
               </button>
             </div>
           ))}
@@ -388,73 +433,78 @@ export default function FormVenta() {
               addArray();
             }}
           >
-            Agregar Producto
+            <img src={plus}></img>
           </button>
         </div>
 
         {/* seccion pago */}
         <div className="formVenta__form--pago">
-
-        <Controller
-            className="formVenta__form--pago--fecha"
-            control={control}
-            name="fecha"
-            render={({ field }) => (
-              <DatePicker
-                className="input"
-                placeholderText="Fecha"
-                onChange={(e) => field.onChange(e)}
-                selected={field.value}
+          <div className="formVenta__form--pago--sup">
+            <div className="formVenta__form--pago--fecha">
+              <Controller
+                control={control}
+                name="fecha"
+                render={({ field }) => (
+                  <DatePicker
+                    className="formVenta__form--pago--fecha--dp"
+                    placeholderText="Fecha"
+                    onChange={(e) => field.onChange(e)}
+                    selected={field.value}
+                  />
+                )}
               />
+            </div>
+
+            <select
+              className="formVenta__form--pago--medio"
+              {...register("medio_pago")}
+              onChange={(e) => {}}
+            >
+              {medioPagos.map((medio, i) => {
+                return (
+                  <option key={i} value={i}>
+                    {medio.medioPago}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          <div className="formVenta__form--pago--inf">
+            <select
+              className="formVenta__form--pago--tipo"
+              {...register("tipo_pago")}
+              onChange={(e) => {
+                tipoPago ? setTipoPago(e.target.value) : "";
+              }}
+            >
+              {tipoPagos.map((tipo, i) => {
+                return (
+                  <option key={i} value={i}>
+                    {tipo.tipoPago}
+                  </option>
+                );
+              })}
+            </select>
+
+            {!isloading &&
+            tipoPago &&
+            tipoPagos[tipoPago].tipoPago == "cuotas" ? (
+              <input
+                className="formVenta__form--pago--tipo--cuotas"
+                {...register("numero_cuotas")}
+                placeholder="numero de cuotas"
+                type="number"
+                defaultValue={1}
+              />
+            ) : (
+              ""
             )}
-          />
+          </div>
 
-
-          <select
-            className="formVenta__form--pago--medio"
-            {...register("medio_pago")}
-            onChange={(e) => {}}
-          >
-            {medioPagos.map((medio, i) => {
-              return (
-                <option key={i} value={i}>
-                  {medio.medioPago}
-                </option>
-              );
-            })}
-          </select>
-
-          <select
-            className="formVenta__form--pago--tipo"
-            {...register("tipo_pago")}
-            onChange={(e) => {
-              setTipoPago(e.target.value);
-            }}
-          >
-            {tipoPagos.map((tipo, i) => {
-              return (
-                <option key={i} value={i}>
-                  {tipo.tipoPago}
-                </option>
-              );
-            })}
-          </select>
-
-          {tipoPago && tipoPagos[tipoPago].tipoPago == "cuotas" ? (
-            <input
-              className="formVenta__form--pago--tipo--cuotas"
-              {...register("numero_cuotas")}
-              placeholder="numero de cuotas"
-              type="number"
-              defaultValue={1}
-            />
-          ) : (
-            ""
-          )}
-
-          <button className="formVenta__form--submit" type="submit">
-            Submit
-          </button>
+          <div className="formVenta__form--submit">
+            <button type="submit">Enviar</button>
+          </div>
         </div>
       </form>
     </div>

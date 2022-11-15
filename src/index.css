@@ -16,6 +16,10 @@ body {
 ol, ul {
 	list-style: none;
 }
+button, select{
+	background-color: transparent;
+}
+
 blockquote, q {
 	quotes: none;
 }

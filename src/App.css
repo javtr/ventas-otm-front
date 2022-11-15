@@ -4,6 +4,30 @@
   background-color: rgb(244, 244, 244);
 }
 
+.cloud--off {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: rgb(132, 132, 132);
+}
+
+.cloud--on {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: rgb(244, 244, 244);
+}
+
 .userInfo {
   display: flex;
   justify-content: center;
@@ -57,10 +81,6 @@
 .navbar nav a:hover {
   background-color: #3592FF;
 }
-.navbar button {
-  width: 100%;
-  font-size: 16px;
-}
 
 .formVenta {
   padding: 80px 20px 20px 20px;
@@ -68,12 +88,14 @@
 .formVenta__form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: rgb(255, 255, 255);
   border-radius: 25px;
   box-shadow: 0px 8px 21px rgba(0, 0, 0, 0.13);
   position: relative;
+}
+.formVenta__form--titleCont {
+  display: flex;
+  justify-content: center;
 }
 .formVenta__form--title {
   position: absolute;
@@ -87,58 +109,6 @@
   margin-bottom: 15px;
   padding: 70px 20px 20px 20px;
   border-radius: 25px;
-}
-.formVenta__form--nombre--clienteCheck {
-  position: relative;
-  font-size: 20px;
-  height: 30px;
-  width: 100%;
-}
-.formVenta__form--nombre--clienteCheck h4 {
-  position: absolute;
-  top: 7px;
-  left: 50px;
-  font-size: 16px;
-}
-.formVenta__form--nombre--clienteCheck--check {
-  position: absolute;
-  top: 7px;
-  left: 5px;
-  width: 35px;
-  height: 15px;
-}
-.formVenta__form--nombre--clienteCheck .check {
-  position: absolute;
-  top: 7px;
-  left: 5px;
-  width: 35px;
-  height: 15px;
-  pointer-events: none;
-}
-.formVenta__form--nombre--clienteCheck .check:before {
-  content: "";
-  position: absolute;
-  background-color: rgb(74, 74, 74);
-  width: 35px;
-  height: 15px;
-  border-radius: 7.5px;
-}
-.formVenta__form--nombre--clienteCheck .check::after {
-  content: "";
-  position: absolute;
-  background-color: rgb(132, 132, 132);
-  width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  top: -2px;
-  left: -1px;
-}
-.formVenta__form--nombre--clienteCheck--check:checked ~ .check::after {
-  background-color: #3592FF;
-  left: 18px;
-}
-.formVenta__form--nombre--clienteCheck--check:checked ~ .check::before {
-  background-color: rgb(132, 132, 132);
 }
 .formVenta__form--nombre--clienteSelect {
   margin: 5px;
@@ -158,4 +128,237 @@
   width: 47%;
   height: 40px;
   border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--producto--item {
+  border: 1px solid rgba(132, 132, 132, 0.5);
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 15px;
+  width: 90%;
+  margin-top: 35px;
+  padding: 15px;
+  position: relative;
+}
+.formVenta__form--producto--item select {
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  width: 80%;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--producto--item--cantidad {
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  width: 15%;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--producto--item--precio {
+  font-size: 20px;
+  margin-left: 6px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.formVenta__form--producto--item--linea {
+  height: 1px;
+  background-color: rgb(204, 204, 204);
+  width: 100%;
+  margin-bottom: 10px;
+}
+.formVenta__form--producto--item--descuento {
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  width: 20%;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--producto--item--remove {
+  height: 30px;
+  width: 30px;
+  margin-left: 0px;
+  margin-top: 40px;
+}
+.formVenta__form--producto--item--remove img {
+  width: 100%;
+  filter: invert(55%) sepia(6%) saturate(12%) hue-rotate(45deg) brightness(92%) contrast(94%);
+}
+.formVenta__form--producto--add {
+  height: 36px;
+  width: 36px;
+  margin-left: 25px;
+  margin-top: 25px;
+}
+.formVenta__form--producto--add img {
+  width: 100%;
+  filter: invert(55%) sepia(6%) saturate(12%) hue-rotate(45deg) brightness(92%) contrast(94%);
+}
+.formVenta__form__linea {
+  height: 1px;
+  background-color: rgb(204, 204, 204);
+  width: 100%;
+}
+.formVenta__form--pago {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+}
+.formVenta__form--pago--sup {
+  display: flex;
+  justify-content: space-between;
+}
+.formVenta__form--pago--fecha {
+  width: 49%;
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--pago--fecha--dp {
+  width: 100%;
+}
+.formVenta__form--pago--medio {
+  width: 49%;
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--pago--inf {
+  display: flex;
+  justify-content: space-between;
+}
+.formVenta__form--pago--tipo {
+  width: 48%;
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--pago--tipo--cuotas {
+  width: 48%;
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+}
+.formVenta__form--submit {
+  width: 100%;
+  padding: 0 2%;
+  margin-top: 50px;
+}
+.formVenta__form--submit button {
+  width: 100%;
+  background-color: #3592FF;
+  height: 40px;
+  border-radius: 10px;
+  color: rgb(244, 244, 244);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.checkNuevo {
+  position: relative;
+  width: 85px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+.checkNuevo--input {
+  position: absolute;
+  width: 85px;
+  height: 24px;
+  opacity: 0;
+}
+.checkNuevo--shape {
+  position: absolute;
+  width: 85px;
+  height: 24px;
+  pointer-events: none;
+}
+.checkNuevo--shape::before {
+  content: "Existente";
+  position: absolute;
+  background-color: rgb(74, 74, 74);
+  width: 85px;
+  height: 24px;
+  border-radius: 12px;
+  color: rgb(244, 244, 244);
+  padding-top: 7px;
+  padding-left: 25px;
+  font-size: 10px;
+  box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+}
+.checkNuevo--shape::after {
+  content: "";
+  position: absolute;
+  background-color: rgb(244, 244, 244);
+  width: 17px;
+  height: 17px;
+  border-radius: 8.5px;
+  top: 4px;
+  left: 4px;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+}
+.checkNuevo--input:checked ~ .checkNuevo--shape::after {
+  left: 65px;
+}
+.checkNuevo--input:checked ~ .checkNuevo--shape::before {
+  background-color: #3592FF;
+  padding-left: 8px;
+}
+
+.checkDescuento {
+  position: relative;
+  width: 85px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+.checkDescuento--input {
+  position: absolute;
+  width: 85px;
+  height: 24px;
+  opacity: 0;
+}
+.checkDescuento--shape {
+  position: absolute;
+  width: 85px;
+  height: 24px;
+  pointer-events: none;
+}
+.checkDescuento--shape::before {
+  content: "Descuento";
+  position: absolute;
+  background-color: rgb(74, 74, 74);
+  width: 85px;
+  height: 24px;
+  border-radius: 12px;
+  color: rgb(244, 244, 244);
+  padding-top: 7px;
+  padding-left: 25px;
+  font-size: 10px;
+  box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+}
+.checkDescuento--shape::after {
+  content: "";
+  position: absolute;
+  background-color: rgb(244, 244, 244);
+  width: 17px;
+  height: 17px;
+  border-radius: 8.5px;
+  top: 4px;
+  left: 4px;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+}
+.checkDescuento--input:checked ~ .checkDescuento--shape::after {
+  left: 65px;
+}
+.checkDescuento--input:checked ~ .checkDescuento--shape::before {
+  background-color: #3592FF;
+  padding-left: 8px;
 }/*# sourceMappingURL=App.css.map */

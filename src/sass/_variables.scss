@@ -5,6 +5,7 @@ $dark:rgb(21, 21, 21);
 $light:rgb(244, 244, 244);
 $light-gray:rgb(204, 204, 204);
 $gray:rgb(132, 132, 132);
+$gray-op:rgba(132, 132, 132,.5);
 $dark-gray:rgb(74, 74, 74);
 
 
@@ -14,13 +15,17 @@ $txt-md:20px;
 $txt-lg:28px;
 
 
-//checkBox
-$ch-w: 35px;
-$ch-h: 15px;
-$ch-h-dot: $ch-h*1.2;
+//checkBox-nuevo
+$ch-w-n: 85px;
+$ch-h-n: 24px;
+$ch-h-dot-n: 17px;
+$ch-desp-n: 65px;
 
-$ch-tp:7px;
-$ch-lf:5px;
+//checkBox-descuento
+$ch-w-d:85px;
+$ch-h-d: 24px;
+$ch-h-dot-d: 17px;
+$ch-desp-d: 65px;
 
 
 //border

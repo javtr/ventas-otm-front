@@ -49,8 +49,18 @@ export default function FormLogin() {
       .finally(() => {});
   };
 
+  function turnConection() {
+    if (localStorage.conection == 1) {
+      localStorage.conection = 0;
+    } else if (localStorage.conection == 0){
+      localStorage.conection = 1;
+    }
+  }
+
   return (
-    <div style={{ width:"300px",margin:"0 auto"}}>
+    <div style={{ width: "300px", margin: "0 auto" }}>
+      <button onClick={() => turnConection()}>Cloud</button>
+
       <form onSubmit={handleSubmit(submit)}>
         <input {...register("email")} placeholder="Email" type="text" />
 
@@ -62,7 +72,9 @@ export default function FormLogin() {
         onClick={() => {
           navigate("/register");
         }}
-      >Register</button>
+      >
+        Register
+      </button>
     </div>
   );
 }
