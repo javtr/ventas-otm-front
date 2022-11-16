@@ -29,35 +29,39 @@ export default function RegClientesCont() {
 
   return (
     <div className="regClientes">
-      <input className="regClientes__input" type="text"></input>
+      <div className="regClientes__container">
 
-      <table className="regClientes__table" >
+        <div className="regClientes__container--titleCont">
+          <div className="regClientes__container--title"></div>
+        </div>
+        
+        <input className="regClientes__input" type="text"></input>
 
-        <thead className="regClientes__table--head" >
-          <tr className="regClientes__table--head--row" >
-            <th className="regClientes__table--head--row1" ></th>
-            <th className="regClientes__table--head--row2">Nombre</th>
-            <th className="regClientes__table--head--row3">Id machine</th>
-          </tr>
-        </thead>
+        <table className="regClientes__table">
+          <thead className="regClientes__table--head">
+            <tr className="regClientes__table--head--row">
+              <th className="regClientes__table--head--row1"></th>
+              <th className="regClientes__table--head--row2">Nombre</th>
+              <th className="regClientes__table--head--row3">Id machine</th>
+            </tr>
+          </thead>
 
-        <tbody className="regClientes__body">
-          {clientes.map((cliente, index) => (
-
-            <Fragment>
-              <tr className="regClientes__body--line">________</tr>
-              <tr className="regClientes__body--row">
-                <RegCliente
-                  key={index}
-                  cliente={cliente}
-                  abrirUsuario={reporteUsuario}
-                ></RegCliente>
-              </tr>
-            </Fragment>
-
-          ))}
-        </tbody>
-      </table>
+          <tbody className="regClientes__body">
+            {clientes.map((cliente, index) => (
+              <Fragment key={index}>
+                <tr className="regClientes__body--line"></tr>
+                <tr className="regClientes__body--row">
+                  <RegCliente
+                    key={index}
+                    cliente={cliente}
+                    abrirUsuario={reporteUsuario}
+                  ></RegCliente>
+                </tr>
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

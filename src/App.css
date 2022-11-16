@@ -361,4 +361,101 @@
 .checkDescuento--input:checked ~ .checkDescuento--shape::before {
   background-color: #3592FF;
   padding-left: 8px;
+}
+
+.regClientes {
+  width: 100%;
+  padding: 80px 20px 20px 20px;
+}
+.regClientes__container {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  border-radius: 25px;
+  box-shadow: 0px 8px 21px rgba(0, 0, 0, 0.13);
+  position: relative;
+}
+.regClientes__container--titleCont {
+  display: flex;
+  justify-content: center;
+}
+.regClientes__container--title {
+  position: absolute;
+  width: 90%;
+  height: 110px;
+  background-color: #3592FF;
+  border-radius: 25px;
+  top: -55px;
+}
+.regClientes__input {
+  border-radius: 10px;
+  padding: 7px 10px;
+  width: 240px;
+  height: 40px;
+  border: 1px solid rgb(132, 132, 132);
+  margin-top: 75px;
+  margin-left: 20px;
+  margin-bottom: 35px;
+}
+.regClientes__table {
+  width: 100%;
+}
+.regClientes__table--head {
+  height: 35px;
+}
+.regClientes__table--head--row {
+  text-align: left;
+  color: rgb(74, 74, 74);
+  font-size: 16px;
+}
+.regClientes__table--head--row1 {
+  width: 10%;
+}
+.regClientes__table--head--row2 {
+  width: 40%;
+}
+.regClientes__table--head--row3 {
+  width: 50%;
+}
+.regClientes__body--line::after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: rgb(204, 204, 204);
+  position: absolute;
+}
+.regClientes__body--row {
+  height: 60px;
+}
+.regClientes__body--row--action {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.regClientes__body--row--action--icon {
+  font-size: 15px;
+  color: rgb(74, 74, 74);
+}
+.regClientes__body--row--name {
+  font-size: 14px;
+  position: relative;
+}
+.regClientes__body--row--name--cont {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 14px;
+}
+.regClientes__body--row--name--nam {
+  font-size: 16px;
+  color: rgb(74, 74, 74);
+}
+.regClientes__body--row--name--mail {
+  font-size: 14px;
+  color: rgb(74, 74, 74);
+}
+.regClientes__body--row--id {
+  font-size: 11px;
+  color: rgb(74, 74, 74);
 }/*# sourceMappingURL=App.css.map */
