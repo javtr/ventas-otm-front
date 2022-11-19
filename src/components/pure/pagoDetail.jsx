@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { FiEdit } from "react-icons/fi";
 import { IconContext } from "react-icons";
 
-export default function RegCliente({ cliente, abrirUsuario }) {
+export default function PagoDetail({ cliente, abrirUsuario }) {
   return (
     <Fragment>
         <td className="regClientes__body--row--action" onClick={() => abrirUsuario(cliente[0])}>

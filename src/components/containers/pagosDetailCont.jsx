@@ -2,8 +2,9 @@ import React, { useState, useEffect, Fragment } from "react";
 import { GetQueryClientes } from "../../Services/axiosService";
 import RegCliente from "../pure/regCliente";
 import { useNavigate } from "react-router-dom";
+import PagoDetail from "../pure/pagoDetail";
 
-export default function RegClientesCont() {
+export default function PagosDetailCont() {
   const [clientes, setClientes] = useState([]);
 
   useEffect(() => {
@@ -53,11 +54,11 @@ export default function RegClientesCont() {
               <Fragment key={index}>
                 <tr className="regClientes__body--line"></tr>
                 <tr className="regClientes__body--row">
-                  <RegCliente
+                  <PagoDetail
                     key={index}
                     cliente={cliente}
                     abrirUsuario={reporteUsuario}
-                  ></RegCliente>
+                  ></PagoDetail>
                 </tr>
               </Fragment>
             ))}

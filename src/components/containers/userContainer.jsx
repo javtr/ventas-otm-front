@@ -7,13 +7,12 @@ import {
 } from "../../../src/Services/axiosService";
 
 import Cliente from "../pure/cliente";
+import Factura from "../pure/factura";
 import FacturaCliente from "../pure/facturaCliente";
 
 const UserContainer = () => {
   const [user, setUser] = useState({});
   const [facturas, setFacturas] = useState([]);
-
-
 
   useEffect(() => {
     obtainUser();
@@ -50,19 +49,23 @@ const UserContainer = () => {
   const params = useParams();
 
   return (
-    <div>
-      <Cliente usuario={user}></Cliente>
+    <div className="userInfoContainer">
+    
+      <Cliente></Cliente>
 
-      <div
-        style={{
-          backgroundColor: "rgb(200,200,200,1)",
-          border: "solid 1px black",
-        }}
-      >
+      <div>
+        {facturas.map((factura, index) => (
+          <Factura key={index} facturaProp={factura}></Factura>
+          //<FacturaCliente key={index} factura={factura}></FacturaCliente>
+        ))}
+      </div>
+      <div>
         {facturas.map((factura, index) => (
           <FacturaCliente key={index} factura={factura}></FacturaCliente>
         ))}
       </div>
+
+
     </div>
   );
 };

@@ -244,6 +244,7 @@ export default function FormVenta() {
 
         {/* seccion nombre */}
         <div className="formVenta__form--nombre">
+        
           <div className="checkNuevo">
             <input
               className="checkNuevo--input"

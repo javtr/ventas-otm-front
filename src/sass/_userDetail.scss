@@ -1,0 +1,154 @@
+.user {
+  &__cont {
+    background-color: $white;
+    border-radius: $br-md;
+    box-shadow: 0px 8px 21px rgba(0, 0, 0, 0.13);
+    position: relative;
+
+    &--titleCont {
+      display: flex;
+      justify-content: center;
+    }
+
+    &--title {
+      position: absolute;
+      width: 90%;
+      height: 110px;
+      background-color: $primary;
+      border-radius: $br-md;
+      top: -55px;
+    }
+
+    &__content {
+      padding: 80px 20px 20px 20px;
+
+      &--estado {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+
+        &--delete {
+          font-size: 25px;
+          color: $dark-gray;
+        }
+
+        &--check {
+        }
+      }
+
+      &--nombre {
+        display: flex;
+        justify-content: space-between;
+
+        input {
+          margin: 5px 0;
+          border-radius: $br-sm;
+          padding: 7px 10px;
+          width: 49%;
+          height: 40px;
+          border: 1px solid $gray;
+        }
+      }
+
+      &--email {
+        display: flex;
+        flex-direction: column;
+
+        input {
+          margin: 5px 0;
+          border-radius: $br-sm;
+          padding: 7px 10px;
+          width: 100%;
+          height: 40px;
+          border: 1px solid $gray;
+        }
+      }
+
+      &--comentario {
+        display: flex;
+        justify-content: space-between;
+
+        input {
+          margin: 5px 0;
+          border-radius: $br-sm;
+          padding: 7px 10px;
+          width: 49%;
+          height: 50px;
+          border: 1px solid $gray;
+        }
+      }
+
+      &--boton {
+        width: 50%;
+        margin-top: 20px;
+
+        button {
+          width: 100%;
+          background-color: $primary;
+          height: 40px;
+          border-radius: 10px;
+          color: $light;
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+//check box --------------------------------
+.checkEstado {
+  position: relative;
+  width: $ch-w-a;
+  height: $ch-h-a;
+  margin-bottom: 10px;
+
+  &--input {
+    position: absolute;
+    width: $ch-w-a;
+    height: $ch-h-a;
+    opacity: 0;
+  }
+
+  &--shape {
+    position: absolute;
+    width: $ch-w-a;
+    height: $ch-h-a;
+    pointer-events: none;
+  }
+
+  &--shape::before {
+    content: "Activo";
+    position: absolute;
+    background-color: $dark-gray;
+    width: $ch-w-a;
+    height: $ch-h-a;
+    border-radius: $ch-h-a/2;
+    color: $light;
+    padding-top: 7px;
+    padding-left: 25px;
+    font-size: 10px;
+    box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+  }
+
+  &--shape::after {
+    content: "";
+    position: absolute;
+    background-color: $light;
+    width: $ch-h-dot-a;
+    height: $ch-h-dot-a;
+    border-radius: $ch-h-dot-a/2;
+    top: 4px;
+    left: 4px;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  &--input:checked ~ &--shape::after {
+    left: $ch-desp-a;
+  }
+
+  &--input:checked ~ &--shape::before {
+    background-color: $primary;
+    padding-left: 8px;
+  }
+}
