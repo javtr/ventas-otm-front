@@ -11,6 +11,7 @@ import {
   GetAllMedios,
 } from "../../Services/axiosService";
 import PagosDetailCont from "../containers/pagosDetailCont";
+import ComprasDetailCont from "../containers/comprasDetailCont";
 
 const Factura = ({ facturaProp }) => {
   const params = useParams();
@@ -141,9 +142,10 @@ const Factura = ({ facturaProp }) => {
 
         <hr className="factura__cont__linea"></hr>
 
-        <PagosDetailCont></PagosDetailCont>
+        <PagosDetailCont facturaId={facturaProp.id}></PagosDetailCont>
 
-
+        <ComprasDetailCont facturaId={facturaProp.id}></ComprasDetailCont>
+        
       </div>
     </div>
   );

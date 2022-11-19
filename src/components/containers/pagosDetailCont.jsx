@@ -1,20 +1,26 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { GetQueryClientes } from "../../Services/axiosService";
+import {
+  GetQueryClientes,
+  GetQueryPagosFactura,
+  GetQueryComprasFactura,
+  GetPagos,
+} from "../../Services/axiosService";
 import RegCliente from "../pure/regCliente";
 import { useNavigate } from "react-router-dom";
 import PagoDetail from "../pure/pagoDetail";
 
-export default function PagosDetailCont() {
+export default function PagosDetailCont({ facturaId }) {
   const [clientes, setClientes] = useState([]);
+  const [pagos, setPagos] = useState([]);
 
   useEffect(() => {
-    obtainClientes();
+    obtainPagos(facturaId);
   }, []);
 
-  const obtainClientes = () => {
-    GetQueryClientes()
+  const obtainPagos = (id) => {
+    GetQueryPagosFactura(id)
       .then((response) => {
-        setClientes(response.data);
+        setPagos(response.data);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -28,32 +34,33 @@ export default function PagosDetailCont() {
     navigate(`/cliente/${index}`);
   }
 
+  function update() {
+    obtainPagos();
+  }
+
   return (
+    <div className="PagoDetail">
+      <h2 className="PagoDetail__title">Pagos</h2>
 
-    
-    <div className="regClientes">
-      <div className="regClientes__container">
-
-        <div className="regClientes__container--titleCont">
-          <div className="regClientes__container--title"></div>
-        </div>
-        
-        <input className="regClientes__input" type="text"></input>
-
-        <table className="regClientes__table">
-          <thead className="regClientes__table--head">
-            <tr className="regClientes__table--head--row">
-              <th className="regClientes__table--head--row1"></th>
-              <th className="regClientes__table--head--row2">Nombre</th>
-              <th className="regClientes__table--head--row3">Id machine</th>
+      <div className="PagoDetail__container">
+        <table className="PagoDetail__table">
+          <thead className="PagoDetail__table--head">
+            <tr className="PagoDetail__table--head--row">
+              <th className="PagoDetail__table--head--row1">Pago</th>
+              <th className="PagoDetail__table--head--row2">Desembolso</th>
+              <th className="PagoDetail__table--head--row3">Bruto</th>
+              <th className="PagoDetail__table--head--row4">Neto</th>
+              <th className="PagoDetail__table--head--row5">Act</th>
+              <th className="PagoDetail__table--head--row6">Edit</th>
+              <th className="PagoDetail__table--head--row7">Elim</th>
             </tr>
           </thead>
 
-          <tbody className="regClientes__body">
-            {clientes.map((cliente, index) => (
+          <tbody className="PagoDetail__body">
+            {/* {clientes.map((cliente, index) => (
               <Fragment key={index}>
-                <tr className="regClientes__body--line"></tr>
-                <tr className="regClientes__body--row">
+                <tr className="PagoDetail__body--line"></tr>
+                <tr className="PagoDetail__body--row">
                   <PagoDetail
                     key={index}
                     cliente={cliente}
@@ -61,12 +68,29 @@ export default function PagosDetailCont() {
                   ></PagoDetail>
                 </tr>
               </Fragment>
+
+            ))} */}
+
+            {pagos.map((pago, index) => (
+              <Fragment key={index}>
+                <tr className="PagoDetail__body--line"></tr>
+                <tr className="PagoDetail__body--row">
+
+                 { pago.estado != 3 ? (
+                  <PagoDetail
+                    key={index}
+                    pago={pago}
+                    update={update}
+                  ></PagoDetail>
+                  ) : ( <Fragment/> )}
+
+
+                </tr>
+              </Fragment>
             ))}
           </tbody>
         </table>
       </div>
     </div>
-
-
   );
 }

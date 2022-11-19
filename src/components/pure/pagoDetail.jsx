@@ -2,25 +2,65 @@ import React, { Fragment } from "react";
 import { FiEdit } from "react-icons/fi";
 import { IconContext } from "react-icons";
 
-export default function PagoDetail({ cliente, abrirUsuario }) {
+export default function PagoDetail({ pago, update }) {
+
+
   return (
     <Fragment>
-        <td className="regClientes__body--row--action" onClick={() => abrirUsuario(cliente[0])}>
-          <IconContext.Provider value={{ className: "regClientes__body--row--action--icon" }}>
+
+      <td className="PagoDetail__body--row--pago">
+        <div className="PagoDetail__body--row--pago--cont">
+          {pago.fechaPago}
+        </div>
+      </td>
+
+      <td className="PagoDetail__body--row--pago">
+        <div className="PagoDetail__body--row--pago--cont">
+          {pago.fechaDesembolso}
+        </div>
+      </td>
+
+      <td className="PagoDetail__body--row--pago">
+        <div className="PagoDetail__body--row--pago--cont">
+          {pago.valorPago.toFixed(0)}
+        </div>
+      </td>      
+
+      <td className="PagoDetail__body--row--pago">
+        <div className="PagoDetail__body--row--pago--cont">
+          {pago.valorPagoNeto.toFixed(0)}
+        </div>
+      </td>    
+      
+      <td className="PagoDetail__body--row--pago">
+        <div className="PagoDetail__body--row--pago--cont">
+          "est"
+        </div>
+      </td>    
+
+
+      <td className="PagoDetail__body--row--pago">
+        <div className="PagoDetail__body--row--pago--cont">
+          "edi"
+        </div>
+      </td>   
+
+      <td className="PagoDetail__body--row--pago">
+        <div className="PagoDetail__body--row--pago--cont">
+          "eli"
+        </div>
+      </td>   
+
+
+      {/* <td className="PagoDetail__body--row--action" onClick={() => abrirUsuario(cliente[0])}>
+          <IconContext.Provider value={{ className: "PagoDetail__body--row--action--icon" }}>
             <FiEdit
               onClick={() => {
                 console.log("hola");
               }}
             />
           </IconContext.Provider>
-        </td>
-        <td className="regClientes__body--row--name">
-          <div className="regClientes__body--row--name--cont">
-            <div className="regClientes__body--row--name--nam">{cliente[1] + " " + cliente[2]}</div>
-            <div className="regClientes__body--row--name--mail">{cliente[3]}</div>
-          </div>
-        </td>
-        <td className="regClientes__body--row--id" >{cliente[4]}</td>
-</Fragment>
+        </td> */}
+    </Fragment>
   );
 }

@@ -1,14 +1,26 @@
-.regClientes {
+.compraDetail {
   width: 100%;
-  padding: 80px 20px 20px 20px;
+  // padding: 80px 20px 20px 20px;
+  // margin-top: 70px;
+  padding-bottom: 20px;
+
+  &__title{
+    font-size: 20px;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: $dark-gray;
+  }
+
 
   &__container {
     display: flex;
     flex-direction: column;
-    background-color: $white;
-    border-radius: $br-md;
-    box-shadow: 0px 8px 21px rgba(0, 0, 0, 0.13);
+    // background-color: $white;
     position: relative;
+    width: 95%;
+    margin: 0 auto;
 
     &--titleCont {
       display: flex;
@@ -48,17 +60,36 @@
         font-size: 16px;
       }
 
+
       &--row1 {
-        width: 10%;
+        width:25%;
       }
 
       &--row2 {
-        width: 40%;
+        width: 12%;
       }
 
       &--row3 {
-        width: 50%;
+        width: 12%;
       }
+
+      &--row4 {
+        width: 12%;
+      }
+
+      &--row5 {
+        width:10%;
+      }
+
+      &--row6 {
+        width: 10%;
+      }
+
+      &--row7 {
+        width: 10%;
+      }
+
+
     }
   }
 
@@ -73,7 +104,8 @@
     }
 
     &--row {
-      height: 60px;
+      height: 40px;
+
 
       &--action {
         height: 60px;
@@ -88,14 +120,15 @@
         }
       }
 
-      &--name {
+      &--compra {
         font-size: 14px;
         position: relative;
+        color: $dark-gray;
 
         &--cont {
           position: absolute;
-          display: flex;
-          flex-direction: column;
+          // display: flex;
+          // flex-direction: column;
           top: 14px;
         }
 
