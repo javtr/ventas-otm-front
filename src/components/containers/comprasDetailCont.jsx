@@ -36,7 +36,6 @@ export default function ComprasDetailCont({ facturaId }) {
               <th className="compraDetail__table--head--row2">Precio</th>
               <th className="compraDetail__table--head--row3">Desc</th>
               <th className="compraDetail__table--head--row4">Cant</th>
-              <th className="compraDetail__table--head--row5">Act</th>
               <th className="compraDetail__table--head--row6">Edit</th>
               <th className="compraDetail__table--head--row7">Elim</th>
             </tr>

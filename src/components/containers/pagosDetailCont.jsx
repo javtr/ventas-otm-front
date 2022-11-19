@@ -50,9 +50,9 @@ export default function PagosDetailCont({ facturaId }) {
               <th className="PagoDetail__table--head--row2">Desembolso</th>
               <th className="PagoDetail__table--head--row3">Bruto</th>
               <th className="PagoDetail__table--head--row4">Neto</th>
-              <th className="PagoDetail__table--head--row5">Act</th>
-              <th className="PagoDetail__table--head--row6">Edit</th>
-              <th className="PagoDetail__table--head--row7">Elim</th>
+              {/* <th className="PagoDetail__table--head--row5">Act</th> */}
+              <th className="PagoDetail__table--head--row5">Edit</th>
+              <th className="PagoDetail__table--head--row6">Elim</th>
             </tr>
           </thead>
 

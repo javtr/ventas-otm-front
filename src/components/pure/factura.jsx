@@ -115,6 +115,8 @@ const Factura = ({ facturaProp }) => {
 
                 <div className="checkEstado--shape"></div>
               </div>
+
+              
             </div>
 
             <div className="factura__cont__content--nombre">

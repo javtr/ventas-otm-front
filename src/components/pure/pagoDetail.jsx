@@ -1,8 +1,16 @@
 import React, { Fragment } from "react";
 import { FiEdit } from "react-icons/fi";
 import { IconContext } from "react-icons";
+import { useNavigate } from "react-router-dom";
+
 
 export default function PagoDetail({ pago, update }) {
+  const navigate = useNavigate();
+
+
+  function editarPago(id) {
+    navigate(`/edit-pago/${id}`);
+  }
 
 
   return (
@@ -32,15 +40,21 @@ export default function PagoDetail({ pago, update }) {
         </div>
       </td>    
       
-      <td className="PagoDetail__body--row--pago">
+      {/* <td className="PagoDetail__body--row--pago">
         <div className="PagoDetail__body--row--pago--cont">
           "est"
         </div>
-      </td>    
+      </td>     */}
 
 
       <td className="PagoDetail__body--row--pago">
-        <div className="PagoDetail__body--row--pago--cont">
+        <div className="PagoDetail__body--row--pago--cont"
+        
+                    onClick={() => {
+              editarPago(pago.id);
+            }}
+        
+        >
           "edi"
         </div>
       </td>   
