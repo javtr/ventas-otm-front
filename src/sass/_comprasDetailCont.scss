@@ -127,10 +127,15 @@
 
         &--cont {
           position: absolute;
-          // display: flex;
-          // flex-direction: column;
           top: 14px;
         }
+
+
+        &--icon {
+
+
+        }
+
 
         &--nam {
           font-size: 16px;
@@ -141,6 +146,9 @@
           font-size: 14px;
           color: $dark-gray;
         }
+
+
+
       }
 
       &--id {

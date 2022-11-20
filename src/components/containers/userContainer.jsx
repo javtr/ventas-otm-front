@@ -59,11 +59,12 @@ const UserContainer = () => {
           //<FacturaCliente key={index} factura={factura}></FacturaCliente>
         ))}
       </div>
-      <div>
+
+      {/* <div>
         {facturas.map((factura, index) => (
           <FacturaCliente key={index} factura={factura}></FacturaCliente>
         ))}
-      </div>
+      </div> */}
 
 
     </div>
