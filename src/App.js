@@ -18,6 +18,7 @@ import FormRegister from "./components/pure/forms/formRegister";
 import FormLogin from "./components/pure/forms/formLogin";
 import { GetUserByToken } from "./Services/axiosService";
 import AdminUserContainer from "./components/containers/adminUserContainer";
+import RegPagosCont from "./components/containers/regPagosCont";
 
 export default function App() {
   const [loged, setLoged] = useState(false);
@@ -115,7 +116,7 @@ export default function App() {
 
             <Route
               path="pagos"
-              element={<PagoContainer></PagoContainer>}
+              element={<RegPagosCont></RegPagosCont>}
             ></Route>
 
             <Route

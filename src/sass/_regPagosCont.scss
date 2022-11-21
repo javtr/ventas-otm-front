@@ -1,0 +1,195 @@
+.regPagos {
+  width: 100%;
+  padding: 80px 20px 20px 20px;
+
+  &__cont {
+    background-color: $white;
+    border-radius: $br-md;
+    box-shadow: 0px 8px 21px rgba(0, 0, 0, 0.13);
+    position: relative;
+    padding: 0 15px;
+
+    &--titleCont {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 90px;
+    }
+
+    &--title {
+      position: absolute;
+      width: 90%;
+      height: 110px;
+      background-color: $primary;
+      border-radius: $br-md;
+      top: -55px;
+    }
+
+    &__form {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 35px;
+
+      &--date {
+        width: 24%;
+        border-radius: $br-sm;
+        padding: 10px 10px;
+        height: 40px;
+        border: 1px solid $gray;
+        input {
+          width: 100%;
+        }
+      }
+
+      &--nombre {
+        width: 48%;
+        border-radius: $br-sm;
+        padding: 7px 10px;
+        height: 40px;
+        border: 1px solid $gray;
+      }
+    }
+
+    &__total {
+      display: flex;
+
+      &--neto {
+        width: 105px;
+        color: $dark-gray;
+
+        h4 {
+          font-size: 20px;
+        }
+
+        p {
+          font-size: 14px;
+          color: $gray;
+        }
+      }
+    }
+
+    // &__lineaCont {
+    //   position: relative;
+    //   margin-top: 30px;
+    //   margin-bottom: 60px;
+
+    //   &--linea {
+    //     width: calc(100% + 30px);
+    //     height: 1px;
+    //     background-color: $light-gray;
+    //     position: absolute;
+    //     left: -15px;
+    //   }
+    // }
+
+    &__tabla {
+
+
+      &__lineCont{
+        position: relative;
+        margin-top: 35px;
+        margin-bottom: 35px;
+        height: 1px;
+
+
+      &--line{
+        width: calc(100% + 30px);
+        height: 1px;
+        background-color: $light-gray;
+        left: -15px;
+        position: absolute;
+
+
+      }
+}
+      &__total {
+        display: flex;
+        margin-bottom: 35px;
+
+
+
+        &--medio {
+          width: 220px;
+          color: $dark-gray;
+
+          h4 {
+            font-size: 20px;
+          }
+        }
+
+        &--neto {
+          width: 105px;
+          color: $dark-gray;
+
+          h4 {
+            font-size: 20px;
+          }
+
+          p {
+            font-size: 14px;
+            color: $gray;
+          }
+        }
+      }
+
+      &__tbl {
+        width: 100%;
+        margin-bottom: 50px;
+
+        &--header {
+          height: 35px;
+          color: $dark-gray;
+          &--row {
+            text-align: left;
+            font-size: 16px;
+          }
+
+          &--r1 {
+            width: 20%;
+          }
+
+          &--r2 {
+            width: 10%;
+          }
+
+          &--r3 {
+            width: 10%;
+          }
+
+          &--r4 {
+            width: 20%;
+          }
+
+          &--r5 {
+            // width: 25%;
+          }
+        }
+
+        &--body {
+          color: $gray;
+
+          &--line::after {
+            content: "";
+            width: calc(100% - 30px);
+            height: 1px;
+            position: absolute;
+            border: none;
+            border-top: 1px dashed $gray;
+          }
+
+          &--row {
+            height: 50px;
+            position: relative;
+
+            &--cont {
+              position: absolute;
+              display: flex;
+              flex-direction: column;
+              top: 9px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

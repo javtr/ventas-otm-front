@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PagoRow from "../pure/PagoRow";
 import {
   GetPagos,
@@ -8,9 +8,9 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import RegPagoRow from "../pure/regPagoRow";
 
-const PagoContainer = () => {
-  //declaraciones ------------------------------------------------
+export default function RegPagosCont() {
   const { register, control, handleSubmit, watch } = useForm();
   const [pagos, setPagos] = useState([]);
   const [filtro, setFiltro] = useState("");
@@ -154,7 +154,10 @@ const PagoContainer = () => {
       if (resultados.length > 0) {
         pagoSecciones.push(
           resultados.filter(function (pago) {
-            if (pago.facturaPago.medioPagoFactura.medioPago === medio && pago.estado==1) {
+            if (
+              pago.facturaPago.medioPagoFactura.medioPago === medio &&
+              pago.estado == 1
+            ) {
               return true;
             } else {
               return false;
@@ -174,13 +177,13 @@ const PagoContainer = () => {
       TotalSecciones.push({
         valorBruto: seccion.reduce(function (acc, obj) {
           // if (obj.estado == 1) {
-            return Math.round(acc + obj.valorPago);
+          return Math.round(acc + obj.valorPago);
           // }
         }, 0),
 
         valorNeto: seccion.reduce(function (acc, obj) {
           // if (obj.estado == 1) {
-            return Math.round(acc + obj.valorPagoNeto);
+          return Math.round(acc + obj.valorPagoNeto);
           // }
         }, 0),
       });
@@ -195,10 +198,17 @@ const PagoContainer = () => {
   }
 
   return (
-    <div>
-      <div>
-        <form onSubmit={handleSubmit(onSubmitForm)}>
-          <div>
+    <div className="regPagos">
+      <div className="regPagos__cont">
+        <div className="regPagos__cont--titleCont">
+          <div className="regPagos__cont--title"></div>
+        </div>
+
+        <form
+          onSubmit={handleSubmit(onSubmitForm)}
+          className="regPagos__cont__form"
+        >
+          <div className="regPagos__cont__form--date">
             <Controller
               control={control}
               name="fechaInicio"
@@ -215,7 +225,7 @@ const PagoContainer = () => {
             />
           </div>
 
-          <div>
+          <div className="regPagos__cont__form--date">
             <Controller
               control={control}
               name="fechaFin"
@@ -231,64 +241,107 @@ const PagoContainer = () => {
           </div>
 
           <input
+            className="regPagos__cont__form--nombre"
             {...register("filtro nombre")}
             placeholder="Nombre"
             onChange={(e) => setFiltro(e.target.value)}
             type="text"
           />
-
-          {/* <button type="submit">Submit</button> */}
         </form>
 
-        {/* Tabla ------------------------------------- */}
+        <div className="regPagos__cont__total">
+          <div className="regPagos__cont__total--neto">
+            <h4>${GranTotal.bruto}</h4>
+            <p>Bruto</p>
+          </div>
+
+          <div className="regPagos__cont__total--neto">
+            <h4>${GranTotal.neto}</h4>
+            <p>Neto</p>
+          </div>
+        </div>
+
+        {/* <div className="regPagos__cont__lineaCont">
+          <hr className="regPagos__cont__lineaCont--linea"></hr>
+        </div> */}
+
+        <div className="regPagos__cont__tabla">
+          {pagoSecciones ? (
+            pagoSecciones.map((seccion, index) => (
+              <div key={index}>
+                {seccion.length > 0 && TotalSecciones.length > 0 ? (
+                  <div>
+
+                    <div className="regPagos__cont__tabla__lineCont">
+                      <div className="regPagos__cont__tabla__lineCont--line"></div>
+                    </div>
+
+                    <div className="regPagos__cont__tabla__total">
+                      <div className="regPagos__cont__tabla__total--medio">
+                        <h4>
+                          {seccion[0].facturaPago.medioPagoFactura.medioPago}
+                        </h4>
+                      </div>
+
+                      <div className="regPagos__cont__tabla__total--neto">
+                        <h4>${TotalSecciones[index].valorBruto}</h4>
+                        <p>Bruto</p>
+                      </div>
+
+                      <div className="regPagos__cont__tabla__total--neto">
+                        <h4>${TotalSecciones[index].valorNeto}</h4>
+                        <p>Neto</p>
+                      </div>
+                    </div>
+                    <table className="regPagos__cont__tabla__tbl">
+                      <thead className="regPagos__cont__tabla__tbl--header">
+                        <tr className="regPagos__cont__tabla__tbl--header--row">
+                          <th className="regPagos__cont__tabla__tbl--header--r1">
+                            Pago/Desemb
+                          </th>
+                          <th className="regPagos__cont__tabla__tbl--header--r2">
+                            Bruto
+                          </th>
+                          <th className="regPagos__cont__tabla__tbl--header--r3">
+                            Neto
+                          </th>
+                          <th className="regPagos__cont__tabla__tbl--header--r4">
+                            Tipo Pago
+                          </th>
+                          <th className="regPagos__cont__tabla__tbl--header--r5">
+                            Cliente
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="regPagos__cont__tabla__tbl--body">
+                        {seccion.map((pago, index) => (
+                          <Fragment key={index}>
+                            <tr className="regPagos__cont__tabla__tbl--body--line"></tr>
+                            <tr className="regPagos__cont__tabla__tbl--body--row">
+                              {pago.estado == 1 ? (
+                                <RegPagoRow
+                                  // key={index}
+                                  pago={pago}
+                                ></RegPagoRow>
+                              ) : (
+                                <Fragment></Fragment>
+                              )}
+                            </tr>
+                          </Fragment>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            ))
+          ) : (
+            <Fragment></Fragment>
+          )}
+        </div>
       </div>
-
-      {pagoSecciones
-        ? pagoSecciones.map((seccion, index) => (
-            <div key={index}>
-              {seccion.length > 0 && TotalSecciones.length > 0 ? (
-                <div>
-                  <h3>{seccion[0].facturaPago.medioPagoFactura.medioPago}</h3>
-                  <h5>Bruto: {TotalSecciones[index].valorBruto}</h5>
-                  <h5>Neto: {TotalSecciones[index].valorNeto}</h5>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Fecha</th>
-                        <th>Desembolso</th>
-                        <th>Valor</th>
-                        <th>Neto</th>
-                        <th>Medio</th>
-                        <th>Cliente</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {seccion.map((pago, index2) =>
-                        pago.estado == 1 ? (
-                          <PagoRow key={index2} pago={pago}></PagoRow>
-                        ) : (
-                          ""
-                        )
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ))
-        : resultados.map((pago, index) => {
-            
-            {/* <PagoRow key={index} pago={pago}></PagoRow> */}
-
-      })}
-
-      <h2>Totales</h2>
-      <h4>Bruto: {GranTotal.bruto}</h4>
-      <h4>Neto: {GranTotal.neto}</h4>
     </div>
   );
-};
-
-export default PagoContainer;
+}
