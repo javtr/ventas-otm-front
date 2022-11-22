@@ -19,6 +19,7 @@ import FormLogin from "./components/pure/forms/formLogin";
 import { GetUserByToken } from "./Services/axiosService";
 import AdminUserContainer from "./components/containers/adminUserContainer";
 import RegPagosCont from "./components/containers/regPagosCont";
+import NotFound from "./components/pure/notFound";
 
 export default function App() {
   const [loged, setLoged] = useState(false);
@@ -98,6 +99,8 @@ export default function App() {
       <div className="App">
         <Routes>
 
+
+        <Route path='*' element={<NotFound />} />
           {/* incio anidadas */}
 
           <Route path="/" element={initialRoute()}>

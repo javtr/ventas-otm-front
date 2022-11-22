@@ -1,0 +1,21 @@
+.notFound {
+  width: 500px;
+  margin: 0 auto;
+  background-color: $white;
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__title {
+    font-size: 34px;
+    color: $dark-gray;
+    font-weight: bold;
+    text-align: center;
+
+    background-color: $light;
+
+    padding: 30px;
+    border-radius: 50px;
+  }
+}
