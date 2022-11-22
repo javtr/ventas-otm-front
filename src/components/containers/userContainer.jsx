@@ -50,14 +50,20 @@ const UserContainer = () => {
 
   return (
     <div className="userInfoContainer">
-    
+      {/* { params.userId.estado != 2 ? */}
       <Cliente></Cliente>
+      {/* :
+        <></>
+        } */}
 
       <div>
-        {facturas.map((factura, index) => (
-          <Factura key={index} facturaProp={factura}></Factura>
-          //<FacturaCliente key={index} factura={factura}></FacturaCliente>
-        ))}
+        {facturas.map((factura, index) => {
+          return factura.compraActiva != 2 ? (
+            <Factura key={index} facturaProp={factura}></Factura>
+          ) : (
+            null
+          );
+        })}
       </div>
 
       {/* <div>
@@ -65,8 +71,6 @@ const UserContainer = () => {
           <FacturaCliente key={index} factura={factura}></FacturaCliente>
         ))}
       </div> */}
-
-
     </div>
   );
 };

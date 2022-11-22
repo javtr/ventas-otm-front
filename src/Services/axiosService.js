@@ -52,6 +52,12 @@ export function PutClienteEdit(objeto) {
   return AxiosRequest.put("/cliente/edit", objeto);
 }
 
+export function PutClienteEditEstado(id) {
+  return AxiosRequest.put("/cliente/editEstado/"+ id,{});
+}
+
+
+
 
 //factura --------------------------------------------
 export function GetFactura(id) {
@@ -61,6 +67,13 @@ export function GetFactura(id) {
 export function PutFacturaEdit(objeto) {
   return AxiosRequest.put("/factura/edit", objeto);
 }
+
+export function PutFacturaEditEstado(id) {
+  return AxiosRequest.put("/factura/editEstado/"+ id,{});
+}
+
+
+
 
 //medio pago --------------------------------------------
 export function GetMedioPago(id) {

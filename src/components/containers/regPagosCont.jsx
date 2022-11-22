@@ -94,7 +94,8 @@ export default function RegPagosCont() {
       const estadoPago = pago.facturaPago.clienteFactura.estado;
       const estadoFactura = pago.facturaPago.compraActiva;
 
-      if (estadoPago == 1 && estadoFactura) {
+
+      if (estadoPago == 0 && estadoFactura == 0 ) {
         return true;
       } else {
         return false;
@@ -155,8 +156,12 @@ export default function RegPagosCont() {
         pagoSecciones.push(
           resultados.filter(function (pago) {
             if (
+              //filtros de estado de pago, cliente y factura
               pago.facturaPago.medioPagoFactura.medioPago === medio &&
-              pago.estado == 1
+              pago.estado == 0 &&
+              pago.facturaPago.compraActiva == 0 &&
+              pago.facturaPago.clienteFactura.estado == 0
+
             ) {
               return true;
             } else {
@@ -196,6 +201,9 @@ export default function RegPagosCont() {
       GranTotal.neto = GranTotal.neto + seccion.valorNeto;
     });
   }
+
+  // console.log(pagos);
+
 
   return (
     <div className="regPagos">
@@ -271,7 +279,6 @@ export default function RegPagosCont() {
               <div key={index}>
                 {seccion.length > 0 && TotalSecciones.length > 0 ? (
                   <div>
-
                     <div className="regPagos__cont__tabla__lineCont">
                       <div className="regPagos__cont__tabla__lineCont--line"></div>
                     </div>
@@ -318,14 +325,11 @@ export default function RegPagosCont() {
                           <Fragment key={index}>
                             <tr className="regPagos__cont__tabla__tbl--body--line"></tr>
                             <tr className="regPagos__cont__tabla__tbl--body--row">
-                              {pago.estado == 1 ? (
                                 <RegPagoRow
                                   // key={index}
                                   pago={pago}
                                 ></RegPagoRow>
-                              ) : (
-                                <Fragment></Fragment>
-                              )}
+                             
                             </tr>
                           </Fragment>
                         ))}

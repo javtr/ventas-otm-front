@@ -3,7 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { GetCliente, PutClienteEdit } from "../../Services/axiosService";
+import { GetCliente, PutClienteEdit, PutClienteEditEstado } from "../../Services/axiosService";
 import { useParams } from "react-router-dom";
 
 const Cliente = () => {
@@ -36,7 +36,7 @@ const Cliente = () => {
     setValue("idMachine", usuario.idMachine);
     setValue("comentario1", usuario.comentario1);
     setValue("comentario2", usuario.comentario2);
-    setValue("estado", usuario.estado == 1 ? true : false);
+    setValue("estado", usuario.estado == 0 ? true : false);
   }
 
   //envio formulario
@@ -49,11 +49,11 @@ const Cliente = () => {
       idMachine: data.idMachine,
       comentario1: data.comentario1,
       comentario2: data.comentario2,
-      estado: data.estado ? 1 : 0,
+      estado: data.estado ? 0 : 1,
     };
 
-    console.log(usuarioEditado);
-    //saveCliente(usuarioEditado);
+    // console.log(usuarioEditado);
+    saveCliente(usuarioEditado);
   }
 
   const saveCliente = (objeto) => {
@@ -66,6 +66,39 @@ const Cliente = () => {
       })
       .finally(() => {});
   };
+
+  const saveClienteEstado = (objeto) => {
+    PutClienteEdit(objeto)
+      .then((response) => {
+        console.log(response);
+        navigate("/reg-clientes");
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {});
+  };
+
+
+  const deleteEstadoCliente = (id) => {
+
+    const usuarioEditado = {
+      id: parseInt(params.userId),
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      correo: usuario.correo,
+      idMachine: usuario.idMachine,
+      comentario1: usuario.comentario1,
+      comentario2: usuario.comentario2,
+      estado: 2,
+    };
+
+    saveClienteEstado(usuarioEditado);
+
+
+
+  };
+
 
   return (
     <div className="user">
@@ -83,7 +116,7 @@ const Cliente = () => {
               <IconContext.Provider value={{ className: "user__cont__content--estado--delete" }}>
                 <MdDelete
                   onClick={() => {
-                    editarCliente(usuario.id);
+                    deleteEstadoCliente(usuario.id);
                   }}
                 />
               </IconContext.Provider>
@@ -93,7 +126,9 @@ const Cliente = () => {
                   className="checkEstado--input"
                   type="checkbox"
                   {...register("estado")}
-                  onChange={(e) => {}}
+                  onChange={(e) => {
+
+                  }}
                 />
 
                 <div className="checkEstado--shape"></div>

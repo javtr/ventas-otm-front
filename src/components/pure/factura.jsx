@@ -3,7 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { GetCliente, PutClienteEdit } from "../../Services/axiosService";
+import { GetCliente, PutFacturaEditEstado } from "../../Services/axiosService";
 import { useParams } from "react-router-dom";
 import {
   GetFactura,
@@ -28,7 +28,8 @@ const Factura = ({ facturaProp }) => {
   if (factura) {
     setValue("fecha", factura.fechaCompra);
     setValue("valor", factura.valorCompra);
-    setValue("estado", factura.compraActiva == 1 ? true : false);
+    setValue("estado", factura.compraActiva);
+
     if (factura.medioPagoFactura) {
       setValue("medio", factura.medioPagoFactura.id);
     }
@@ -68,20 +69,55 @@ const Factura = ({ facturaProp }) => {
       .finally(() => {});
   };
 
+  const saveFacturaEstado = (objeto) => {
+    PutFacturaEdit(objeto)
+      .then((response) => {
+        console.log(response);
+        setFactura({});
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {});
+  };
+
   //envio de datos
   function formSumit(data) {
     const facturaEditada = {
       id: factura.id,
       fechaCompra: data.fecha,
       valorCompra: data.valor,
-      compraActiva: data.estado,
+      compraActiva: data.estado ? 0 : 1,
       medioPagoFactura: {
         id: data.medio,
       },
       tipoPagoFactura: factura.tipoPagoFactura,
       clienteFactura: factura.clienteFactura,
     };
+
+    saveFactura(facturaEditada);
   }
+
+  const deleteEstado = (id) => {
+    console.log(id);
+
+    const facturaEditada = {
+      id: factura.id,
+      fechaCompra: factura.fechaCompra,
+      valorCompra: factura.valorCompra,
+      compraActiva: 2,
+      medioPagoFactura: {
+        id: factura.medioPagoFactura.id,
+      },
+      tipoPagoFactura: factura.tipoPagoFactura,
+      clienteFactura: factura.clienteFactura,
+    };
+
+    // console.log(facturaEditada);
+    // console.log(factura);
+
+    saveFacturaEstado(facturaEditada);
+  };
 
   return (
     <div className="factura">
@@ -100,7 +136,7 @@ const Factura = ({ facturaProp }) => {
               >
                 <MdDelete
                   onClick={() => {
-                    // editarCliente(usuario.id);
+                    deleteEstado(facturaProp.id);
                   }}
                 />
               </IconContext.Provider>
@@ -115,8 +151,6 @@ const Factura = ({ facturaProp }) => {
 
                 <div className="checkEstado--shape"></div>
               </div>
-
-              
             </div>
 
             <div className="factura__cont__content--nombre">
@@ -147,7 +181,6 @@ const Factura = ({ facturaProp }) => {
         <PagosDetailCont facturaId={facturaProp.id}></PagosDetailCont>
 
         <ComprasDetailCont facturaId={facturaProp.id}></ComprasDetailCont>
-        
       </div>
     </div>
   );

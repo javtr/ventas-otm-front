@@ -28,15 +28,12 @@ export default function RegClientesCont() {
   }
 
   return (
-
-    
     <div className="regClientes">
       <div className="regClientes__container">
-
         <div className="regClientes__container--titleCont">
           <div className="regClientes__container--title"></div>
         </div>
-        
+
         <input className="regClientes__input" type="text"></input>
 
         <table className="regClientes__table">
@@ -49,23 +46,25 @@ export default function RegClientesCont() {
           </thead>
 
           <tbody className="regClientes__body">
-            {clientes.map((cliente, index) => (
-              <Fragment key={index}>
-                <tr className="regClientes__body--line"></tr>
-                <tr className="regClientes__body--row">
-                  <RegCliente
-                    key={index}
-                    cliente={cliente}
-                    abrirUsuario={reporteUsuario}
-                  ></RegCliente>
-                </tr>
-              </Fragment>
-            ))}
+            {clientes.map((cliente, index) => {
+              return cliente[6] != 2 ? (
+                <Fragment key={index}>
+                  <tr className="regClientes__body--line"></tr>
+                  <tr className="regClientes__body--row">
+                    <RegCliente
+                      key={index}
+                      cliente={cliente}
+                      abrirUsuario={reporteUsuario}
+                    ></RegCliente>
+                  </tr>
+                </Fragment>
+              ) : (
+                null
+              );
+            })}
           </tbody>
         </table>
       </div>
     </div>
-
-
   );
 }

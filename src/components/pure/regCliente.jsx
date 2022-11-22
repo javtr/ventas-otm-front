@@ -9,7 +9,6 @@ export default function RegCliente({ cliente, abrirUsuario }) {
           <IconContext.Provider value={{ className: "regClientes__body--row--action--icon" }}>
             <FiEdit
               onClick={() => {
-                console.log("hola");
               }}
             />
           </IconContext.Provider>
