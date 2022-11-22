@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { PostLogin, GetUserByToken } from "../../../Services/axiosService";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,15 @@ export default function FormLogin() {
   const { register, control, handleSubmit, watch } = useForm();
   const navigate = useNavigate();
   const { userDataContext, setUserDataContext } = useContext(UserContext);
+  const [cloudState, setCloudState] = useState("cloud--on");
 
-  console.log("llega login");
+  useEffect(() => {
+    if (localStorage.conection == 0) {
+      setCloudState("cloud--on");
+    } else if (localStorage.conection == 1) {
+      setCloudState("cloud--off");
+    }
+  }, []);
 
   function submit(data) {
     const usuarionTemp = {
@@ -52,29 +59,50 @@ export default function FormLogin() {
   function turnConection() {
     if (localStorage.conection == 1) {
       localStorage.conection = 0;
-    } else if (localStorage.conection == 0){
+      setCloudState("cloud--on");
+    } else if (localStorage.conection == 0) {
       localStorage.conection = 1;
+      setCloudState("cloud--off");
     }
   }
 
   return (
-    <div style={{ width: "300px", margin: "0 auto" }}>
-      <button onClick={() => turnConection()}>Cloud</button>
+    <div className="formLoginCont">
+      <div className="formLogin__form--buttonReg">
+        <button
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          Registrarse
+        </button>
+      </div>
 
-      <form onSubmit={handleSubmit(submit)}>
-        <input {...register("email")} placeholder="Email" type="text" />
+      <div className="formLogin">
+        <div className="formLogin--cloud">
+          <button className={cloudState} onClick={() => turnConection()}>
+            {cloudState == "cloud--on" ? "C" : "L"}
+          </button>
+        </div>
 
-        <input {...register("password")} placeholder="Password" type="text" />
+        <form className="formLogin__form" onSubmit={handleSubmit(submit)}>
+          <div className="formLogin__form--input">
+            <input {...register("email")} placeholder="Email" type="text" />
+          </div>
 
-        <button type="submit">Ingresar</button>
-      </form>
-      <button
-        onClick={() => {
-          navigate("/register");
-        }}
-      >
-        Register
-      </button>
+          <div className="formLogin__form--input">
+            <input
+              {...register("password")}
+              placeholder="Password"
+              type="text"
+            />
+          </div>
+
+          <div className="formLogin__form--button">
+            <button type="submit">Ingresar</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

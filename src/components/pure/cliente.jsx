@@ -53,13 +53,18 @@ const Cliente = () => {
     };
 
     // console.log(usuarioEditado);
-    saveCliente(usuarioEditado);
+
+    if (confirm("guardar registro")) {
+      saveCliente(usuarioEditado);
+    }
+
   }
 
   const saveCliente = (objeto) => {
     PutClienteEdit(objeto)
       .then((response) => {
-        console.log(response);
+        alert('cambios guardados');
+
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -71,6 +76,7 @@ const Cliente = () => {
     PutClienteEdit(objeto)
       .then((response) => {
         console.log(response);
+        alert('usuario eliminado');
         navigate("/reg-clientes");
       })
       .catch((error) => {
@@ -93,10 +99,9 @@ const Cliente = () => {
       estado: 2,
     };
 
-    saveClienteEstado(usuarioEditado);
-
-
-
+    if (confirm("eliminar usuario?")) {
+      saveClienteEstado(usuarioEditado);
+    }
   };
 
 

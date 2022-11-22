@@ -3,17 +3,14 @@ import { useForm } from "react-hook-form";
 import { PostUsuario } from "../../../Services/axiosService";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function FormRegister() {
   const { register, control, handleSubmit, watch } = useForm();
   const navigate = useNavigate();
 
   function submit(data) {
-
     const usuarionTemp = {
       user: data.email,
-      password: data.password
+      password: data.password,
     };
 
     enviarUsuario(usuarionTemp);
@@ -31,19 +28,36 @@ export default function FormRegister() {
   };
 
   return (
-    <div style={{ width:"300px",margin:"0 auto"}}>
-      <form onSubmit={handleSubmit(submit)}>
-        <input {...register("email")} placeholder="Email" type="text" />
+    <div className="formLoginCont">
+      <div className="formLogin__form--buttonReg">
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          login
+        </button>
+      </div>
 
-        <input {...register("password")} placeholder="Password" type="text" />
+      <div className="formLogin">
+        <form className="formLogin__form" onSubmit={handleSubmit(submit)}>
+          <div className="formLogin__form--input">
+            <input {...register("email")} placeholder="Email" type="text" />
+          </div>
 
-        <button type="submit">Registrar</button>
-      </form>
-      <button
-        onClick={() => {
-          navigate("/login");
-        }}
-      >login</button>
+          <div className="formLogin__form--input">
+            <input
+              {...register("password")}
+              placeholder="Password"
+              type="text"
+            />
+          </div>
+
+          <div className="formLogin__form--button">
+            <button type="submit">Registrar</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

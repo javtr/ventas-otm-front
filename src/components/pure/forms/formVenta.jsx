@@ -45,6 +45,7 @@ export default function FormVenta() {
       const respValitator = validatorForm(data);
 
       if (respValitator == "ok") {
+
         const dataForm = {
           clienteid: parseInt(data.cliente_id),
           clienteEx: clientesEx,
@@ -69,7 +70,11 @@ export default function FormVenta() {
         }
 
         if (precioFinal > 0) {
-          saveRegistro(dataForm);
+
+          if (confirm("guardar registro")) {
+            saveRegistro(dataForm);
+          }
+
         } else {
           console.log("error valor final");
         }

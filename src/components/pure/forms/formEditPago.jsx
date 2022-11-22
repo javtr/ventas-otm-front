@@ -42,8 +42,8 @@ export default function FormEditPago() {
       fechaPago: data.fecha,
       fechaDesembolso: data.desembolso,
       valorPago: data.bruto,
-      valorPagoNeto:data.neto,
-      estado:data.estado,
+      valorPagoNeto: data.neto,
+      estado: data.estado,
       facturaPago: pago.facturaPago,
     };
 
@@ -64,25 +64,39 @@ export default function FormEditPago() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(pagoSubmit)}>
-        <div>Fecha:</div>
-        <input {...register("fecha")} type="text" />
+    <div className="formPago">
+      <form className="formPago__form" onSubmit={handleSubmit(pagoSubmit)}>
+       
+        <div className="formPago__form--input">
+          <div>Fecha:</div>
+          <input {...register("fecha")} type="text" />
+        </div>
 
-        <div>Desembolso:</div>
-        <input {...register("desembolso")} type="text" />
+        <div className="formPago__form--input">
+          <div>Desembolso:</div>
+          <input {...register("desembolso")} type="text" />
+        </div>
 
-        <div>Bruto:</div>
-        <input {...register("bruto")} type="text" />
+        <div className="formPago__form--input">
+          <div>Bruto:</div>
+          <input {...register("bruto")} type="text" />
+        </div>
 
-        <div>Neto:</div>
-        <input {...register("neto")} type="text" />
+        <div className="formPago__form--input">
+          <div>Neto:</div>
+          <input {...register("neto")} type="text" />
+        </div>
 
-        <div>Estado:</div>
-        <input {...register("estado")} type="number" />
+        <div className="formPago__form--input">
+          <div>Estado:</div>
+          <input {...register("estado")} type="number" />
+        </div>
 
-        <br></br>
-        <button type="submit">Modificar</button>
+        <div className="formPago__form--button">
+          <br></br>
+          <button type="submit">Modificar</button>
+        </div>
+
       </form>
     </div>
   );

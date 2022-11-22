@@ -18,17 +18,24 @@ const Factura = ({ facturaProp }) => {
   const [factura, setFactura] = useState({});
   const [mediosPago, setMediosPago] = useState([]);
   const { register, control, handleSubmit, watch, setValue } = useForm();
+  
+  const navigate = useNavigate();
 
   // inicio
   useEffect(() => {
-    obtenerFactura(facturaProp.id);
+    // obtenerFactura(facturaProp.id);
+
+    setFactura(facturaProp);
+    
+    console.log(facturaProp);
+
     obtenerMediosPago();
   }, []);
 
   if (factura) {
     setValue("fecha", factura.fechaCompra);
     setValue("valor", factura.valorCompra);
-    setValue("estado", factura.compraActiva);
+    setValue("estado", !factura.compraActiva);
 
     if (factura.medioPagoFactura) {
       setValue("medio", factura.medioPagoFactura.id);
@@ -40,6 +47,7 @@ const Factura = ({ facturaProp }) => {
     GetFactura(id)
       .then((response) => {
         setFactura(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -62,6 +70,8 @@ const Factura = ({ facturaProp }) => {
     PutFacturaEdit(objeto)
       .then((response) => {
         console.log(response);
+        alert("cambios guardados");
+
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -72,8 +82,11 @@ const Factura = ({ facturaProp }) => {
   const saveFacturaEstado = (objeto) => {
     PutFacturaEdit(objeto)
       .then((response) => {
-        console.log(response);
-        setFactura({});
+        alert("factura eliminada, recargar pagina");
+        // navigate(`/cliente/${facturaProp.clienteFactura.id}`);
+        navigate("/reg-clientes");
+
+
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -95,7 +108,9 @@ const Factura = ({ facturaProp }) => {
       clienteFactura: factura.clienteFactura,
     };
 
-    saveFactura(facturaEditada);
+    if (confirm("guardar cambios?")) {
+      saveFactura(facturaEditada);
+    }
   }
 
   const deleteEstado = (id) => {
@@ -113,10 +128,9 @@ const Factura = ({ facturaProp }) => {
       clienteFactura: factura.clienteFactura,
     };
 
-    // console.log(facturaEditada);
-    // console.log(factura);
-
-    saveFacturaEstado(facturaEditada);
+    if (confirm("eliminar factura?")) {
+      saveFacturaEstado(facturaEditada);
+    }
   };
 
   return (
@@ -146,7 +160,9 @@ const Factura = ({ facturaProp }) => {
                   className="checkEstado--input"
                   type="checkbox"
                   {...register("estado")}
-                  onChange={(e) => {}}
+                  onChange={(e) => {
+
+                  }}
                 />
 
                 <div className="checkEstado--shape"></div>

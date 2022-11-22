@@ -36,16 +36,14 @@ export default function FormEditCompra() {
 
   //envio formulario
   function compraSubmit(data) {
-
     const compraEditado = {
       id: compra.id,
       precioCompra: data.bruto,
       precioFinal: data.neto,
       cantidad: data.cantidad,
-      productoCompra:compra.productoCompra,
-      clienteCompra:compra.clienteCompra,
-      facturaCompra:compra.facturaCompra,
-
+      productoCompra: compra.productoCompra,
+      clienteCompra: compra.clienteCompra,
+      facturaCompra: compra.facturaCompra,
     };
 
     // console.log(compraEditado);
@@ -65,21 +63,24 @@ export default function FormEditCompra() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(compraSubmit)}>
-
-
-        <div>Precio bruto:</div>
-        <input {...register("bruto")} type="text" />
-
-        <div>Precio neto:</div>
-        <input {...register("neto")} type="text" />
-
-        <div>Cantidad:</div>
-        <input {...register("cantidad")} type="number" />
-
-        <br></br>
-        <button type="submit">Modificar</button>
+    <div className="formPago">
+      <form className="formPago__form" onSubmit={handleSubmit(compraSubmit)}>
+        <div className="formPago__form--input">
+          <div>Precio bruto:</div>
+          <input {...register("bruto")} type="text" />
+        </div>
+        <div className="formPago__form--input">
+          <div>Precio neto:</div>
+          <input {...register("neto")} type="text" />
+        </div>
+        <div className="formPago__form--input">
+          <div>Cantidad:</div>
+          <input {...register("cantidad")} type="number" />
+        </div>
+        <div className="formPago__form--button">
+          <br></br>
+          <button type="submit">Modificar</button>
+        </div>
       </form>
     </div>
   );
