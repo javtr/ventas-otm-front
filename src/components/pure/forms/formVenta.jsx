@@ -76,10 +76,12 @@ export default function FormVenta() {
           }
 
         } else {
-          console.log("error valor final");
+          // console.log("error valor final");
+          alert("error valor final")
         }
       } else {
-        console.log(respValitator);
+        // console.log(respValitator);
+        alert(respValitator)
       }
     }
   }

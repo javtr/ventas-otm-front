@@ -1,6 +1,8 @@
 .regClientes {
   width: 100%;
   padding: 80px 20px 20px 20px;
+  max-width: $max-w;
+  margin: 0 auto;
 
   &__container {
     display: flex;
@@ -35,6 +37,16 @@
     margin-left: 20px;
     margin-bottom: 35px;
   }
+
+  &__tableCont{
+    height: 75vh;
+    overflow: scroll;
+    // box-shadow: inset 0px 49px 23px -39px rgba(0,0,0,0.36);
+    padding-top: 35px;
+    border-top: 1px solid $light-gray;
+    
+  }
+
 
   &__table {
     width: 100%;
@@ -74,6 +86,7 @@
 
     &--row {
       height: 60px;
+      border-top: 1px dashed $light-gray;
 
       &--action {
         height: 60px;

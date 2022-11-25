@@ -24,11 +24,7 @@ const Factura = ({ facturaProp }) => {
   // inicio
   useEffect(() => {
     // obtenerFactura(facturaProp.id);
-
     setFactura(facturaProp);
-    
-    console.log(facturaProp);
-
     obtenerMediosPago();
   }, []);
 

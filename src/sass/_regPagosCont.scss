@@ -1,6 +1,8 @@
 .regPagos {
   width: 100%;
   padding: 80px 20px 20px 20px;
+  max-width:$max-w;
+  margin: 0 auto;
 
   &__cont {
     background-color: $white;
