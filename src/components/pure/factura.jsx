@@ -9,6 +9,7 @@ import {
   GetFactura,
   PutFacturaEdit,
   GetAllMedios,
+  PutFacturaEstado,
 } from "../../Services/axiosService";
 import PagosDetailCont from "../containers/pagosDetailCont";
 import ComprasDetailCont from "../containers/comprasDetailCont";
@@ -18,7 +19,8 @@ const Factura = ({ facturaProp }) => {
   const [factura, setFactura] = useState({});
   const [mediosPago, setMediosPago] = useState([]);
   const { register, control, handleSubmit, watch, setValue } = useForm();
-  
+  const [cambioEstadoFactura, setCambioEstadoFactura] = useState(false);
+
   const navigate = useNavigate();
 
   // inicio
@@ -67,12 +69,29 @@ const Factura = ({ facturaProp }) => {
       .then((response) => {
         console.log(response);
         alert("cambios guardados");
-
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
       })
       .finally(() => {});
+  };
+
+  const editarEstadoFactura = (objeto,estado) => {
+
+    objeto.compraActiva = estado? 0:1;
+
+    console.log(objeto);
+
+    PutFacturaEstado(objeto)
+      .then((response) => {
+        console.log(response);
+        alert("cambios guardados");
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {});
+
   };
 
   const saveFacturaEstado = (objeto) => {
@@ -81,8 +100,6 @@ const Factura = ({ facturaProp }) => {
         alert("factura eliminada, recargar pagina");
         // navigate(`/cliente/${facturaProp.clienteFactura.id}`);
         navigate("/reg-clientes");
-
-
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -92,6 +109,7 @@ const Factura = ({ facturaProp }) => {
 
   //envio de datos
   function formSumit(data) {
+
     const facturaEditada = {
       id: factura.id,
       fechaCompra: data.fecha,
@@ -105,7 +123,17 @@ const Factura = ({ facturaProp }) => {
     };
 
     if (confirm("guardar cambios?")) {
-      saveFactura(facturaEditada);
+
+      let estadoAct = data.estado ? 0 : 1;
+
+      //verificar si cambio el estado de la factura
+      if (estadoAct =! factura.compraActiva) {
+
+        editarEstadoFactura(facturaEditada,data.estado);
+      } else {
+        saveFactura(facturaEditada);
+      }
+
     }
   }
 
@@ -157,7 +185,8 @@ const Factura = ({ facturaProp }) => {
                   type="checkbox"
                   {...register("estado")}
                   onChange={(e) => {
-
+                    console.log("edita");
+                    // setCambioEstadoFactura(true);
                   }}
                 />
 

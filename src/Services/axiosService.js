@@ -72,6 +72,10 @@ export function PutFacturaEditEstado(id) {
   return AxiosRequest.put("/factura/editEstado/"+ id,{});
 }
 
+export function PutFacturaEstado(objeto) {
+  return AxiosRequest.put("/factura/editEstadoAct", objeto);
+}
+
 
 
 
