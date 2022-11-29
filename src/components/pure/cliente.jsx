@@ -68,7 +68,9 @@ const Cliente = () => {
       // if ((estadoAct = !usuario.estado)) {
         if (true) {
         
-        updateClienteEstado(usuarioEditado, data.estado);
+        // updateClienteEstado(usuarioEditado, data.estado);
+
+        saveCliente(usuarioEditado);
       } else {
         saveCliente(usuarioEditado);
       }

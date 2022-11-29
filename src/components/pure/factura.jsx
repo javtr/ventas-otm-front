@@ -45,7 +45,6 @@ const Factura = ({ facturaProp }) => {
     GetFactura(id)
       .then((response) => {
         setFactura(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -67,7 +66,6 @@ const Factura = ({ facturaProp }) => {
   const saveFactura = (objeto) => {
     PutFacturaEdit(objeto)
       .then((response) => {
-        console.log(response);
         alert("cambios guardados");
       })
       .catch((error) => {
@@ -80,11 +78,9 @@ const Factura = ({ facturaProp }) => {
 
     objeto.compraActiva = estado? 0:1;
 
-    console.log(objeto);
 
     PutFacturaEstado(objeto)
       .then((response) => {
-        console.log(response);
         alert("cambios guardados");
       })
       .catch((error) => {
@@ -131,7 +127,10 @@ const Factura = ({ facturaProp }) => {
         if (true) {
 
 
-        editarEstadoFactura(facturaEditada,data.estado);
+        // editarEstadoFactura(facturaEditada,data.estado);
+
+        saveFactura(facturaEditada);
+        
       } else {
         saveFactura(facturaEditada);
       }
@@ -140,7 +139,6 @@ const Factura = ({ facturaProp }) => {
   }
 
   const deleteEstado = (id) => {
-    console.log(id);
 
     const facturaEditada = {
       id: factura.id,

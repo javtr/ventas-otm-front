@@ -21,6 +21,7 @@ export default function RegClientesCont() {
       .finally(() => {});
   };
 
+
   const navigate = useNavigate();
 
   function reporteUsuario(index) {

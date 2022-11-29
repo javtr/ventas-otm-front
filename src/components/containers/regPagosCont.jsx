@@ -4,7 +4,8 @@ import {
   GetPagos,
   GetQueryPagosFecha,
   GetAllMedios,
-  GetPagosDto
+  GetPagosDto,
+  GetQueryPagosActivos,
 } from "../../Services/axiosService";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
@@ -14,6 +15,7 @@ import RegPagoRow from "../pure/regPagoRow";
 export default function RegPagosCont() {
   const { register, control, handleSubmit, watch } = useForm();
   const [pagos, setPagos] = useState([]);
+  const [pagosQuery, setPagosQuery] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [filtroDateIni, setFiltroDateIni] = useState("");
   const [filtroDateFin, setFiltroDateFin] = useState("");
@@ -27,9 +29,40 @@ export default function RegPagosCont() {
 
   //llamados ------------------------------------------------
   useEffect(() => {
-    obtainPagos();
+    // obtainPagos();
     obtainMedios();
+    obtainPagosQuery();
   }, []);
+
+  const obtainPagosQuery = () => {
+    GetQueryPagosActivos()
+      .then((response) => {
+
+        // console.log(response.data);
+
+        var objs = response.data.map((x) => ({
+          id: x[0],
+          fechaPago: x[1],
+          fechaDesembolso: x[2],
+          valorPago: x[3],
+          valorPagoNeto: x[4],
+          tipoPago: x[5],
+          clienteNombre: x[6],
+          estadoPago: x[7]
+        }));
+
+        // console.log(objs);
+
+
+        setPagos(objs);
+        
+
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {});
+  };
 
   function onSubmitForm(data) {
     const dataForm = {
@@ -56,9 +89,9 @@ export default function RegPagosCont() {
   const obtainPagos = () => {
     // GetPagos()
     GetPagosDto()
-  
       .then((response) => {
         setPagos(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -97,16 +130,14 @@ export default function RegPagosCont() {
       // const estadoPago = pago.facturaPago.clienteFactura.estado;
       // const estadoFactura = pago.facturaPago.compraActiva;
 
-      if (pago.estadoClientePago == 0 && pago.estadoFacturaPago == 0 ) {
-        return true;
+      // if (pago.estadoClientePago == 0 && pago.estadoFacturaPago == 0) {
+        if (pago.estadoPago == 0) {
+          return true;
       } else {
         return false;
       }
     });
   }
-
-
-
 
   //filtrado por fechas
   if (filtroDateIni) {
@@ -119,9 +150,6 @@ export default function RegPagosCont() {
     });
   }
 
-
-
-
   if (filtroDateFin) {
     resultados = resultados.filter(function (pago) {
       if (pago.fechaDesembolso <= filtroDateFin) {
@@ -132,15 +160,11 @@ export default function RegPagosCont() {
     });
   }
 
-
-
   //filtro por nombre
   if (filtro) {
     resultados = resultados.filter(function (pago) {
       if (
-        pago.clienteNombre
-          .toLowerCase()
-          .includes(filtro.toLocaleLowerCase()) 
+        pago.clienteNombre.toLowerCase().includes(filtro.toLocaleLowerCase())
       ) {
         return true;
       } else {
@@ -148,7 +172,6 @@ export default function RegPagosCont() {
       }
     });
   }
-
 
   //ordenar los datos
   resultados = resultados.sort((p1, p2) =>
@@ -158,9 +181,6 @@ export default function RegPagosCont() {
   //dividir resultados en medios de pago ---------------------------------------------------------
 
   if (medios.length > 0 && resultados.length > 0) {
-
-
-
     for (let i = 0; i < medios.length; i++) {
       const medio = medios[i].medioPago;
 
@@ -170,15 +190,12 @@ export default function RegPagosCont() {
             if (
               //filtros de estado de pago, cliente y factura
               pago.tipoPago == medio &&
-              pago.estadoPago == 0 &&
-              pago.estadoFacturaPago == 0 &&
-              pago.estadoClientePago == 0
-
+              pago.estadoPago == 0 
+              // pago.estadoFacturaPago == 0 &&
+              // pago.estadoClientePago == 0
             ) {
-
               return true;
             } else {
-
               return false;
             }
           })
@@ -186,9 +203,6 @@ export default function RegPagosCont() {
       }
     }
   }
-
-
-
 
   //calcular totales ----------------------------------------------
 
@@ -220,7 +234,6 @@ export default function RegPagosCont() {
   }
 
   // console.log(pagos);
-
 
   return (
     <div className="regPagos">
@@ -302,9 +315,7 @@ export default function RegPagosCont() {
 
                     <div className="regPagos__cont__tabla__total">
                       <div className="regPagos__cont__tabla__total--medio">
-                        <h4>
-                          {seccion[0].tipoPago}
-                        </h4>
+                        <h4>{seccion[0].tipoPago}</h4>
                       </div>
 
                       <div className="regPagos__cont__tabla__total--neto">
@@ -342,11 +353,10 @@ export default function RegPagosCont() {
                           <Fragment key={index}>
                             <tr className="regPagos__cont__tabla__tbl--body--line"></tr>
                             <tr className="regPagos__cont__tabla__tbl--body--row">
-                                <RegPagoRow
-                                  // key={index}
-                                  pago={pago}
-                                ></RegPagoRow>
-                             
+                              <RegPagoRow
+                                // key={index}
+                                pago={pago}
+                              ></RegPagoRow>
                             </tr>
                           </Fragment>
                         ))}
