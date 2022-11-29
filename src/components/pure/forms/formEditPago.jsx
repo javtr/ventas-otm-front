@@ -12,10 +12,10 @@ export default function FormEditPago() {
 
   //obtener cliente
   useEffect(() => {
-    obtenerCliente(params.pagoId);
+    obtenerPago(params.pagoId);
   }, []);
 
-  const obtenerCliente = (id) => {
+  const obtenerPago = (id) => {
     GetPago(id)
       .then((response) => {
         setPago(response.data);
@@ -28,6 +28,9 @@ export default function FormEditPago() {
 
   //usuario iniciado
   if (pago) {
+
+console.log(pago);
+
     setValue("fecha", pago.fechaPago);
     setValue("desembolso", pago.fechaDesembolso);
     setValue("bruto", pago.valorPago);
@@ -47,13 +50,22 @@ export default function FormEditPago() {
       facturaPago: pago.facturaPago,
     };
 
+    pago.fechaPago= data.fecha;
+    pago.fechaDesembolso= data.desembolso;
+    pago.valorPago= data.bruto;
+    pago.valorPagoNeto= data.neto;
+    pago.estado= data.estado;
+    pago.estado= data.estado;
+    
+
+
     // console.log(pagoEditado);
 
     savePago(pagoEditado);
   }
 
   const savePago = (objeto) => {
-    PutPagosEdit(objeto)
+    PutPagosEdit(pago)
       .then((response) => {
         console.log(response);
       })

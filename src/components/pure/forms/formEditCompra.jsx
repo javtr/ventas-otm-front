@@ -46,13 +46,19 @@ export default function FormEditCompra() {
       facturaCompra: compra.facturaCompra,
     };
 
+    compra.precioCompra= data.bruto;
+    compra.precioFinal= data.neto;
+    compra.cantidad= data.cantidad;
+
+
+
     // console.log(compraEditado);
 
     saveCompra(compraEditado);
   }
 
   const saveCompra = (objeto) => {
-    PutCompraEdit(objeto)
+    PutCompraEdit(compra)
       .then((response) => {
         console.log(response);
       })
