@@ -47,6 +47,9 @@ export function GetQueryClientes() {
     return AxiosRequest.get("/query/pagos-activos", {});
   }
 
+  export function GetQueryStatus() {
+    return AxiosRequest.get("/query/status", {});
+  }  
 
 
 //cliente --------------------------------------------

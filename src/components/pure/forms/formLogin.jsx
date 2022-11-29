@@ -1,6 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { PostLogin, GetUserByToken } from "../../../Services/axiosService";
+import {
+  PostLogin,
+  GetUserByToken,
+  GetQueryStatus,
+} from "../../../Services/axiosService";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../../context/context";
 
@@ -9,24 +13,43 @@ export default function FormLogin() {
   const navigate = useNavigate();
   const { userDataContext, setUserDataContext } = useContext(UserContext);
   const [cloudState, setCloudState] = useState("cloud--on");
+  const [status, setStatus] = useState("off");
 
   useEffect(() => {
-    // if (localStorage.conection == 0) {
-    //   setCloudState("cloud--on");
-    // } else if (localStorage.conection == 1) {
-    //   setCloudState("cloud--off");
-    // }
-
+    getStatus();
 
     if (localStorage.token == "") {
       console.log("login -No hay usuario");
-    } else {
+    } else if (status == "on") {
       pedirUsuario();
     }
-
-
   }, []);
 
+  //verificar status
+  const getStatus = () => {
+    GetQueryStatus()
+      .then((response) => {
+        // console.log(response.data);
+
+        if (response.data == "ok") {
+          setStatus("on");
+          setCloudState("cloud--on");
+        } else {
+          setStatus("off");
+          setCloudState("cloud--off");
+        }
+      })
+      .catch((error) => {
+        console.log("login-peticion user token fail login");
+
+        setStatus("off");
+        setCloudState("cloud--off");
+
+      })
+      .finally(() => {});
+  };
+
+  //get user by token
   const pedirUsuario = () => {
     GetUserByToken()
       .then((response) => {
@@ -41,8 +64,6 @@ export default function FormLogin() {
       })
       .finally(() => {});
   };
-
-
 
   function submit(data) {
     const usuarionTemp = {
@@ -66,6 +87,7 @@ export default function FormLogin() {
             user: response.data.user,
             rol: response.data.rol,
             token: response.data.token,
+            state: status
           };
 
           setUserDataContext(userTemp);
@@ -82,15 +104,22 @@ export default function FormLogin() {
       .finally(() => {});
   };
 
-  function turnConection() {
-    if (localStorage.conection == 1) {
-      localStorage.conection = 0;
-      setCloudState("cloud--on");
-    } else if (localStorage.conection == 0) {
-      localStorage.conection = 1;
-      setCloudState("cloud--off");
-    }
-  }
+  // function turnConection() {
+  //   if (localStorage.conection == 1) {
+  //     localStorage.conection = 0;
+  //     setCloudState("cloud--on");
+  //   } else if (localStorage.conection == 0) {
+  //     localStorage.conection = 1;
+  //     setCloudState("cloud--off");
+  //   }
+  // }
+
+
+  // if (status == "on") {
+  //   setCloudState("cloud--on");
+  // } else {
+  //   setCloudState("cloud--off");
+  // }
 
   return (
     <div className="formLoginCont">
@@ -106,8 +135,8 @@ export default function FormLogin() {
 
       <div className="formLogin">
         <div className="formLogin--cloud">
-          <button className={cloudState} onClick={() => turnConection()}>
-            {cloudState == "cloud--on" ? "C" : "L"}
+          <button className={cloudState}>
+            {cloudState == "cloud--on" ? "on" : "off"}
           </button>
         </div>
 

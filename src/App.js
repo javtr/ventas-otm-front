@@ -16,7 +16,7 @@ import FormEditCompra from "./components/pure/forms/formEditCompra";
 import FormAddPago from "./components/pure/forms/formAddPago";
 import FormRegister from "./components/pure/forms/formRegister";
 import FormLogin from "./components/pure/forms/formLogin";
-import { GetUserByToken } from "./Services/axiosService";
+import { GetUserByToken, GetQueryStatus } from "./Services/axiosService";
 import AdminUserContainer from "./components/containers/adminUserContainer";
 import RegPagosCont from "./components/containers/regPagosCont";
 import NotFound from "./components/pure/notFound";
@@ -24,23 +24,34 @@ import NotFound from "./components/pure/notFound";
 export default function App() {
   const [loged, setLoged] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState("off");
 
   const [userDataContext, setUserDataContext] = useState({
     id: 0,
     user: "",
     rol: "",
     token: "",
+    state: "",
   });
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    getStatus();
 
     if (!localStorage.conection) {
-      localStorage.conection = 0; 
+      localStorage.conection = 0;
     }
 
-    
+    // if (localStorage.token == "") {
+    //   console.log("app.js-No hay usuario");
+    //   navigate("/login");
+    // } else if(status == "on"){
+    //   pedirUsuario();
+    // } else if(status == "off"){
+    //   navigate("/login");
+    // }
+
     if (localStorage.token == "") {
       console.log("app.js-No hay usuario");
       navigate("/login");
@@ -48,6 +59,23 @@ export default function App() {
       pedirUsuario();
     }
   }, []);
+
+  //verificar status
+  const getStatus = () => {
+    GetQueryStatus()
+      .then((response) => {
+        if (response.data == "ok") {
+          setStatus("on");
+        } else {
+          setStatus("off");
+        }
+      })
+      .catch((error) => {
+        console.log("app-peticion user token fail login");
+        setStatus("off");
+      })
+      .finally(() => {});
+  };
 
   const pedirUsuario = () => {
     GetUserByToken()
@@ -61,6 +89,7 @@ export default function App() {
             user: response.data.user,
             rol: response.data.rol,
             token: response.data.token,
+            state: status,
           };
           setUserDataContext(userDataTemp);
           setLoged(true);
@@ -72,7 +101,6 @@ export default function App() {
         console.log(`app.js-Somethin went wrong: ${error}`);
         console.log("app.js token--------------");
         navigate("/login");
-        
       })
       .finally(() => {});
   };
@@ -98,9 +126,7 @@ export default function App() {
     <UserContext.Provider value={valueUserData}>
       <div className="App">
         <Routes>
-
-
-        <Route path='*' element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
           {/* incio anidadas */}
 
           <Route path="/" element={initialRoute()}>
@@ -109,7 +135,6 @@ export default function App() {
               element={<Home rol={userDataContext.rol}></Home>}
             ></Route>
 
-
             <Route path="sale" element={<FormComp></FormComp>}></Route>
 
             <Route
@@ -117,10 +142,7 @@ export default function App() {
               element={<RegClientesCont></RegClientesCont>}
             ></Route>
 
-            <Route
-              path="pagos"
-              element={<RegPagosCont></RegPagosCont>}
-            ></Route>
+            <Route path="pagos" element={<RegPagosCont></RegPagosCont>}></Route>
 
             <Route
               path="admin"
