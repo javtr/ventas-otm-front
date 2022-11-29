@@ -30,13 +30,13 @@ export default function RegPagoRow({pago}) {
 
       <td className="regPagos__cont__tabla__tbl--body--row">
         <div className="regPagos__cont__tabla__tbl--body--row--cont">
-          {pago.facturaPago.medioPagoFactura.medioPago}
+          {pago.tipoPago}
         </div>
       </td>
 
       <td className="regPagos__cont__tabla__tbl--body--row">
         <div className="regPagos__cont__tabla__tbl--body--row--cont">
-          {pago.facturaPago.clienteFactura.nombre + " " + pago.facturaPago.clienteFactura.apellido}
+          {pago.clienteNombre}
         </div>
       </td>
 

@@ -3,7 +3,12 @@ import { MdDelete } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { GetCliente, PutClienteEdit, PutClienteEditEstado } from "../../Services/axiosService";
+import {
+  GetCliente,
+  PutClienteEdit,
+  PutClienteEditEstado,
+  PutClienteEstado
+} from "../../Services/axiosService";
 import { useParams } from "react-router-dom";
 
 const Cliente = () => {
@@ -55,16 +60,25 @@ const Cliente = () => {
     // console.log(usuarioEditado);
 
     if (confirm("guardar registro")) {
-      saveCliente(usuarioEditado);
-    }
+      // saveCliente(usuarioEditado);
 
+      let estadoAct = data.estado ? 0 : 1;
+
+      //verificar si cambio el estado de la factura
+      // if ((estadoAct = !usuario.estado)) {
+        if (true) {
+        
+        updateClienteEstado(usuarioEditado, data.estado);
+      } else {
+        saveCliente(usuarioEditado);
+      }
+    }
   }
 
   const saveCliente = (objeto) => {
     PutClienteEdit(objeto)
       .then((response) => {
-        alert('cambios guardados');
-
+        alert("cambios guardados");
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -72,11 +86,28 @@ const Cliente = () => {
       .finally(() => {});
   };
 
+
+  const updateClienteEstado = (objeto,estado) => {
+
+    objeto.estado = estado? 0:1;
+
+    PutClienteEstado(objeto)
+      .then((response) => {
+        alert("cambios guardados");
+      })
+      .catch((error) => {
+        alert(`Somethin went wrong: ${error}`);
+      })
+      .finally(() => {});
+  };
+
+
+
   const saveClienteEstado = (objeto) => {
     PutClienteEdit(objeto)
       .then((response) => {
         console.log(response);
-        alert('usuario eliminado');
+        alert("usuario eliminado");
         navigate("/reg-clientes");
       })
       .catch((error) => {
@@ -86,8 +117,9 @@ const Cliente = () => {
   };
 
 
-  const deleteEstadoCliente = (id) => {
 
+
+  const deleteEstadoCliente = (id) => {
     const usuarioEditado = {
       id: parseInt(params.userId),
       nombre: usuario.nombre,
@@ -104,7 +136,6 @@ const Cliente = () => {
     }
   };
 
-
   return (
     <div className="user">
       <div className="user__cont">
@@ -117,8 +148,9 @@ const Cliente = () => {
             <div className="user__cont__content--estado">
               {/* <input {...register("estado")} type="checkbox" /> */}
 
-
-              <IconContext.Provider value={{ className: "user__cont__content--estado--delete" }}>
+              <IconContext.Provider
+                value={{ className: "user__cont__content--estado--delete" }}
+              >
                 <MdDelete
                   onClick={() => {
                     deleteEstadoCliente(usuario.id);
@@ -131,9 +163,7 @@ const Cliente = () => {
                   className="checkEstado--input"
                   type="checkbox"
                   {...register("estado")}
-                  onChange={(e) => {
-
-                  }}
+                  onChange={(e) => {}}
                 />
 
                 <div className="checkEstado--shape"></div>
@@ -146,14 +176,8 @@ const Cliente = () => {
             </div>
 
             <div className="user__cont__content--email">
-              <input
-                {...register("correo")}
-                type="text"
-              />
-              <input
-                {...register("idMachine")}
-                type="text"
-              />
+              <input {...register("correo")} type="text" />
+              <input {...register("idMachine")} type="text" />
             </div>
 
             <div className="user__cont__content--comentario">

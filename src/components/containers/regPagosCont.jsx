@@ -4,6 +4,7 @@ import {
   GetPagos,
   GetQueryPagosFecha,
   GetAllMedios,
+  GetPagosDto
 } from "../../Services/axiosService";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
@@ -53,7 +54,9 @@ export default function RegPagosCont() {
 
   //axios ------------------------------------------------
   const obtainPagos = () => {
-    GetPagos()
+    // GetPagos()
+    GetPagosDto()
+  
       .then((response) => {
         setPagos(response.data);
       })
@@ -91,17 +94,20 @@ export default function RegPagosCont() {
   //filtrado por estado
   if (true) {
     resultados = resultados.filter(function (pago) {
-      const estadoPago = pago.facturaPago.clienteFactura.estado;
-      const estadoFactura = pago.facturaPago.compraActiva;
+      // const estadoPago = pago.facturaPago.clienteFactura.estado;
+      // const estadoFactura = pago.facturaPago.compraActiva;
 
-
-      if (estadoPago == 0 && estadoFactura == 0 ) {
+      if (pago.estadoClientePago == 0 && pago.estadoFacturaPago == 0 ) {
         return true;
       } else {
         return false;
       }
     });
   }
+
+
+
+
   //filtrado por fechas
   if (filtroDateIni) {
     resultados = resultados.filter(function (pago) {
@@ -113,6 +119,9 @@ export default function RegPagosCont() {
     });
   }
 
+
+
+
   if (filtroDateFin) {
     resultados = resultados.filter(function (pago) {
       if (pago.fechaDesembolso <= filtroDateFin) {
@@ -123,16 +132,15 @@ export default function RegPagosCont() {
     });
   }
 
+
+
   //filtro por nombre
   if (filtro) {
     resultados = resultados.filter(function (pago) {
       if (
-        pago.facturaPago.clienteFactura.nombre
+        pago.clienteNombre
           .toLowerCase()
-          .includes(filtro.toLocaleLowerCase()) ||
-        pago.facturaPago.clienteFactura.apellido
-          .toLowerCase()
-          .includes(filtro.toLocaleLowerCase())
+          .includes(filtro.toLocaleLowerCase()) 
       ) {
         return true;
       } else {
@@ -140,6 +148,7 @@ export default function RegPagosCont() {
       }
     });
   }
+
 
   //ordenar los datos
   resultados = resultados.sort((p1, p2) =>
@@ -149,6 +158,9 @@ export default function RegPagosCont() {
   //dividir resultados en medios de pago ---------------------------------------------------------
 
   if (medios.length > 0 && resultados.length > 0) {
+
+
+
     for (let i = 0; i < medios.length; i++) {
       const medio = medios[i].medioPago;
 
@@ -157,14 +169,16 @@ export default function RegPagosCont() {
           resultados.filter(function (pago) {
             if (
               //filtros de estado de pago, cliente y factura
-              pago.facturaPago.medioPagoFactura.medioPago === medio &&
-              pago.estado == 0 &&
-              pago.facturaPago.compraActiva == 0 &&
-              pago.facturaPago.clienteFactura.estado == 0
+              pago.tipoPago == medio &&
+              pago.estadoPago == 0 &&
+              pago.estadoFacturaPago == 0 &&
+              pago.estadoClientePago == 0
 
             ) {
+
               return true;
             } else {
+
               return false;
             }
           })
@@ -172,6 +186,9 @@ export default function RegPagosCont() {
       }
     }
   }
+
+
+
 
   //calcular totales ----------------------------------------------
 
@@ -286,7 +303,7 @@ export default function RegPagosCont() {
                     <div className="regPagos__cont__tabla__total">
                       <div className="regPagos__cont__tabla__total--medio">
                         <h4>
-                          {seccion[0].facturaPago.medioPagoFactura.medioPago}
+                          {seccion[0].tipoPago}
                         </h4>
                       </div>
 

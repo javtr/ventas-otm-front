@@ -127,7 +127,9 @@ const Factura = ({ facturaProp }) => {
       let estadoAct = data.estado ? 0 : 1;
 
       //verificar si cambio el estado de la factura
-      if (estadoAct =! factura.compraActiva) {
+      // if (estadoAct =! factura.compraActiva) {
+        if (true) {
+
 
         editarEstadoFactura(facturaEditada,data.estado);
       } else {
@@ -185,7 +187,7 @@ const Factura = ({ facturaProp }) => {
                   type="checkbox"
                   {...register("estado")}
                   onChange={(e) => {
-                    console.log("edita");
+                    // console.log("edita");
                     // setCambioEstadoFactura(true);
                   }}
                 />
