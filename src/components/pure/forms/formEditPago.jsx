@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { GetPago, PutPagosEdit } from "../../../Services/axiosService";
+import { GetPago, PutPagosEdit,GetAllMedios } from "../../../Services/axiosService";
 
 export default function FormEditPago() {
   //declaraciones
@@ -9,16 +9,38 @@ export default function FormEditPago() {
 
   const params = useParams();
   const { register, control, handleSubmit, watch, setValue } = useForm();
+  // const [mediosPago, setMediosPago] = useState([]);
+
+
 
   //obtener cliente
   useEffect(() => {
     obtenerPago(params.pagoId);
+    // obtenerMediosPago();
   }, []);
+
+
+  // const obtenerMediosPago = () => {
+  //   GetAllMedios()
+  //     .then((response) => {
+  //       setMediosPago(response.data);
+  //     })
+  //     .catch((error) => {
+  //       alert(`Somethin went wrong: ${error}`);
+  //     })
+  //     .finally(() => {
+  //       setMediosPago((mediosPagos) => [
+          
+  //         ...mediosPagos,
+  //       ]);
+  //     });
+  // };
 
   const obtenerPago = (id) => {
     GetPago(id)
       .then((response) => {
         setPago(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -28,8 +50,6 @@ export default function FormEditPago() {
 
   //usuario iniciado
   if (pago) {
-
-console.log(pago);
 
     setValue("fecha", pago.fechaPago);
     setValue("desembolso", pago.fechaDesembolso);
@@ -50,16 +70,14 @@ console.log(pago);
       facturaPago: pago.facturaPago,
     };
 
-    pago.fechaPago= data.fecha;
-    pago.fechaDesembolso= data.desembolso;
-    pago.valorPago= data.bruto;
-    pago.valorPagoNeto= data.neto;
-    pago.estado= data.estado;
-    pago.estado= data.estado;
+    pago.fechaPago = data.fecha;
+    pago.fechaDesembolso = data.desembolso;
+    pago.valorPago = data.bruto;
+    pago.valorPagoNeto = data.neto;
+    pago.estado = data.estado;
+    // pago.facturaPago.medioPagoFactura.id
     
 
-
-    // console.log(pagoEditado);
 
     savePago(pagoEditado);
   }
@@ -75,10 +93,14 @@ console.log(pago);
       .finally(() => {});
   };
 
+  if (pago.facturaPago) {
+    setValue("medio", pago.facturaPago.medioPagoFactura.id);
+  }
+
+
   return (
     <div className="formPago">
       <form className="formPago__form" onSubmit={handleSubmit(pagoSubmit)}>
-       
         <div className="formPago__form--input">
           <div>Fecha:</div>
           <input {...register("fecha")} type="text" />
@@ -104,11 +126,22 @@ console.log(pago);
           <input {...register("estado")} type="number" />
         </div>
 
+        {/* <div className="formPago__form--input">
+          <select {...register("medio")}>
+            {mediosPago.map((medio, i) => {
+              return (
+                <option key={i} value={medio.id}>
+                  {medio.medioPago}
+                </option>
+              );
+            })}
+          </select>
+        </div> */}
+
         <div className="formPago__form--button">
           <br></br>
           <button type="submit">Modificar</button>
         </div>
-
       </form>
     </div>
   );

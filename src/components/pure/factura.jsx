@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray, Controller, set } from "react-hook-form";
 import { GetCliente, PutFacturaEditEstado } from "../../Services/axiosService";
 import { useParams } from "react-router-dom";
 import {
@@ -25,33 +25,12 @@ const Factura = ({ facturaProp }) => {
 
   // inicio
   useEffect(() => {
-    // obtenerFactura(facturaProp.id);
     setFactura(facturaProp);
+    // console.log(facturaProp);
     obtenerMediosPago();
   }, []);
 
-  if (factura) {
-    setValue("fecha", factura.fechaCompra);
-    setValue("valor", factura.valorCompra);
-    setValue("estado", !factura.compraActiva);
-
-    if (factura.medioPagoFactura) {
-      setValue("medio", factura.medioPagoFactura.id);
-    }
-  }
-
   //axios
-  const obtenerFactura = (id) => {
-    GetFactura(id)
-      .then((response) => {
-        setFactura(response.data);
-      })
-      .catch((error) => {
-        alert(`Somethin went wrong: ${error}`);
-      })
-      .finally(() => {});
-  };
-
   const obtenerMediosPago = () => {
     GetAllMedios()
       .then((response) => {
@@ -60,10 +39,17 @@ const Factura = ({ facturaProp }) => {
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
       })
-      .finally(() => {});
+      .finally(() => {
+        setMediosPago((mediosPagos) => [
+          
+          ...mediosPagos,
+        ]);
+      });
   };
 
   const saveFactura = (objeto) => {
+    // console.log(objeto);
+
     PutFacturaEdit(objeto)
       .then((response) => {
         alert("cambios guardados");
@@ -74,10 +60,12 @@ const Factura = ({ facturaProp }) => {
       .finally(() => {});
   };
 
-  const editarEstadoFactura = (objeto,estado) => {
 
-    objeto.compraActiva = estado? 0:1;
+  const saveFacturaPagos = (objeto,estadoRes) => {
 
+    objeto.compraActiva = estadoRes ? 0 : 1;
+
+    console.log(objeto);
 
     PutFacturaEstado(objeto)
       .then((response) => {
@@ -87,14 +75,13 @@ const Factura = ({ facturaProp }) => {
         alert(`Somethin went wrong: ${error}`);
       })
       .finally(() => {});
-
   };
+
 
   const saveFacturaEstado = (objeto) => {
     PutFacturaEdit(objeto)
       .then((response) => {
         alert("factura eliminada, recargar pagina");
-        // navigate(`/cliente/${facturaProp.clienteFactura.id}`);
         navigate("/reg-clientes");
       })
       .catch((error) => {
@@ -103,9 +90,12 @@ const Factura = ({ facturaProp }) => {
       .finally(() => {});
   };
 
+  if (factura.medioPagoFactura) {
+    setValue("medio", factura.medioPagoFactura.id);
+  }
+
   //envio de datos
   function formSumit(data) {
-
     const facturaEditada = {
       id: factura.id,
       fechaCompra: data.fecha,
@@ -118,28 +108,16 @@ const Factura = ({ facturaProp }) => {
       clienteFactura: factura.clienteFactura,
     };
 
+
     if (confirm("guardar cambios?")) {
+      // saveFactura(facturaEditada);
 
-      let estadoAct = data.estado ? 0 : 1;
-
-      //verificar si cambio el estado de la factura
-      // if (estadoAct =! factura.compraActiva) {
-        if (true) {
-
-
-        // editarEstadoFactura(facturaEditada,data.estado);
-
-        saveFactura(facturaEditada);
-        
-      } else {
-        saveFactura(facturaEditada);
-      }
-
+      saveFacturaPagos(facturaEditada,data.estado);
+      // PutFacturaEditEstado
     }
   }
 
   const deleteEstado = (id) => {
-
     const facturaEditada = {
       id: factura.id,
       fechaCompra: factura.fechaCompra,
@@ -157,6 +135,13 @@ const Factura = ({ facturaProp }) => {
     }
   };
 
+  if (Object.keys(factura).length > 0) {
+    setValue("fecha", factura.fechaCompra);
+    setValue("valor", factura.valorCompra);
+    setValue("estado", !factura.compraActiva);
+    // setValue("medio", factura.medioPagoFactura.id);
+  }
+
   return (
     <div className="factura">
       <div className="factura__cont">
@@ -167,8 +152,6 @@ const Factura = ({ facturaProp }) => {
         <div className="factura__cont__content">
           <form onSubmit={handleSubmit(formSumit)}>
             <div className="factura__cont__content--estado">
-              {/* <input {...register("estado")} type="checkbox" /> */}
-
               <IconContext.Provider
                 value={{ className: "factura__cont__content--estado--delete" }}
               >
@@ -184,10 +167,7 @@ const Factura = ({ facturaProp }) => {
                   className="checkEstado--input"
                   type="checkbox"
                   {...register("estado")}
-                  onChange={(e) => {
-                    // console.log("edita");
-                    // setCambioEstadoFactura(true);
-                  }}
+                  onChange={(e) => {}}
                 />
 
                 <div className="checkEstado--shape"></div>
