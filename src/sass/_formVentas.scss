@@ -96,6 +96,38 @@
           margin-bottom: 10px;
         }
 
+
+
+        &--porcentaje {
+          font-size: 16px;
+          margin-left: 6px;
+          margin-top: 20px;
+          margin-bottom: 10px;
+        }
+
+        &--finalCont{
+          display: flex;
+          align-items: center;
+        }
+
+        &--finalTexto{
+          font-size: 20px;
+          margin-left: 6px;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
+
+        &--finalInput{
+          margin: 5px;
+          border-radius: $br-sm;
+          padding: 2px 10px;
+          width: 15%;
+          height: 30px;
+          border: 1px solid $gray;
+          font-size: 20px;
+        }
+
+
         &--descuento {
           margin: 5px;
           border-radius: $br-sm;

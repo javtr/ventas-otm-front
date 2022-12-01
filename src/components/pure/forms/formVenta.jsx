@@ -45,7 +45,6 @@ export default function FormVenta() {
       const respValitator = validatorForm(data);
 
       if (respValitator == "ok") {
-
         const dataForm = {
           clienteid: parseInt(data.cliente_id),
           clienteEx: clientesEx,
@@ -70,18 +69,16 @@ export default function FormVenta() {
         }
 
         if (precioFinal > 0) {
-
           if (confirm("guardar registro")) {
             saveRegistro(dataForm);
           }
-
         } else {
           // console.log("error valor final");
-          alert("error valor final")
+          alert("error valor final");
         }
       } else {
         // console.log(respValitator);
-        alert(respValitator)
+        alert(respValitator);
       }
     }
   }
@@ -229,6 +226,9 @@ export default function FormVenta() {
       ObjTemp.porcentaje = parseFloat(value);
       ObjTemp.precioFinal =
         ObjTemp.precio - ObjTemp.precio * (parseFloat(value) * 0.01);
+    } else if (element == "final") {
+      ObjTemp.porcentaje = 100 - (parseFloat(value) / ObjTemp.precio) * 100;
+      ObjTemp.precioFinal = parseFloat(value);
     }
 
     const numbersCopy = [...arr];
@@ -242,6 +242,23 @@ export default function FormVenta() {
     setArr(numbersCopy);
   }
 
+  let resultados = clientes;
+  resultados = resultados.sort((p1, p2) =>
+    p1.nombre > p2.nombre ? 1 : p1.nombre < p2.nombre ? -1 : 0
+  );
+
+  // console.log(resultados);
+
+  //filtro por estado
+  resultados = resultados.filter(function (cliente) {
+      if (cliente.estado == 0) {
+        return true;
+    } else {
+      return false;
+    }
+  });
+
+
   return (
     <div className="formVenta">
       <form className="formVenta__form" onSubmit={handleSubmit(registerSubmit)}>
@@ -251,7 +268,6 @@ export default function FormVenta() {
 
         {/* seccion nombre */}
         <div className="formVenta__form--nombre">
-        
           <div className="checkNuevo">
             <input
               className="checkNuevo--input"
@@ -271,7 +287,7 @@ export default function FormVenta() {
               {...register("cliente_id")}
               onChange={(e) => {}}
             >
-              {clientes.map((cliente, i) => {
+              {resultados.map((cliente, i) => {
                 return (
                   <option key={i} value={cliente.id}>
                     {cliente.nombre + " " + cliente.apellido}
@@ -397,7 +413,7 @@ export default function FormVenta() {
                     }}
                   /> */}
 
-                  <input
+                  {/* <input
                     {...register(`valDescuento: ${index}`)}
                     className="formVenta__form--producto--item--descuento"
                     placeholder="porcentaje"
@@ -406,11 +422,29 @@ export default function FormVenta() {
                     onChange={(e) => {
                       editArray(e.target.value, index, "porcentaje");
                     }}
-                  />
+                  /> */}
 
-                  <p className="formVenta__form--producto--item--precio">
-                    Final:{arr[index].precioFinal}
+                  <p className="formVenta__form--producto--item--porcentaje">
+                    - Descuento: {Math.round(arr[index].porcentaje)}%
                   </p>
+
+                  <div className="formVenta__form--producto--item--finalCont">
+                   
+                    <p className="formVenta__form--producto--item--finalTexto">
+                      Final:
+                    </p>
+
+                    <input
+                      {...register(`valFinal: ${index}`)}
+                      className="formVenta__form--producto--item--finalInput"
+                      placeholder="Precio final"
+                      type="text"
+                      defaultValue={0}
+                      onChange={(e) => {
+                        editArray(e.target.value, index, "final");
+                      }}
+                    />
+                  </div>
 
                   <hr className="formVenta__form--producto--item--linea"></hr>
                 </div>
