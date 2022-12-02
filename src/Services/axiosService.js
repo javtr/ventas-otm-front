@@ -163,3 +163,12 @@ export function GetUserByToken() {
 export function GetAppUsers() {
   return AxiosRequest.get("/user/get-all", {});
 }
+
+
+//Graficos ---------------------------------------------
+
+export function GetQueryPagosPosMes() {
+  return AxiosRequest.get("/query/pagos-mes", {});
+}  
+
+
