@@ -171,4 +171,16 @@ export function GetQueryPagosPosMes() {
   return AxiosRequest.get("/query/pagos-mes", {});
 }  
 
+export function GetQueryTotalPagos() {
+  return AxiosRequest.get("/query/total-pagos", {});
+}  
+
+export function GetQueryTotalClientes() {
+  return AxiosRequest.get("/query/total-clientes", {});
+}  
+
+export function GetQueryTotalProductos() {
+  return AxiosRequest.get("/query/total-productos", {});
+}  
+
 
