@@ -120,7 +120,7 @@ const FacturaCliente = ({ factura }) => {
           <Compras key={index} compra={compra}></Compras>
         ))}
       </div>
-    </div>
+    </div>  
   );
 };
 

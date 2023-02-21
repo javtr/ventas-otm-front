@@ -16,7 +16,7 @@ export default function ChartBoxes() {
   const getDatos = () => {
     GetQueryTotalPagos()
       .then((response) => {
-        setDataChart( Math.round( response.data[0]));
+        setDataChart( Math.round( response.data));
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
