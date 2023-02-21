@@ -6,9 +6,9 @@ export default axios.create({
   },
 
   // baseURL: localStorage.conection == 0? "https://ventasotmv2-production.up.railway.app":"http://localhost:8080",
-   baseURL: "http://localhost:8080",
+   //baseURL: "http://localhost:8080",
   // baseURL: "https://ventasotmv2-production.up.railway.app/",
-  //baseURL: "https://little-frost-6777.fly.dev/",
+  baseURL: "https://little-frost-6777.fly.dev/",
   
   // little-frost-6777.fly.dev
 
