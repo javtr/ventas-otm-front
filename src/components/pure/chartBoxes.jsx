@@ -16,7 +16,7 @@ export default function ChartBoxes() {
   const getDatos = () => {
     GetQueryTotalPagos()
       .then((response) => {
-        setDataChart( Math.round( response.data));
+        setDataChart( Math.round( response.data[0]));
       })
       .catch((error) => {
         alert(`Somethin went wrong: ${error}`);
@@ -61,6 +61,8 @@ export default function ChartBoxes() {
         <p>Total productos</p>
         <h4>{productos}</h4>
       </div>
+
+
 
     </>
   );

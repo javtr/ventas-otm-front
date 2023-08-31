@@ -1,23 +1,21 @@
 import React, { useMemo, useEffect, useState } from "react";
-import { GetQueryPagosPosMes } from "../../Services/axiosService";
+import { GetQueryVentasQuartet } from "../../Services/axiosService";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement, // Cambiar de LineElement a BarElement
   Title,
   Tooltip,
   Legend,
   Filler,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2"; // Cambiar de Line a Bar
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement, // Cambiar de LineElement a BarElement
   Title,
   Tooltip,
   Legend,
@@ -52,27 +50,24 @@ const options = {
   },
 };
 
-export default function CharVentas() {
+export default function CharVentasTrim() {
   const [dataChart, setDataChart] = useState([]);
 
   useEffect(() => {
     getDatos();
   }, []);
 
-  //obtener los datos
   const getDatos = () => {
-    GetQueryPagosPosMes()
+    GetQueryVentasQuartet()
       .then((response) => {
-        // console.log(response);
         setDataChart(response.data);
       })
       .catch((error) => {
-        alert(`Somethin went wrong: ${error}`);
+        alert(`Something went wrong: ${error}`);
       })
       .finally(() => {});
   };
 
-  //ordenar los datos
   if (dataChart) {
     for (var i = 0; i < dataChart.length; i++) {
       scores[i] = dataChart[i][0];
@@ -80,20 +75,18 @@ export default function CharVentas() {
     }
   }
 
-  //   if (dataValues.length > 0) {
   const data = useMemo(
     function () {
       return {
         datasets: [
           {
-            label: "Ventas por mes",
+            label: "Ventas por Trimestre",
             data: scores,
             tension: 0.15,
+            backgroundColor: "rgba(250, 250, 250, 0.3)", // Cambiar borderColor por backgroundColor
             borderColor: "rgb(250, 250, 250)",
-            pointRadius: 6,
-            pointBackgroundColor: "rgb(250, 250, 250)",
-            backgroundColor: "rgba(250, 250, 250, 0.3)",
-            color: "rgba(250, 250, 250, 0.3)",
+            borderWidth: 1,
+            barThickness: 40, // Ajustar el ancho de las barras según tus preferencias
           },
         ],
         labels,
@@ -101,13 +94,12 @@ export default function CharVentas() {
     },
     [dataChart]
   );
-  //   }
 
   return (
-    <div className="homeCharts__container--chartVentas">
-      <div className="homeCharts__container--chartVentas--container">
-        <h2>Ventas por mes</h2>
-        <Line data={data} options={options} />
+    <div className="homeCharts__container--chartVentasQuartet">
+      <div className="homeCharts__container--chartVentasQuartet--container">
+        <h2>Ventas por Trimestre</h2>
+        <Bar data={data} options={options} /> {/* Cambiar de Line a Bar */}
       </div>
     </div>
   );

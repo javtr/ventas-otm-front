@@ -52,6 +52,8 @@ export function GetQueryClientes() {
   }  
 
 
+
+
 //cliente --------------------------------------------
 export function GetCliente(id) {
   return AxiosRequest.get("/cliente/get/"+ id,{});
@@ -182,5 +184,11 @@ export function GetQueryTotalClientes() {
 export function GetQueryTotalProductos() {
   return AxiosRequest.get("/query/total-productos", {});
 }  
+
+export function GetQueryVentasQuartet() {
+  return AxiosRequest.get("/query/ventas-quartet", {});
+}  
+
+
 
 

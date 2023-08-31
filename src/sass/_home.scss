@@ -8,66 +8,116 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: left;
+    margin-left: 15px;
+    margin-top: 5px;
+
 
     &__row {
-      margin-top: 35px;
-
       display: flex;
       justify-content: space-between;
       width: 85%;
       max-width: 700px;
-      
+      background-color: $dk-card;
+      border-radius: 10px;
+      box-shadow: 0px 20px 50px 0px rgba(0, 0, 0, 0.5);
+    
       &--box {
-        width:32%;
+        position: relative; // Necesario para posicionar el pseudo-elemento
+        
+        width: 32%;
         max-width: 180px;
         padding: 20px;
-
-        background-color: $white;
-        border-radius: 15px;
-        box-shadow: 0px 8px 21px rgba(0, 0, 0, 0.13);
         text-align: right;
-
-        p{
+        
+        p {
           font-size: 14px;
-          color: $gray;
+          color: $dk-txt-mid;
           margin-bottom: 7px;
+          text-align: left;
         }
-
-        h4{
+    
+        h4 {
           font-size: 18px;
           font-weight: bold;
-          color: $dark-gray;
+          color: $dk-txt-light;
+          text-align: left;
         }
-
-
-
+    
+        // Pseudo-elemento para la línea vertical
+        &::before {
+          content: '';
+          position: absolute;
+          top: 20%;
+          bottom: 0;
+          right: 0;
+          width: 2px; // Ancho de la línea vertical
+          height: 60%;
+          background-color: $dk-bg;
+        }
+    
+        // Estilo para el último elemento --box
+        &:last-child::before {
+          display: none; // Ocultar la línea vertical en el último elemento
+        }
       }
     }
-
+    
     &--chartVentas {
       width: 85%;
       max-width: 700px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 35px;
+      margin-top: 20px;
 
       &--container {
         padding: 20px;
         width: 100%;
-        background-color: rgb(61, 183, 75);
-        border-radius: 25px;
-        box-shadow: 0px 8px 21px rgba(52, 181, 67, 0.4);
+        background-color: $dk-card;
+        border-radius: 10px;
+        box-shadow: 0px 20px 50px 0px rgba(0,0,0,0.5);
+
 
         h2 {
-          font-size: 22px;
-          color: $white;
+          font-size: 16px;
+          color: $dk-txt-mid;
           margin-bottom: 20px;
-          text-align: center;
+          text-align: left;
         }
+
+
 
       }
     }
+
+    &--chartVentasQuartet {
+      width: 85%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+
+      &--container {
+        padding: 20px;
+        width: 100%;
+        background-color: $dk-card;
+        border-radius: 10px;
+        box-shadow: 0px 20px 50px 0px rgba(0,0,0,0.5);
+
+
+        h2 {
+          font-size: 16px;
+          color: $dk-txt-mid;
+          margin-bottom: 20px;
+          text-align: left;
+        }
+
+
+
+      }
+    }
+
   }
 }
