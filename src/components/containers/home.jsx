@@ -4,6 +4,7 @@ import UserContext from "../../context/context";
 import ChartBoxes from "../pure/chartBoxes";
 import CharVentas from "../pure/charVentas";
 import CharVentasTrim from "../pure/charVentasTrim";
+import ClientList from "../pure/clientsList"
 
 export default function Home() {
   const { userDataContext, setUserDataContext } = useContext(UserContext);
@@ -16,6 +17,7 @@ export default function Home() {
         </div>
         <CharVentas></CharVentas>
         <CharVentasTrim></CharVentasTrim>
+        <ClientList/>
         
       </div>
     </div>

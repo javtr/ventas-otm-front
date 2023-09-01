@@ -189,6 +189,11 @@ export function GetQueryVentasQuartet() {
   return AxiosRequest.get("/query/ventas-quartet", {});
 }  
 
+export function GetQueryVentasLastClient() {
+  return AxiosRequest.get("/query/ventas-last-client", {});
+}  
+
+
 
 
 

@@ -119,5 +119,52 @@
       }
     }
 
+    &--clientList {
+      width: 85%;
+      max-width: 700px;
+      margin-top: 20px;
+
+      &--container{
+        padding: 20px;
+        width: 100%;
+        background-color: $dk-card;
+        border-radius: 10px;
+        box-shadow: 0px 20px 50px 0px rgba(0,0,0,0.5);
+
+        h2{
+          font-size: 16px;
+          color: $dk-txt-mid;
+          margin-bottom: 20px;
+          text-align: left;
+        }
+  
+        &--tbl{
+          width: 100%;
+          text-align: left;
+        }
+
+        &--th{
+          height: 34px;
+          color:$dk-txt-mid;
+          font-size: 16px;
+        }
+
+        &--trb{
+          height: 26px;
+          color:$dk-txt-light;
+          font-size: 14px;
+        }
+
+
+
+
+
+      }
+
+
+    }
+
+
+
   }
 }
