@@ -24,9 +24,6 @@ ChartJS.register(
   Filler
 );
 
-const scores = [];
-const labels = [];
-
 const options = {
   fill: true,
   color: "rgb(255, 0, 255)",
@@ -55,24 +52,42 @@ const options = {
 export default function CharVentas() {
   const [dataChart, setDataChart] = useState([]);
 
+  const min = 1000;
+
+  const scores = [];
+  const labels = [];
+
+  const calculateAverage = () => {
+    if (dataChart.length === 0) return 0;
+
+    const total = dataChart.reduce((acc, item) => acc + item[0], 0);
+    return total / dataChart.length;
+  };
+
+  const average = calculateAverage();
+
+
   useEffect(() => {
     getDatos();
   }, []);
 
-  //obtener los datos
   const getDatos = () => {
     GetQueryPagosPosMes()
       .then((response) => {
-        // console.log(response);
         setDataChart(response.data);
       })
       .catch((error) => {
-        alert(`Somethin went wrong: ${error}`);
-      })
-      .finally(() => {});
+        alert(`Something went wrong: ${error}`);
+      });
   };
 
-  //ordenar los datos
+
+
+  
+
+
+
+
   if (dataChart) {
     for (var i = 0; i < dataChart.length; i++) {
       scores[i] = dataChart[i][0];
@@ -80,7 +95,6 @@ export default function CharVentas() {
     }
   }
 
-  //   if (dataValues.length > 0) {
   const data = useMemo(
     function () {
       return {
@@ -95,13 +109,40 @@ export default function CharVentas() {
             backgroundColor: "rgba(250, 250, 250, 0.3)",
             color: "rgba(250, 250, 250, 0.3)",
           },
+          {
+            label: "Promedio",
+            data: new Array(dataChart.length).fill(average),
+            borderColor: "rgba(255, 255, 0, 0.7)",
+            pointRadius: 0,
+            borderWidth: 2,
+            borderDash: [8, 0],
+            fill: false,
+          },
+          {
+            label: "Min",
+            data: new Array(dataChart.length).fill(min),
+            borderColor: "rgba(255, 0, 0, 0.7)",
+            pointRadius: 0,
+            borderWidth: 2,
+            borderDash: [8, 0],
+            fill: false,
+          },
+          {
+            label: "Target",
+            data: new Array(dataChart.length).fill(average+(average-min)),
+            borderColor: "rgba(0, 255, 0, 0.7)",
+            pointRadius: 0,
+            borderWidth: 2,
+            borderDash: [8, 0],
+            fill: false,
+          },
+
         ],
         labels,
       };
     },
-    [dataChart]
+    [dataChart, average]
   );
-  //   }
 
   return (
     <div className="homeCharts__container--chartVentas">

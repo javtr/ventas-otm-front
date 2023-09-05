@@ -53,6 +53,19 @@ const options = {
 export default function CharVentasTrim() {
   const [dataChart, setDataChart] = useState([]);
 
+  const min = 3000;
+
+  const calculateAverage = () => {
+    if (dataChart.length === 0) return 0;
+
+    const total = dataChart.reduce((acc, item) => acc + item[0], 0);
+    return total / dataChart.length;
+  };
+
+  const average = calculateAverage();
+
+
+
   useEffect(() => {
     getDatos();
   }, []);
@@ -88,6 +101,39 @@ export default function CharVentasTrim() {
             borderWidth: 1,
             barThickness: 40, // Ajustar el ancho de las barras según tus preferencias
           },
+          {
+            label: "Promedio",
+            type: "line",
+            data: new Array(dataChart.length).fill(average),
+            borderColor: "rgba(255, 255, 0, 0.5)",
+            pointRadius: 0,
+            borderWidth: 2,
+            borderDash: [8, 0],
+            fill: false,
+          },
+          {
+            label: "Min",
+            type: "line",
+            data: new Array(dataChart.length).fill(min),
+            borderColor: "rgba(255, 0, 0, 0.5)",
+            pointRadius: 0,
+            borderWidth: 2,
+            borderDash: [8, 0],
+            fill: false,
+          },
+          {
+            label: "Target",
+            type: "line",
+            data: new Array(dataChart.length).fill(average+(average-min)),
+            borderColor: "rgba(0, 255, 0, 0.5)",
+            pointRadius: 0,
+            borderWidth: 2,
+            borderDash: [8, 0],
+            fill: false,
+          },
+
+
+
         ],
         labels,
       };
