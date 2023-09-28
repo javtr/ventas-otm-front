@@ -53,6 +53,7 @@ export default function CharVentas() {
   const [dataChart, setDataChart] = useState([]);
 
   const min = 1000;
+  const target = 3000;
 
   const scores = [];
   const labels = [];
@@ -129,7 +130,7 @@ export default function CharVentas() {
           },
           {
             label: "Target",
-            data: new Array(dataChart.length).fill(average+(average-min)),
+            data: new Array(dataChart.length).fill(target),
             borderColor: "rgba(0, 255, 0, 0.7)",
             pointRadius: 0,
             borderWidth: 2,

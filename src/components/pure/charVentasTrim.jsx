@@ -54,6 +54,7 @@ export default function CharVentasTrim() {
   const [dataChart, setDataChart] = useState([]);
 
   const min = 3000;
+  const target = 9000;
 
   const calculateAverage = () => {
     if (dataChart.length === 0) return 0;
@@ -124,7 +125,7 @@ export default function CharVentasTrim() {
           {
             label: "Target",
             type: "line",
-            data: new Array(dataChart.length).fill(average+(average-min)),
+            data: new Array(dataChart.length).fill(target),
             borderColor: "rgba(0, 255, 0, 0.5)",
             pointRadius: 0,
             borderWidth: 2,

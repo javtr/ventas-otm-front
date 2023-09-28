@@ -13,13 +13,10 @@ export default axios.create({
   // little-frost-6777.fly.dev
 
 
-
   // https://white-forest-8775.fly.dev/
   // https://ventas2.fly.dev/
 
   
-
-
   responseType: "json",
   // timeout: 6000
 });
